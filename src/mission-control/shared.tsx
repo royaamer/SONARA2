@@ -8,16 +8,17 @@ import { EXPERIENCE_COPY } from './experience-content';
 import './mission-control.css';
 import './experiences.css';
 export function MissionHeader({ subtitle, back = false }: { subtitle: string; back?: boolean }) {
-  const { language, setLanguage } = useEarthSession();
+  const { language, setLanguage, setVisited, arrivalRequested, cancelTransition } = useEarthSession();
   const t = EXPERIENCE_COPY[language];
-  return <header className="mc-header"><Link href="/" className="mc-brand" aria-label={t.home}><BrandMark/><span>SONARA<small>{subtitle}</small></span></Link><span className="mc-connection"><i/>{t.historical}</span><div className="mc-header-actions"><button className="mc-language" onClick={() => setLanguage(language === 'en' ? 'ar' : 'en')} aria-label={language === 'en' ? 'التبديل إلى العربية' : 'Switch to English'}>EN / ع</button><Link href={back ? '/mission-control' : '/'} className="mc-back" aria-label={back ? t.return : t.home}><ArrowLeft size={16}/><span>{back ? t.return : t.home}</span></Link></div></header>;
+  return <header className="mc-header"><Link href="/" onClick={() => { arrivalRequested.current = false; cancelTransition(); setVisited(false); window.scrollTo(0, 0); }} className="mc-brand" aria-label={t.home}><BrandMark/><span>SONARA<small>{subtitle}</small></span></Link><span className="mc-connection"><i/>{t.historical}</span><div className="mc-header-actions"><button className="mc-language" onClick={() => setLanguage(language === 'en' ? 'ar' : 'en')} aria-label={language === 'en' ? 'التبديل إلى العربية' : 'Switch to English'}>EN / ع</button><Link href={back ? '/mission-control' : '/'} className="mc-back" aria-label={back ? t.return : t.home}><ArrowLeft size={16}/><span>{back ? t.return : t.home}</span></Link></div></header>;
 }
-export function useMissionDocument(title: string) {
+export function useMissionDocument(title: string, enabled = true) {
   const { language, setVisited, setMissionEntered } = useEarthSession();
   useEffect(() => {
+    if (!enabled) return;
     document.documentElement.lang = language; document.documentElement.dir = language === 'ar' ? 'rtl' : 'ltr'; document.title = `${title} | SONARA`; setVisited(true); setMissionEntered(true);
     return () => { document.title = 'SONARA'; };
-  },[language,title,setVisited,setMissionEntered]);
+  },[language,title,setVisited,setMissionEntered,enabled]);
 }
 export function MissionArrival({ onFinish }: { onFinish: () => void }) {
   const { language } = useEarthSession();

@@ -13,6 +13,7 @@ import MissionControl from './pages/mission-control';
 import { IntroSoundscape } from './observatory/ambient';
 const LivingOcean = lazy(() => import('./pages/living-ocean'));
 const ElectricSky = lazy(() => import('./pages/electric-sky'));
+const Temperature = lazy(() => import('./pages/temperature'));
 
 const queryClient = new QueryClient();
 // Stable route identity: context updates must not recreate the WebGL homepage.
@@ -29,6 +30,7 @@ function Router() {
         <Route path="/" component={Home} />
         <Route path="/mission-control/living-ocean" component={LivingOcean} />
         <Route path="/mission-control/electric-sky" component={ElectricSky} />
+        <Route path="/mission-control/temperature" component={Temperature} />
         <Route path="/mission-control" component={MissionControlRoute} />
         <Route component={NotFound} />
       </Switch>

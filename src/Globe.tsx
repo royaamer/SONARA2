@@ -8,10 +8,6 @@ export type GlobeFailure = 'unavailable' | 'context-lost';
 
 type GlobeProps = {
   textures: EarthTextures;
-  waypoints: Waypoint[];
-  selected: Waypoint | null;
-  onSelect: (place: Waypoint) => void;
-  focusVersion: number;
   onFailure: (reason: GlobeFailure) => void;
   /** Shared intro timeline. While owning.current is true the intro drives the camera from progress (0..1). */
   intro?: IntroLink;
@@ -302,59 +298,6 @@ function OrbitArcs({ reduced }: { reduced: MutableRefObject<boolean> }) {
   );
 }
 
-function MapMarker({ place, selected, onSelect, reduced }: { place: Waypoint; selected: boolean; onSelect: (p: Waypoint) => void; reduced: MutableRefObject<boolean> }) {
-  const position = useMemo(() => pointFor(place.lat, place.lon, RADIUS * 1.004), [place.lat, place.lon]);
-  const outward = useMemo(() => new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 0, 1), position.clone().normalize()), [position]);
-  const ring = useRef<THREE.Mesh>(null);
-  const stem = useRef<THREE.Group>(null);
-  const [hovered, setHovered] = useState(false);
-  const active = selected || hovered;
-  useFrame(({ clock }, delta) => {
-    const t = clock.elapsedTime;
-    if (ring.current) {
-      const pulse = reduced.current ? 0.5 : (t * 0.6 + place.lat * 0.01) % 1;
-      ring.current.scale.setScalar(1 + pulse * (selected ? 2.4 : 1.4));
-      (ring.current.material as THREE.MeshBasicMaterial).opacity = (1 - pulse) * (selected ? 0.7 : 0.4);
-    }
-    if (stem.current) {
-      const target = active ? 1 : 0.55;
-      stem.current.scale.z = THREE.MathUtils.damp(stem.current.scale.z, target, 6, delta);
-    }
-  });
-  return (
-    <group position={position} quaternion={outward}>
-      <mesh raycast={noRaycast}>
-        <ringGeometry args={[0.022, 0.03, 40]} />
-        <meshBasicMaterial color={selected ? '#DDE7EC' : '#9FD7E6'} transparent opacity={0.95} side={THREE.DoubleSide} />
-      </mesh>
-      <mesh ref={ring} raycast={noRaycast}>
-        <ringGeometry args={[0.03, 0.034, 40]} />
-        <meshBasicMaterial color="#9FD7E6" transparent opacity={0.4} side={THREE.DoubleSide} depthWrite={false} />
-      </mesh>
-      <group ref={stem}>
-        <mesh position={[0, 0, 0.09]} rotation-x={Math.PI / 2} raycast={noRaycast}>
-          <cylinderGeometry args={[0.0018, 0.0018, 0.18, 6]} />
-          <meshBasicMaterial color="#9FD7E6" transparent opacity={0.7} />
-        </mesh>
-        <mesh position={[0, 0, 0.18]} raycast={noRaycast}>
-          <sphereGeometry args={[selected ? 0.016 : 0.011, 12, 12]} />
-          <meshBasicMaterial color={active ? '#DDE7EC' : '#9FD7E6'} />
-        </mesh>
-      </group>
-      <mesh
-        position={[0, 0, 0.06]}
-        onPointerDown={(e) => e.stopPropagation()}
-        onPointerOver={(e) => { e.stopPropagation(); setHovered(true); document.body.style.cursor = 'pointer'; }}
-        onPointerOut={() => { setHovered(false); document.body.style.cursor = ''; }}
-        onClick={(e) => { e.stopPropagation(); onSelect(place); }}
-      >
-        <sphereGeometry args={[0.085, 10, 10]} />
-        <meshBasicMaterial transparent opacity={0} depthWrite={false} />
-      </mesh>
-    </group>
-  );
-}
-
 type SceneProps = GlobeProps & { zoomLevel: number; small: boolean; pointer: MutableRefObject<{ x: number; y: number }>; compRef: MutableRefObject<Comp | null> };
 
 function ReadySignal({ onReady }: { onReady?: () => void }) {
@@ -387,7 +330,7 @@ function ContextMonitor({ onFailure }: Pick<GlobeProps, 'onFailure'>) {
   return null;
 }
 
-function EarthScene({ textures, waypoints, selected, onSelect, focusVersion, zoomLevel, small, pointer, intro, travel, rotation, rtl, compRef, variant, showClouds = true, showOrbits = true }: SceneProps) {
+function EarthScene({ textures, zoomLevel, small, pointer, intro, travel, rotation, rtl, compRef, variant, showClouds = true, showOrbits = true }: SceneProps) {
   const spin = useRef<THREE.Group>(null);
   const { camera, size } = useThree();
   const warm = useRef(intro?.owning.current ? 1 : 0.32);
@@ -399,7 +342,6 @@ function EarthScene({ textures, waypoints, selected, onSelect, focusVersion, zoo
   const drag = useRef<{ x: number; y: number } | null>(null);
   const dragging = useRef(false);
   const idle = useRef(0);
-  const target = useRef<THREE.Quaternion | null>(null);
 
   const yAxis = useMemo(() => new THREE.Vector3(0, 1, 0), []);
   const xAxis = useMemo(() => new THREE.Vector3(1, 0, 0), []);
@@ -423,30 +365,17 @@ function EarthScene({ textures, waypoints, selected, onSelect, focusVersion, zoo
   }, [camera]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    if (selected) {
-      const q = focusQuaternion(selected.lat, selected.lon);
-      if (spin.current && spin.current.quaternion.dot(q) < 0) { q.x *= -1; q.y *= -1; q.z *= -1; q.w *= -1; }
-      target.current = q;
-      zoomOffset.current = -0.9 - zoomLevel * 0.3;
-      idle.current = 6;
-    } else {
-      target.current = null;
-      zoomOffset.current = -zoomLevel * 0.3;
-    }
-  }, [selected, focusVersion, zoomLevel]);
+    zoomOffset.current = -zoomLevel * 0.3;
+  }, [zoomLevel]);
 
   useFrame((state, rawDelta) => {
     const delta = Math.min(rawDelta, 0.05);
     const g = spin.current;
     if (!g) return;
-    if (target.current && !dragging.current) {
-      if (g.quaternion.dot(target.current) < 0) { const t = target.current; t.set(-t.x, -t.y, -t.z, -t.w); }
-      g.quaternion.slerp(target.current, 1 - Math.exp(-(reduced.current ? 12 : 2.4) * delta));
-      if (g.quaternion.angleTo(target.current) < 0.0005) target.current = null;
-    } else if (!dragging.current && idle.current <= 0 && !reduced.current) {
+    if (!dragging.current && idle.current <= 0 && !reduced.current) {
       g.quaternion.multiply(tmp.setFromAxisAngle(yAxis, delta * 0.02));
     }
-    if (!dragging.current && idle.current > 0 && !target.current) idle.current -= delta;
+    if (!dragging.current && idle.current > 0) idle.current -= delta;
     if (rotation) rotation.current = [g.quaternion.x, g.quaternion.y, g.quaternion.z, g.quaternion.w];
     const { width: w, height: h } = state.size;
     const c = composition(w, h, rtl, variant === 'mission');
@@ -513,7 +442,6 @@ function EarthScene({ textures, waypoints, selected, onSelect, focusVersion, zoo
     e.stopPropagation();
     drag.current = { x: e.clientX, y: e.clientY };
     dragging.current = true;
-    target.current = null;
     idle.current = 6;
     (e.target as Element).setPointerCapture?.(e.pointerId);
   };
@@ -528,27 +456,17 @@ function EarthScene({ textures, waypoints, selected, onSelect, focusVersion, zoo
     q.normalize();
   };
   const handleUp = () => { drag.current = null; dragging.current = false; idle.current = 6; };
-  const handleClick = (e: ThreeEvent<MouseEvent>) => {
-    if (e.delta > 4 || !spin.current) return;
-    e.stopPropagation();
-    const local = spin.current.worldToLocal(e.point.clone()).normalize();
-    const lat = THREE.MathUtils.radToDeg(Math.asin(THREE.MathUtils.clamp(local.y, -1, 1)));
-    const lon = THREE.MathUtils.radToDeg(Math.atan2(local.x, local.z));
-    onSelect({ id: 'point', name: 'Selected point', region: 'Map selection', lat, lon });
-  };
-
   const seg = small ? 64 : 112;
   return (
     <>
       <Starfield count={small ? 260 : 620} />
       <group rotation-z={THREE.MathUtils.degToRad(-8)}>
         <group ref={spin}>
-          <mesh rotation-y={UV_SEAM_CORRECTION} onPointerDown={handleDown} onPointerMove={handleMove} onPointerUp={handleUp} onPointerCancel={handleUp} onClick={handleClick}>
+          <mesh rotation-y={UV_SEAM_CORRECTION} onPointerDown={handleDown} onPointerMove={handleMove} onPointerUp={handleUp} onPointerCancel={handleUp}>
             <sphereGeometry args={[RADIUS, seg, seg]} />
             <EarthMaterial textures={textures} />
           </mesh>
           {showClouds && <CloudLayer texture={textures.clouds} segments={small ? 56 : 96} reduced={reduced} />}
-          {waypoints.map((p) => <MapMarker key={p.id} place={p} selected={selected?.id === p.id} onSelect={onSelect} reduced={reduced} />)}
         </group>
       </group>
       <SunriseRim glow={glow} />

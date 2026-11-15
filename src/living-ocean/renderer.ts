@@ -1,7 +1,10 @@
+import { observeMapResolution } from '../experiences/map-resolution';
 import type { Field, Manifest } from './types';
+import { sampleInspectionField } from './inspection';
+import { currentPosition, currentColor } from './current-color';
 // Ported from EarthJukeBox oscarMonthly.js, preserving interpolation and midpoint integration.
 export function createOceanRenderer(canvas: HTMLCanvasElement, manifest: Manifest, fields: Field[], month: string) {
-const ctx=canvas.getContext('2d')!; const W=canvas.width,H=canvas.height;
+const ctx=canvas.getContext('2d')!; const W=1600,H=800;
 const clamp=(x:number,a:number,b:number)=>Math.max(a,Math.min(b,x));
 const px=(lon:number)=>(lon+180)/360*W,py=(lat:number)=>(90-lat)/180*H;
 let rngState=202311+Number(month.replace('-',''));
@@ -10,15 +13,7 @@ let seeds: {lon:number;lat:number;cumulative:number}[]=[];
 let particles: {lon:number;lat:number;drawLon:number;drawLat:number;life:number}[]=[];
 const settings={brightness:1,thickness:2.2,trail:9};
 function sampleField(field: Field,lon: number,lat: number){
-  const g=manifest.grid;
-  const gx=((lon-g.lonStart+360)%360)/g.lonStep,gy=(g.latStart-lat)/g.latStep;
-  if(!Number.isFinite(gx)||!Number.isFinite(gy)||gy<0||gy>=g.height-1)return null;
-  const x0=((Math.floor(gx)%g.width)+g.width)%g.width,x1=(x0+1)%g.width;
-  const y0=Math.floor(gy),y1=y0+1,ax=gx-Math.floor(gx),ay=gy-y0;
-  const i00=y0*g.width+x0,i10=y0*g.width+x1,i01=y1*g.width+x0,i11=y1*g.width+x1;
-  for(const i of [i00,i10,i01,i11])if(!Number.isFinite(field.u[i])||!Number.isFinite(field.v[i]))return null;
-  const blend=(a: (number|null)[])=>((a[i00]!*(1-ax)+a[i10]!*ax)*(1-ay)+(a[i01]!*(1-ax)+a[i11]!*ax)*ay);
-  return {u:blend(field.u),v:blend(field.v)};
+  return sampleInspectionField(manifest,field,lon,lat);
 }
 function sample(lon: number,lat: number,day: number){
   const a=clamp(Math.floor(day),0,fields.length-1),b=Math.min(a+1,fields.length-1),f=clamp(day-a,0,1);
@@ -74,10 +69,10 @@ function integrate(simDays: number,from: number){
       // Avoid overpainting tiny, sub-pixel jumps; keep a continuous trajectory instead.
       if(Math.hypot(x1-x0,y1-y0)<.80)continue;
       if(Math.abs(x1-x0)>W*.20){p.drawLon=nextLon;p.drawLat=nextLat;continue}
-      const speed=Math.hypot(sm.u,sm.v),strength=clamp(speed/1.6,0,1);
+      const speed=Math.hypot(sm.u,sm.v),strength=currentPosition(speed);
       ctx.beginPath();ctx.moveTo(x0,y0);ctx.lineTo(x1,y1);
       // One cohesive turquoise palette only — no artificial yellow or grey current lines.
-      ctx.strokeStyle=`rgba(${Math.round(40+52*strength)},${Math.round(187+49*strength)},${Math.round(185+51*strength)},${clamp((.43+.21*strength)*brightness,.12,.87)})`;
+      ctx.strokeStyle=currentColor(speed,brightness);
       ctx.lineWidth=thickness*(.88+.22*strength);
       ctx.lineCap='round';ctx.lineJoin='round';ctx.stroke();
       p.drawLon=nextLon;p.drawLat=nextLat;
@@ -88,7 +83,10 @@ function integrate(simDays: number,from: number){
 
 buildSeedPool();
 function reset(){ctx.clearRect(0,0,W,H);rngState=202311+Number(month.replace('-',''));particles=Array.from({length:3900},spawn);}
-reset();return {reset,settings,advance(from:number,to:number,elapsed:number){
+let position=0;
+const dispose=observeMapResolution(canvas,W,H,()=>{reset();integrate(2,Math.max(0,position-2));});
+return {reset,dispose,settings,advance(from:number,to:number,elapsed:number){
+position=to;
 ctx.save();ctx.globalCompositeOperation='destination-out';ctx.fillStyle='rgba(0,0,0,'+(1-Math.exp(-Math.LN2*elapsed/settings.trail))+')';ctx.fillRect(0,0,W,H);ctx.restore();
 if(to<from-.005){reset();return;}if(to>from)integrate(to-from,from);
 }};}

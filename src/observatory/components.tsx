@@ -4,13 +4,9 @@ import type { Waypoint } from '../Globe';
 
 type T = (typeof UI)['en'] | (typeof UI)['ar'];
 
-export function BrandMark() {
+export function BrandMark({ className = 'brand-mark' }: { className?: string }) {
   return (
-    <svg className="brand-mark" viewBox="0 0 32 32" aria-hidden="true">
-      <circle cx="16" cy="16" r="6.5" fill="none" stroke="currentColor" strokeWidth="1.4" />
-      <path d="M7.5 9.5a12 12 0 0 0 0 13M24.5 9.5a12 12 0 0 1 0 13" fill="none" stroke="currentColor" strokeWidth="1.2" opacity=".7" />
-      <path d="M3.5 6a17 17 0 0 0 0 20M28.5 6a17 17 0 0 1 0 20" fill="none" stroke="currentColor" strokeWidth="1" opacity=".4" />
-    </svg>
+    <img className={className} src="/images/sonara-logo.png" alt="" aria-hidden="true" style={{ objectFit: 'contain', flexShrink: 0 }} />
   );
 }
 

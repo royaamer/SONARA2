@@ -1,10 +1,9 @@
 ﻿import { createContext, useCallback, useContext, useEffect, useRef, useState, type ReactNode } from 'react';
 import type { Lang } from '../observatory/content';
-import type { Waypoint } from '../Globe';
 function useSession() {
   const [language, setLanguage] = useState<Lang>('en');
-  const [selected, setSelected] = useState<Waypoint | null>(null);
   const [visited, setVisited] = useState(false);
+  const arrivalRequested = useRef(false);
   const [missionEntered, setMissionEntered] = useState(false);
   const [cinematicTransition, setCinematicTransition] = useState<'none'|'forward'>('none');
   const transitionProgress = useRef(0);
@@ -71,14 +70,20 @@ function useSession() {
     try { transitionFrame.current = requestAnimationFrame(frame); }
     catch { finish(true); }
   }, []);
-  useEffect(() => () => {
+  const cancelTransition = useCallback(() => {
     if (transitionFrame.current) cancelAnimationFrame(transitionFrame.current);
     if (transitionTimer.current) window.clearTimeout(transitionTimer.current);
     transitionActive.current = false;
     document.documentElement.style.removeProperty('--nav-progress');
     document.documentElement.style.removeProperty('--nav-crossfade');
+    transitionFrame.current = 0;
+    transitionTimer.current = 0;
+    transitionProgress.current = 0;
+    transitionReverse.current = false;
+    setCinematicTransition('none');
   }, []);
-  return { language, setLanguage, selected, setSelected, visited, setVisited, missionEntered, setMissionEntered, cinematicTransition, transitionProgress, transitionActive, transitionReverse, travelOrigin, globeRotation, runTransition };
+  useEffect(() => cancelTransition, [cancelTransition]);
+  return { arrivalRequested, cancelTransition, language, setLanguage, visited, setVisited, missionEntered, setMissionEntered, cinematicTransition, transitionProgress, transitionActive, transitionReverse, travelOrigin, globeRotation, runTransition };
 }
 const Context = createContext<ReturnType<typeof useSession> | null>(null);
 export function EarthSessionProvider({ children }: { children: ReactNode }) {

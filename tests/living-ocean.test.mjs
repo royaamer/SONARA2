@@ -65,15 +65,18 @@ test('all 365 days, twelve monthly WAV/audit packages and optional metrics valid
  assert.equal(result.months.filter(m=>m.metricsPath).length,1);
 });
 test('particle strokes exactly match the current EarthJukeBox renderer and depend on the selected daily field',async()=>{
- const bundle=await build({entryPoints:['src/living-ocean/renderer.ts'],bundle:true,write:false,format:'esm',platform:'node'});
- const {createOceanRenderer}=await import('data:text/javascript;base64,'+Buffer.from(bundle.outputFiles[0].text).toString('base64'));
+ const bundle=await build({entryPoints:['src/living-ocean/renderer.ts'],bundle:true,write:false,format:'cjs',platform:'node'});
+ const rendererModule={exports:{}};
+ class Observer { observe(){} disconnect(){} }
+ runInNewContext(bundle.outputFiles[0].text,{module:rendererModule,exports:rendererModule.exports,ResizeObserver:Observer,MutationObserver:Observer,window:{devicePixelRatio:1,addEventListener(){},removeEventListener(){}}});
+ const {createOceanRenderer}=rendererModule.exports;
  const sourceCode=await readFile('C:/Users/user/EarthJukeBox/audio/oscarMonthlyBassoon.js','utf8');
  const helpers=sourceCode.slice(sourceCode.indexOf('function sampleField'),sourceCode.indexOf('function showBassoonStatus'));
  const manifest=await json('web/2023-02/manifest.json'),first=await json('web/2023-02/2023-02-01.json'),last=await json('web/2023-02/2023-02-28.json');
- function context(){return {strokes:[],clearRect(){},save(){},restore(){},fillRect(){},beginPath(){this.points=[];},moveTo(x,y){this.points.push(x,y);},lineTo(x,y){this.points.push(x,y);},stroke(){this.strokes.push([...this.points,this.strokeStyle,this.lineWidth]);}};}
+ function context(){return {strokes:[],setTransform(){},clearRect(){},save(){},restore(){},fillRect(){},beginPath(){this.points=[];},moveTo(x,y){this.points.push(x,y);},lineTo(x,y){this.points.push(x,y);},stroke(){this.strokes.push([...this.points,this.strokeStyle,this.lineWidth]);}};}
  const expected=context();
  runInNewContext(`const W=1600,H=800;const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));const px=lon=>(lon+180)/360*W,py=lat=>(90-lat)/180*H;let seeds=[],particles=[],rngState=0,lastAudioTime=0,lastFrame=0,shownEvent=0;function random(){rngState=(1664525*rngState+1013904223)>>>0;return rngState/4294967296;}const VISUAL={thickness:2.2,trailSeconds:9,brightness:1};${helpers};drawMetadata=()=>{};buildSeedPool();reset();integrate(.7,0);`,{manifest,fields:[first,first],selected:{month:'2023-02'},ctx:expected,audio:{currentTime:0}});
- function actual(field){const ctx=context();const renderer=createOceanRenderer({width:1600,height:800,getContext:()=>ctx},manifest,[field,field],'2023-02');renderer.advance(0,.7,.1);return ctx.strokes;}
+ function actual(field){const ctx=context();const renderer=createOceanRenderer({width:1600,height:800,getBoundingClientRect:()=>({width:1600,height:800}),closest:()=>null,getContext:()=>ctx},manifest,[field,field],'2023-02');renderer.reset();ctx.strokes=[];renderer.advance(0,.7,.1);renderer.dispose();return ctx.strokes;}
  assert.ok(expected.strokes.length>0);
  assert.deepEqual(JSON.parse(JSON.stringify(actual(first))),JSON.parse(JSON.stringify(expected.strokes)));
  assert.notDeepEqual(actual(first),actual(last),'different genuine fields must change current paths');

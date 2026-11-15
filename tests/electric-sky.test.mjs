@@ -50,7 +50,7 @@ test('projection aligns longitude/latitude to the equirectangular map',()=>{
 });
 class Parameter { value=0; calls=[]; setValueAtTime(v,t){this.value=v;this.calls.push([v,t]);}linearRampToValueAtTime(v,t){this.value=v;this.calls.push([v,t]);}setTargetAtTime(v,t){this.value=v;this.calls.push([v,t]);} }
 class Node { gain=new Parameter();frequency=new Parameter();threshold=new Parameter();knee=new Parameter();ratio=new Parameter();frequencyBinCount=64;connect(){}disconnect(){}start(t){this.started=t;}stop(t){this.stopped=t;}getByteFrequencyData(a){a.fill(0);} }
-class Context { currentTime=0;state='suspended';destination=new Node();oscillators=[];gains=[];createGain(){const n=new Node();this.gains.push(n);return n;}createOscillator(){const n=new Node();this.oscillators.push(n);return n;}createAnalyser(){return new Node();}createDynamicsCompressor(){return new Node();}async resume(){this.state='running';}async suspend(){this.state='suspended';}async close(){this.state='closed';} }
+class Context { currentTime=0;state='suspended';destination=new Node();oscillators=[];gains=[];createGain(){const n=new Node();this.gains.push(n);return n;}createOscillator(){const n=new Node();this.oscillators.push(n);return n;}sources=[];createBufferSource(){const n=new Node();this.sources.push(n);return n;}createBuffer(){return {};}createAnalyser(){return new Node();}createDynamicsCompressor(){return new Node();}async resume(){this.state='running';}async suspend(){this.state='suspended';}async close(){this.state='closed';} }
 test('audio transport uses one clock and supports pause/resume, seek, volume, mute, stop and disposal',async()=>{
   const context=new Context();let created=0;
   const engine=new ScannerAudioEngine(()=>{created++;return context;});
@@ -83,4 +83,24 @@ test('Pause cancels a pending browser activation before notes are scheduled',asy
   const pending=engine.play();const paused=engine.pause();resume();await Promise.all([pending,paused]);
   assert.equal(engine.getSnapshot().status,'paused');assert.equal(context.oscillators.length,0);
   await engine.dispose();
+});
+
+test('audio-clock boundary stops every scheduled voice without UI polling and ignores stale completion',async()=>{
+ const context=new Context(),engine=new ScannerAudioEngine(()=>context);
+ const score=mapping.buildScannerScore(days[0]);engine.load(score);await engine.play();
+ const end=score.seconds+.06;
+ assert.ok(context.oscillators.every(o=>o.stopped<=end));
+ const completion=context.sources.at(-1).onended;
+ context.currentTime=end;completion();
+ assert.equal(engine.getSnapshot().status,'complete');assert.equal(engine.getSnapshot().seconds,score.seconds);
+ assert.ok(context.oscillators.every(o=>o.onended===null));
+ engine.stop();completion();assert.equal(engine.getSnapshot().status,'ready');
+ await engine.dispose();
+});
+
+test('stale rejected activation cannot interrupt a later explicit Play session',async()=>{
+ const ctx=new Context;let reject;ctx.resume=()=>new Promise((_,r)=>reject=r);
+ const e=new ScannerAudioEngine(()=>ctx);e.load(mapping.buildScannerScore(days[0]));
+ const stale=e.play();e.stop();ctx.resume=async()=>{ctx.state='running'};await e.play();
+ reject(Error('old activation failed'));await stale;assert.equal(e.playbackState,'playing');await e.dispose();
 });

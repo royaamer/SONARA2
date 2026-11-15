@@ -95,7 +95,7 @@ h1[tabindex='-1']:focus-visible { outline: 1px solid var(--ee-line-strong); outl
 .ob-header { position: relative; z-index: 20; height: var(--header-h); display: flex; align-items: center; gap: var(--s6); padding: 0 var(--gutter); }
 .ob-header::after { content: ''; position: absolute; inset: auto var(--gutter) 0; height: 1px; background: linear-gradient(90deg, var(--ee-line), transparent 70%); }
 .ob-brand { display: flex; align-items: center; gap: var(--s3); color: var(--ee-text); text-decoration: none; }
-.brand-mark { width: 26px; height: 26px; color: var(--ee-accent); }
+.brand-mark { width: 90px; height: 60px; margin-inline: -12px; color: var(--ee-accent); }
 .ob-brand-word { font-family: var(--ee-font-display); font-weight: 600; font-size: 18px; line-height: 1; letter-spacing: -.01em; direction: ltr; }
 .ob-brand-tag { font-size: 10px; color: var(--ee-text-2); letter-spacing: .26em; text-transform: uppercase; padding-inline-start: var(--s3); border-inline-start: var(--bw) solid var(--ee-line); }
 .ob-nav { display: flex; margin-inline-start: auto; }

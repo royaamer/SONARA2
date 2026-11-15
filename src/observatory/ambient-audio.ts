@@ -1,13 +1,23 @@
+// The original score is authored in ambient-score.ts and rendered locally once.
+// Cache the decoded loop across intro visits; playback still requires a gesture.
+let music: Promise<AudioBuffer> | undefined;
+function loadIntroMusic(context: AudioContext) {
+  return music ??= fetch(import.meta.env.BASE_URL + 'audio/quiet-departure.opus')
+    .then(response => { if (!response.ok) throw Error('Intro music unavailable'); return response.arrayBuffer(); })
+    .then(bytes => context.decodeAudioData(bytes))
+    .catch(error => { music = undefined; throw error; });
+}
+
 export type AmbientStatus = 'playing' | 'muted' | 'waiting' | 'unavailable';
 const AMBIENT_LEVEL = .6;
 
-/** Procedural introduction ambience. Owns no scientific playback sources. */
+/** Original looping introduction music. Owns no scientific playback sources. */
 export class AmbientSoundscape {
   private session: {
     context: AudioContext;
     output: GainNode;
     nodes: AudioNode[];
-    oscillators: OscillatorNode[];
+    oscillators: AudioScheduledSourceNode[];
     analyser: AnalyserNode;
     samples: Float32Array<ArrayBuffer>;
     activated: boolean;
@@ -38,68 +48,27 @@ export class AmbientSoundscape {
     const token = ++this.generation;
     const context = new AudioContext();
     const output = context.createGain();
-    const filter = context.createBiquadFilter();
-    const reverb = context.createConvolver();
-    const wet = context.createGain();
     const analyser = context.createAnalyser();
     analyser.fftSize = 2048;
-    const nodes: AudioNode[] = [output, filter, reverb, wet, analyser];
-    const oscillators: OscillatorNode[] = [];
+    const nodes: AudioNode[] = [output, analyser];
+    const oscillators: AudioScheduledSourceNode[] = [];
     this.session = { context, output, nodes, oscillators, analyser, samples:new Float32Array(analyser.fftSize), activated:false };
     output.gain.value = 0;
-    filter.type = 'lowpass';
-    filter.frequency.value = 1200;
-    filter.Q.value = .35;
-    wet.gain.value = .35;
-
-    // A generated, decaying stereo impulse adds distance without loading a file.
-    const impulse = context.createBuffer(2, Math.ceil(context.sampleRate * 3.5), context.sampleRate);
-    for (let channel = 0; channel < 2; channel++) {
-      const samples = impulse.getChannelData(channel);
-      for (let i = 0; i < samples.length; i++) {
-        samples[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / samples.length, 3);
-      }
-    }
-    reverb.buffer = impulse;
-    filter.connect(output);
-    filter.connect(reverb);
-    reverb.connect(wet);
-    wet.connect(output);
     output.connect(analyser);
     analyser.connect(context.destination);
-
-    // Quiet sine pads with slow amplitude drift, free of percussive transients.
-    const pads = [
-      { frequency: 55, level: .055, drift: .031, detune: -2 },
-      { frequency: 82.4069, level: .04, drift: .023, detune: 2 },
-      { frequency: 110, level: .055, drift: .019, detune: 1 },
-      { frequency: 164.8138, level: .06, drift: .013, detune: -1 },
-      { frequency: 220, level: .065, drift: .017, detune: 2 },
-      { frequency: 329.6276, level: .045, drift: .011, detune: -2 },
-      { frequency: 440, level: .025, drift: .007, detune: 1 },
-    ];
-    for (const pad of pads) {
-      const tone = context.createOscillator();
-      const level = context.createGain();
-      const drift = context.createOscillator();
-      const depth = context.createGain();
-      tone.type = 'sine';
-      tone.frequency.value = pad.frequency;
-      tone.detune.value = pad.detune;
-      level.gain.value = pad.level;
-      drift.frequency.value = pad.drift;
-      depth.gain.value = pad.level * .12;
-      tone.connect(level);
-      level.connect(filter);
-      drift.connect(depth);
-      depth.connect(level.gain);
-      nodes.push(tone, level, drift, depth);
-      oscillators.push(tone, drift);
-      tone.start();
-      drift.start();
-    }
     try {
+      // Resume inside the gesture, before fetching and decoding the local score.
       await context.resume();
+      const buffer = await loadIntroMusic(context);
+      if (token !== this.generation || this.session?.context !== context || this.fading) return;
+      const music = context.createBufferSource();
+      music.buffer = buffer;
+      music.loop = false;
+      music.onended = () => { if (token === this.generation) this.stop(); };
+      music.connect(output);
+      nodes.push(music);
+      oscillators.push(music);
+      music.start();
       if (token !== this.generation || this.session?.context !== context) return;
       this.session.activated = true;
       this.ramp(this.muted ? 0 : AMBIENT_LEVEL, 1.5);

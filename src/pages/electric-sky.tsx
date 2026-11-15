@@ -1,7 +1,8 @@
+import { OriginalWaveform, PlaybackVolume } from '../experiences/original-waveform';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link } from 'wouter';
 import { useQuery } from '@tanstack/react-query';
-import { AudioLines, ArrowLeft, Pause, Play, Radio, ScanLine, Square, Volume2, VolumeX, Zap } from 'lucide-react';
+import { AudioLines, ArrowLeft, Pause, Play, Radio, RotateCcw, ScanLine, Square, Volume2, VolumeX, Zap } from 'lucide-react';
 import { useEarthSession } from '../earth/session';
 import { MissionHeader, useMissionDocument } from '../mission-control/shared';
 import { loadLightningDataset, NOMINAL_MONTH, partitionObservationDates } from '../electric-sky/lightning-data';
@@ -12,8 +13,11 @@ import { SKY_COPY } from '../electric-sky/content';
 import '../electric-sky/electric-sky.css';
 import '../experiences/experience.css';
 import { ScientificHud } from '../experiences/dashboard';
+import { ExperienceDashboard, ObservationNavigator, ScientificScale, type MapPoint } from '../experiences/experience-dashboard';
+import { activityAt, activityPosition, activityColor, buildActivityGrid } from '../electric-sky/activity-scale';
 const initialSnapshot:PlaybackSnapshot={ status:'ready',seconds:0,current:null,active:[] };
 export default function ElectricSky() {
+ const [point,setPoint]=useState<MapPoint|null>(null);
   const { language } = useEarthSession();
   const t = SKY_COPY[language];
   useMissionDocument(t.title);
@@ -31,6 +35,7 @@ export default function ElectricSky() {
   const days=useMemo(() => query.data ? buildDayIndex(query.data).filter(d=>d.flashes.length>0) : [],[query.data]);
   const calendar=useMemo(()=>partitionObservationDates(days),[days]);
   const day=days[dateIndex] ?? days[0];
+  const activity=useMemo(() => day ? buildActivityGrid(day) : null,[day]);
   const score=useMemo(() => day ? buildScannerScore(day) : null,[day]);
   useEffect(() => { title.current?.focus({preventScroll:true}); },[]);
   useEffect(() => {
@@ -46,7 +51,6 @@ export default function ElectricSky() {
   const monthLabel=new Date(NOMINAL_MONTH+'-01T12:00:00Z').toLocaleDateString(language==='ar'?'ar':'en',{timeZone:'UTC',month:'long',year:'numeric'});
   const additionalCount=calendar.additional.reduce((n,d)=>n+d.flashes.length,0);
   const boundaryNote=t.boundaryDetail.replace('{month}',monthLabel).replace('{dates}',calendar.additional.map(d=>dateLabel(d.day)).join(language==='ar'?' / ':', ')).replace('{count}',format(additionalCount));
-  const renderDay=(d:(typeof days)[number]) => <button key={d.day} aria-pressed={day.day===d.day} disabled={starting} onClick={()=>changeDate(days.indexOf(d))} aria-label={`${dateLabel(d.day)}; ${format(d.flashes.length)} ${t.flashes}`}><span>{new Date(d.day+'T12:00:00Z').toLocaleDateString(language==='ar'?'ar':'en',{month:'short',timeZone:'UTC'})}</span><strong>{format(Number(d.day.slice(-2)))}</strong><i style={{height:`${8+20*d.flashes.length/Math.max(...days.map(x=>x.flashes.length))}px`}}/></button>;
   const play=async() => {setStarting(true);setAudioError(false);try{await engine.play();}catch{if(mounted.current)setAudioError(true);}finally{if(mounted.current){setStarting(false);setSnapshot(engine.getSnapshot());}}};
   const pause=async() => {try{await engine.pause();}catch{setAudioError(true);}if(mounted.current)setSnapshot(engine.getSnapshot());};
   const stop=() => {engine.stop();setSnapshot(engine.getSnapshot());};
@@ -55,44 +59,60 @@ export default function ElectricSky() {
   const audible=snapshot.status==='playing' && !muted && volume>0 ? snapshot.active.at(-1) : null;
   const longitude=score ? -180+360*snapshot.seconds/score.seconds : null;
   const column=score ? Math.min(score.columns-1,Math.floor(snapshot.seconds/score.seconds*score.columns)) : null;
+  const selectedPoint=point;
+  const measurement=activity ? selectedPoint ? activityAt(activity,selectedPoint.lon,selectedPoint.lat) : activity.cells.length ? activity.cells.reduce((sum,c)=>sum+c.count,0)/activity.cells.length : null : null;
+  const cellWest=point?Math.min(71,Math.floor((point.lon+180)/5))*5-180:0;
+  const cellNorth=point?90-Math.min(35,Math.floor((90-point.lat)/5))*5:0;
+  const records=point&&day?day.flashes.filter(f=>Math.min(71,Math.floor((f.longitude+180)/5))*5-180===cellWest&&90-Math.min(35,Math.floor((90-f.latitude)/5))*5===cellNorth):[];
+  const meanRadiance=records.length?records.reduce((sum,f)=>sum+f.radiance,0)/records.length:null;
   const status=starting ? t.starting : t[snapshot.status];
-  return <div className="mc sky experience" dir={language === 'ar' ? 'rtl' : 'ltr'} lang={language}>
+  return <div className="mc sky experience dashboard-experience" dir={language === 'ar' ? 'rtl' : 'ltr'} lang={language}>
     <a href="#sky-main" className="mc-skip">{t.title}</a><MissionHeader subtitle={t.title} back/>
     <main id="sky-main">
-      <Link className="sky-return" href="/mission-control"><ArrowLeft size={15}/>{t.returned}</Link>
-      <div className="sky-heading"><div><p className="mc-eyebrow">{t.eyebrow}</p><h1 ref={title} tabIndex={-1}>{t.title}</h1><p className="sky-lead">{t.lead}</p><p className="sky-intro">{t.intro}</p></div><Zap size={80} strokeWidth={.6} aria-hidden="true"/></div>
-      {query.isPending ? <div className="sky-load" role="status"><Radio size={30}/><p>{t.loading}</p></div> : query.isError || !query.data || !day || !score ? <div className="sky-load" role="alert"><p>{t.loadError}</p><button className="mc-button" onClick={()=>void query.refetch()}>{t.retry}</button></div> : <>
-        <section className="sky-observation-bar" aria-label={t.date}><div><label htmlFor="sky-date">{t.date}</label><select id="sky-date" value={dateIndex} onChange={e=>changeDate(+e.target.value)} disabled={starting}><optgroup label={monthLabel}>{calendar.primary.map(d=><option key={d.day} value={days.indexOf(d)}>{dateLabel(d.day)}</option>)}</optgroup>{calendar.additional.length>0 && <optgroup label={t.additionalDates}>{calendar.additional.map(d=><option key={d.day} value={days.indexOf(d)}>{dateLabel(d.day)} / {t.additionalShort}</option>)}</optgroup>}</select></div><div className="sky-feed-status"><i/><span>{t.noLive}</span></div></section>
-        {calendar.additional.length>0 && <aside className="sky-boundary-note" aria-label={t.boundaryTitle}><strong>{t.boundaryTitle}</strong><p>{boundaryNote}</p></aside>}
-        <section className="sky-observation" aria-label={t.map}>
-          <div className="sky-map-head"><span><ScanLine size={15}/>{t.map}</span><span className="sky-status" role="status">{status}</span></div>
-          <div className="scientific-view"><LightningMap day={day} score={score} snapshot={snapshot} label={t.map} mapError={t.loadError}/>
-    <ScientificHud label={t.telemetry} language={language} indicators={[
-            {label:language==='ar'?'ومضات البرق':'Lightning activity',value:format(day.flashes.length)},
-            {label:language==='ar'?'موقع المسح':'Scanning position',value:format(longitude!,1)+'°',direction:'ltr'},
-            {label:language==='ar'?'الصوت المباشر':'Live frequency',eventKey:audible?String(audible.at):undefined,value:audible?noteName(audible.note)+' · '+format(noteHz(audible.note),1)+' Hz':'—',direction:'ltr'},
-          ]}/>
-</div>
-          <div className="sky-transport">
-            <button className="mc-button mc-primary" onClick={()=>void play()} disabled={!supported || starting || snapshot.status==='playing'}><Play size={17}/>{snapshot.status==='paused' ? t.resume : snapshot.status==='complete' ? t.play : t.activate}</button>
-            <button className="sky-icon-button" onClick={()=>void pause()} disabled={snapshot.status!=='playing' && !starting} aria-label={t.pause} title={t.pause}><Pause size={19}/></button>
-            <button className="sky-icon-button" onClick={stop} disabled={snapshot.status==='ready' && !starting} aria-label={t.stop} title={t.stop}><Square size={17}/></button>
-
-          </div>
-            <div className="sky-position"><label htmlFor="sky-position">{t.progress}<output>{format(snapshot.seconds,1)} / {format(score.seconds)} s</output></label><input id="sky-position" type="range" min="0" max={score.seconds} step="0.01" value={snapshot.seconds} disabled={starting} onChange={e=>{engine.seek(+e.target.value);setSnapshot(engine.getSnapshot());}} aria-valuetext={`${format(longitude!,1)}°; ${format(snapshot.seconds,1)} s`}/></div>
-          {!supported && <p className="sky-warning" role="status">{t.unsupported}</p>}{audioError && <p className="sky-warning" role="alert">{t.audioError}</p>}
-        </section>
-        <section className="sky-date-timeline" aria-labelledby="sky-date-title"><div><h2 id="sky-date-title">{t.timeline}</h2><p>{t.dateHelp}</p></div><div className="sky-calendar"><div className="sky-days" role="group" aria-label={monthLabel}>{calendar.primary.map(renderDay)}</div>{calendar.additional.length>0 && <div className="sky-extra-days"><p>{t.additionalDates}</p><div className="sky-days" role="group" aria-label={t.additionalDates}>{calendar.additional.map(renderDay)}</div></div>}</div></section>
-              <details className="experience-science"><summary>{language==='ar'?'استكشف العلم':'Explore the Science'}</summary>          <div className="sky-map-legend"><span><i/>{t.legendRecorded}</span><span><i className="gold"/>{t.legendActive}</span><span><i className="band"/>{t.legendBand}</span></div>
+      <div className="dashboard-heading"><h1 ref={title} tabIndex={-1}>{t.title}</h1><Link className="sky-return" href="/mission-control"><ArrowLeft size={15}/>{t.returned}</Link></div>
+      {query.isPending ? <div className="sky-load" role="status"><Radio size={30}/><p>{t.loading}</p></div> : query.isError || !query.data || !day || !score || !activity ? <div className="sky-load" role="alert"><p>{t.loadError}</p><button className="mc-button" onClick={()=>void query.refetch()}>{t.retry}</button></div> : <>
+        <ExperienceDashboard temporal={{kind:"lightning",days}} pauseOriginal={()=>void pause()} point={point} onSelect={setPoint} label={t.map} status={status}
+          footprints={point?[{west:cellWest,east:cellWest+5,south:cellNorth-5,north:cellNorth}]:[]}
+          observationKey={day.day}
+          selectionSummary={`ISS LIS cell, latitude ${cellNorth-5} to ${cellNorth}, longitude ${cellWest} to ${cellWest+5}. ${day.day} UTC. ${records.length} recorded flashes in the supplied extract. ${meanRadiance===null?'Radiance unavailable. Coverage unknown.':'Mean radiance '+meanRadiance.toFixed(2)+' '+query.data.radiance_unit+'. Coverage incomplete.'}`}
+          navigator={<ObservationNavigator id="sky-date" label={t.date} ar={language==='ar'} value={String(dateIndex)} disabled={starting} onChange={value=>changeDate(+value)} options={days.map((d,index)=>({value:String(index),label:dateLabel(d.day),group:d.day.startsWith(NOMINAL_MONTH)?monthLabel:t.additionalDates}))}/>}
+          map={<LightningMap day={day} score={score} snapshot={snapshot} label={t.map} mapError={t.loadError} activity={activity}/>}
+          information={<>
+            <div className="selection-reading" aria-label="Selected ISS LIS cell">{point ? <>
+              <strong>Selected ISS LIS cell / {day.day} UTC</strong>
+              <p dir="ltr">Latitude {cellNorth-5}–{cellNorth}° / Longitude {cellWest}–{cellWest+5}°</p>
+              <p>{records.length?records.length+" flashes recorded in this 5 degree by 5 degree cell.":"0 flashes in the supplied extract cell. Coverage is unknown."}</p>
+              <p>{meanRadiance===null?'No recorded radiance in this cell.':'Mean recorded radiance '+format(meanRadiance,2)+' '+query.data.radiance_unit}</p>
+            </> : <p>Select a geographic cell.</p>}</div>
+            </>} science={<>
+            <ScientificHud label={t.telemetry} language={language} indicators={[
+              {label:language==='ar'?'ومضات مسجلة':'Recorded flashes',value:format(day.flashes.length)},
+              {label:language==='ar'?'خط طول المسح':'Scan longitude',value:format(longitude!,1)+'°',direction:'ltr'},
+              {label:language==='ar'?'النغمة الحالية':'Current note',eventKey:audible?String(audible.at):undefined,value:audible?noteName(audible.note)+' · '+format(noteHz(audible.note),1)+' Hz':'—',direction:'ltr'},
+            ]}/>
+            <ScientificScale measurement={{value:measurement,minimum:0,maximum:activity.maximum,unit:"recorded flashes / 5° × 5° cell",position:activityPosition(measurement??0,activity.maximum),color:activityColor(measurement??0,activity.maximum),label:point?"Selected Region / source cell":"Full Map / occupied-cell mean"}} title={language==='ar'?'ومضات مسجلة لكل خلية 5° × 5°':'Recorded flashes / 5° × 5° cell'} gradient={`linear-gradient(90deg in srgb, ${activityColor(0,activity.maximum)}, ${activityColor(activity.maximum/2,activity.maximum)}, ${activityColor(activity.maximum,activity.maximum)})`} ticks={['0',format(activity.maximum/2,1),format(activity.maximum)]}>
+              <p>{language==='ar'?'لا سجلات في الخلايا الفارغة؛ تغطية الرصد غير مقيّمة.':'ISS LIS coverage is incomplete. Zero extract records cannot confirm absence of lightning.'}</p>
+            </ScientificScale>
+            <div className="dashboard-scope"><p>{language==='ar'?'الصوت الأصلي: مسح جغرافي لمدة 24 ثانية لليوم المحدد.':'Original audio · 24-second geographic scan of the selected day.'}</p></div>
+          </>}
+          controls={<><div className="sky-transport">
+            <button className="mc-button mc-primary" title={snapshot.status==='playing'?t.pause:t.play} onClick={()=>snapshot.status==='playing'?void pause():void play()} disabled={!supported||starting}>{snapshot.status==='playing'?<Pause size={17}/>:<Play size={17}/>} {snapshot.status==='playing'?t.pause:snapshot.status==='paused'?t.resume:t.play}</button>
+            <button className="mc-button" disabled={!supported||starting} onClick={stop}><RotateCcw size={17}/>{language==='ar'?'إعادة البدء':'Restart'}</button>
+            <button className="sky-icon-button" onClick={stop} disabled={snapshot.status==='ready'&&!starting} aria-label={t.stop} title={t.stop}><Square size={17}/></button>
+          </div><div className="sky-volume"><button className="sky-icon-button" aria-label={muted?t.unmute:t.mute} title={muted?t.unmute:t.mute} aria-pressed={muted} disabled={!supported} onClick={()=>{engine.setMuted(!muted);setMuted(!muted);}}>{muted?<VolumeX size={18}/>:<Volume2 size={18}/>}</button><label htmlFor="sky-volume">{t.volume}</label><input id="sky-volume" type="range" min="0" max="1" step=".01" value={volume} disabled={!supported} onChange={e=>{setVolume(+e.target.value);engine.setVolume(+e.target.value);}}/><output>{format(volume*100)}%</output></div></>}
+          timeline={<OriginalWaveform id="sky-position" identity={day.day+volume+String(muted)} seconds={snapshot.seconds} duration={score.seconds} playing={snapshot.status==='playing'} getPcm={()=>engine.getPcm()} onSeek={value=>{engine.seek(value);setSnapshot(engine.getSnapshot());}} disabled={starting}/>}
+          error={<>{!supported&&<p className="sky-warning" role="status">{t.unsupported}</p>}{audioError&&<p className="sky-warning" role="alert">{t.audioError}</p>}</>}
+        />
+        <details className="experience-science"><summary>{language==='ar'?'استكشف العلم':'Explore the Science'}</summary><p>{t.lead}</p><p>{t.intro}</p><p>{t.noLive}</p>{calendar.additional.length>0&&<aside className="sky-boundary-note"><strong>{t.boundaryTitle}</strong><p>{boundaryNote}</p></aside>}<div className="sky-map-legend"><span><i/>{t.legendRecorded}</span><span><i className="gold"/>{t.legendActive}</span><span><i className="band"/>{t.legendBand}</span></div>
           <p className="sky-map-help">{t.mapHelp}</p>
 <div className="sky-instruments">
           <section className="sky-telemetry" aria-labelledby="sky-telemetry-title"><h2 id="sky-telemetry-title"><Radio size={18}/>{t.telemetry}</h2><div className="sky-readings"><div><span>{t.longitude}</span><strong dir="ltr">{longitude===null ? '—' : `${format(longitude,1)}°`}</strong><small>{t.band} {column===null ? '—' : format(column+1)} / {format(score.columns)}</small></div><div><span>{t.latitude}</span><strong dir="ltr">{current ? `${format(current.flash.latitude,2)}°` : '—'}</strong><small>{t.measurement}</small></div><div><span>{t.frequency}</span><strong dir="ltr">{current ? `${format(noteHz(current.note),1)} Hz` : '—'}</strong><small>{t.interpretation}</small></div><div><span>{t.note}</span><strong dir="ltr">{current ? noteName(current.note) : '—'}</strong><small>{current ? `MIDI ${current.note}` : t.none}</small></div></div>
             <details className="sky-audit"><summary>{t.readout}</summary><dl><div><dt>{t.sourceTime}</dt><dd dir="ltr">{current?.flash.time ?? '—'}</dd></div><div><dt>{t.sourceLongitude}</dt><dd dir="ltr">{current ? `${format(current.flash.longitude,4)}°` : '—'}</dd></div><div><dt>{t.radiance}</dt><dd dir="ltr">{current ? `${format(current.flash.radiance)} ${query.data.radiance_unit}` : '—'}</dd></div><div><dt>{t.bandCount}</dt><dd>{column!==null ? format(score.byColumn[column].length) : '—'}</dd></div><div><dt>{t.notes}</dt><dd>{format(score.events.length)}</dd></div></dl></details>
           </section>
-          <section className="sky-lab" aria-labelledby="sky-lab-title"><h2 id="sky-lab-title"><AudioLines size={18}/>{t.lab}</h2><AudioSpectrum engine={engine} playing={snapshot.status==='playing' && !muted} label={t.spectrum}/><div className="sky-volume"><button className="sky-icon-button" aria-label={muted?t.unmute:t.mute} title={muted?t.unmute:t.mute} aria-pressed={muted} disabled={!supported} onClick={()=>{engine.setMuted(!muted);setMuted(!muted);}}>{muted?<VolumeX size={18}/>:<Volume2 size={18}/>}</button><label htmlFor="sky-volume">{t.volume}</label><input id="sky-volume" type="range" min="0" max="1" step=".01" value={volume} disabled={!supported} onChange={e=>{setVolume(+e.target.value);engine.setVolume(+e.target.value);}}/><output>{format(volume*100)}%</output></div><p>{t.labNote}</p></section>
+          <section className="sky-lab" aria-labelledby="sky-lab-title"><h2 id="sky-lab-title"><AudioLines size={18}/>{t.lab}</h2><AudioSpectrum engine={engine} playing={snapshot.status==='playing' && !muted} label={t.spectrum}/><p>{t.labNote}</p></section>
         </div>
         <aside className="sky-provenance" aria-label={t.limitations}><h3>{t.limitations}</h3><p>{t.coverage}</p><p>{t.attribution}</p><p>{t.timestampRange}: <bdi>{query.data.flashes[0].time} / {query.data.flashes.at(-1)?.time}</bdi></p><a href="https://ghrc.nsstc.nasa.gov/lightning/" target="_blank" rel="noreferrer">{t.source}</a></aside></details>
       </>}
-    </main><footer className="mc-footer"><span>{t.noLive}</span><Link href="/">{t.home}</Link></footer>
+    </main>
   </div>;
 }

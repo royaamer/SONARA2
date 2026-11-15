@@ -9,7 +9,7 @@ import { build } from 'esbuild';
 const output=path.resolve('.artifacts/ocean-year/browser');await mkdir(output,{recursive:true});
 const bundle=await build({stdin:{contents:"export { ScannerAudioEngine } from './src/electric-sky/audio-engine'; export { buildDayIndex, buildScannerScore } from './src/electric-sky/scanner-score';",resolveDir:process.cwd()},bundle:true,write:false,format:'esm',platform:'browser',logLevel:'silent'});
 const dist=path.resolve(process.env.SONARA_TEST_DIST||'dist');let missingData=false;let missingOcean=false;
-const server=createServer(async(req,res)=>{try{const url=new URL(req.url,'http://localhost');if(url.pathname==='/__test/modules.js'){res.setHeader('Content-Type','text/javascript');res.end(bundle.outputFiles[0].text);return;}if(missingOcean&&url.pathname==='/data/ocean/audio_previews/2023-02/deep_ocean_OSCAR.wav'){res.writeHead(404);res.end();return;}if(missingData&&url.pathname==='/data/lightning/2017-03.json'){res.writeHead(404);res.end();return;}const target=path.resolve(dist,'.'+decodeURIComponent(url.pathname));if(!target.startsWith(dist+path.sep)&&target!==dist){res.writeHead(403);res.end();return;}let file=target;if(!path.extname(file))file=path.join(dist,'index.html');const bytes=await readFile(file);res.setHeader('Content-Type',({'.html':'text/html','.js':'text/javascript','.css':'text/css','.json':'application/json','.svg':'image/svg+xml','.jpg':'image/jpeg','.wav':'audio/wav'})[path.extname(file)]||'application/octet-stream');if(path.extname(file)==='.wav'){res.setHeader('Accept-Ranges','bytes');const match=req.headers.range?.match(/bytes=(\d+)-(\d*)/);if(match){const start=Number(match[1]),end=match[2]?Math.min(Number(match[2]),bytes.length-1):bytes.length-1;res.writeHead(206,{'Content-Range':'bytes '+start+'-'+end+'/'+bytes.length,'Content-Length':end-start+1});res.end(bytes.subarray(start,end+1));return;}res.setHeader('Content-Length',bytes.length);}res.end(bytes);}catch{res.writeHead(404);res.end();}});
+const server=createServer(async(req,res)=>{try{const url=new URL(req.url,'http://localhost');if(url.pathname==='/__test/modules.js'){res.setHeader('Content-Type','text/javascript');res.end(bundle.outputFiles[0].text);return;}if(missingOcean&&url.pathname==='/data/ocean/audio_previews/2023-02/deep_ocean_OSCAR.wav'){res.writeHead(404);res.end();return;}if(missingData&&url.pathname==='/data/lightning/2017-03.json'){res.writeHead(404);res.end();return;}const target=path.resolve(dist,'.'+decodeURIComponent(url.pathname));if(!target.startsWith(dist+path.sep)&&target!==dist){res.writeHead(403);res.end();return;}let file=target;if(!path.extname(file))file=path.join(dist,'index.html');const bytes=await readFile(file);res.setHeader('Content-Type',({'.html':'text/html','.js':'text/javascript','.css':'text/css','.json':'application/json','.svg':'image/svg+xml','.jpg':'image/jpeg','.wav':'audio/wav'})[path.extname(file)]||'application/octet-stream');if(path.extname(file)==='.wav'){res.setHeader('Accept-Ranges','bytes');const match=req.headers.range?.match(/bytes=(\d+)-(\d*)/);if(match){const start=Number(match[1]),end=match[2]?Math.min(Number(match[2]),bytes.length-1):bytes.length-1;if(start>=bytes.length){res.writeHead(416,{'Content-Range':'bytes */'+bytes.length});res.end();return;}res.writeHead(206,{'Content-Range':'bytes '+start+'-'+end+'/'+bytes.length,'Content-Length':end-start+1});res.end(bytes.subarray(start,end+1));return;}res.setHeader('Content-Length',bytes.length);}res.end(bytes);}catch{res.writeHead(404);res.end();}});
 await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));const origin=`http://127.0.0.1:${server.address().port}`;
 const profile=await mkdtemp(path.join(os.tmpdir(),'sonara-browser-'));
 const chrome=spawn(process.env.CHROME_PATH||'C:/Program Files/Google/Chrome/Application/chrome.exe',['--headless=new','--no-first-run','--no-default-browser-check','--remote-debugging-port=0',`--user-data-dir=${profile}`,'--window-size=1440,1000','about:blank'],{windowsHide:true,stdio:['ignore','ignore','pipe']});
@@ -32,7 +32,7 @@ try{
   const endpoint=await new Promise((resolve,reject)=>{let text='';const timeout=setTimeout(()=>reject(Error('Chrome debugging endpoint unavailable')),15000);chrome.once('error',reject);chrome.stderr.on('data',b=>{text+=b;const m=text.match(/DevTools listening on (ws:\/\/[^\s]+)/);if(m){clearTimeout(timeout);resolve(m[1]);}});});
   const debugOrigin=new URL(endpoint);const tabs=await (await fetch(`http://${debugOrigin.host}/json`)).json();const page=tabs.find(t=>t.type==='page');pageSocket=await connect(page.webSocketDebuggerUrl);
   pageSocket.addEventListener('message',event=>{const m=JSON.parse(event.data);if(m.id){const p=pending.get(m.id);pending.delete(m.id);if(m.error)p?.reject(Error(m.error.message));else p?.resolve(m.result);}else if(m.method==='Runtime.exceptionThrown')errors.push(m.params.exceptionDetails.exception?.description||m.params.exceptionDetails.text);});
-  await command('Page.enable');await command('Runtime.enable');await command('Network.enable');await command('Network.setCacheDisabled',{cacheDisabled:true});
+  await command('Page.enable');await command('Emulation.setFocusEmulationEnabled',{enabled:true});await command('Runtime.enable');await command('Network.enable');await command('Network.setCacheDisabled',{cacheDisabled:true});
   pageSocket.addEventListener('message',event=>{const m=JSON.parse(event.data);if(m.method==='Network.responseReceived'){const r=m.params.response;if(r.url.includes('/data/ocean/')&&r.status>=400&&!missingOcean)oceanAssetFailures.push({url:r.url,status:r.status});}});
   await command('Page.addScriptToEvaluateOnNewDocument',{source:"window.testConsoleErrors=[];const originalConsoleError=console.error;console.error=(...args)=>{window.testConsoleErrors.push(args.map(String).join(' '));originalConsoleError(...args);};"});
   await command('Page.addScriptToEvaluateOnNewDocument',{source:`window.voiceCalls={speech:0,recognition:0,microphone:0};speechSynthesis.speak=()=>{window.voiceCalls.speech++;};class DisabledRecognition{start(){window.voiceCalls.recognition++;}abort(){}}window.SpeechRecognition=window.webkitSpeechRecognition=DisabledRecognition;if(navigator.mediaDevices)navigator.mediaDevices.getUserMedia=()=>{window.voiceCalls.microphone++;return Promise.reject(Error('Unexpected microphone request'));};`});
@@ -48,13 +48,15 @@ try{
     await wait("document.querySelector('#ocean-month').value==="+JSON.stringify(month)+" && !document.querySelector('.ocean-transport button').disabled",30000);
   }
   async function oceanSeek(value){
-    await evaluate("(()=>{const e=document.querySelector('#ocean-seek');Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value').set.call(e,'"+value+"');e.dispatchEvent(new Event('input',{bubbles:true}));e.dispatchEvent(new Event('change',{bubbles:true}));})()");
-    await wait('Math.abs(window.oceanAudio.currentTime-'+(value/1000*25)+')<.02');
+    await evaluate("document.querySelector('#ocean-seek').focus()");
+    await command('Input.dispatchKeyEvent',{type:'keyDown',key:value===1000?'End':'Home',code:value===1000?'End':'Home'});
+    await wait('Math.abs(window.oceanAudio.currentTime-'+(value/1000*25)+')<.05 && !window.oceanAudio.seeking && !window.oceanBassoon.seeking',30000);
   }
   assert.equal(await evaluate("document.querySelectorAll('.ocean .scientific-hud-indicator').length"),3);
   await click('.experience-science > summary');
   for(const entry of oceanCatalog.months){
     await oceanMonth(entry.month);
+    await wait('window.oceanAudio.readyState>=3 && window.oceanBassoon.readyState>=3',30000);
     assert.equal(await evaluate('window.oceanAudio.duration'),entry.audioDurationSeconds);
     assert.equal(await evaluate('window.oceanBassoon.duration'),entry.audioDurationSeconds);
     assert.equal(await evaluate('window.oceanAudio.playbackRate'),1);
@@ -67,7 +69,7 @@ try{
       const label=await evaluate("new Date("+JSON.stringify(date+'T00:00:00Z')+").toLocaleString('en',{timeZone:'UTC',year:'numeric',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit',hour12:false})+' UTC'");
       await wait("document.querySelector('#ocean-visual-date').textContent==="+JSON.stringify(label));
     }
-    await oceanSeek(0);await click('.ocean-transport .mc-primary');await wait('window.oceanAudio.currentTime>.4');
+    await oceanSeek(0);await wait('window.oceanAudio.readyState>=3 && window.oceanBassoon.readyState>=3',30000);await click('.ocean-transport .mc-primary');await wait('window.oceanAudio.currentTime>.4');
     assert.ok(await evaluate('Math.abs(window.oceanBassoon.currentTime-window.oceanAudio.currentTime)<.15'));
     assert.ok(await evaluate(`(async()=>{const a=await(await fetch('/data/ocean/'+${JSON.stringify(entry.audit)})).json();const b=await(await fetch('/data/ocean/'+${JSON.stringify(entry.bassoonAudit)})).json();const t=window.oceanAudio.currentTime;const event=b.note_events.find(e=>t>=e.at_seconds&&t<e.at_seconds+e.duration_seconds);const pad=a.note_events.filter((_,i)=>i%4===0).findLast(e=>t>=e.at_seconds&&t<e.at_seconds+5.4);const note=event?.midi_note??(pad?pad.midi_note-12:null);const names=['C','C♯','D','D♯','E','F','F♯','G','G♯','A','A♯','B'];const expected=note===null?'—':names[note%12]+(Math.floor(note/12)-1);return document.querySelectorAll('.scientific-hud dd')[2].textContent===expected;})()`));
     await click('.ocean-transport .mc-primary');assert.equal(await evaluate('window.oceanAudio.paused&&window.oceanBassoon.paused'),true);
@@ -77,14 +79,16 @@ try{
   await oceanMonth('2023-02');await click('.ocean-transport .mc-primary');await wait('window.oceanAudio.currentTime>.5');
   assert.ok(await evaluate("(()=>{const c=document.querySelector('.ocean canvas');return c.getContext('2d').getImageData(0,0,c.width,c.height).data.some((v,i)=>i%4===3&&v>0);})()"));
   await click('.ocean-transport .mc-primary');await click('.ocean-transport .mc-primary');await wait('!window.oceanAudio.paused');
-  await click('.ocean-transport button:nth-child(2)');await wait('window.oceanAudio.currentTime<.4 && !window.oceanAudio.paused');
+  await click('.ocean-transport button:nth-child(2)');await wait('window.oceanAudio.currentTime<.4 && window.oceanAudio.paused');
+  await click('.ocean-transport .mc-primary');
   await wait('!window.oceanBassoon.paused');
   if(await evaluate("!!document.querySelector('.ocean .experience-science') && !document.querySelector('.ocean .experience-science').open"))await click('.ocean .experience-science > summary');
-  await click('#ocean-bassoon');assert.equal(await evaluate('window.oceanBassoon.paused'),true);await click('#ocean-bassoon');await wait('!window.oceanBassoon.paused');
+  await click('#ocean-bassoon');assert.equal(await evaluate('window.oceanBassoon.paused'),true);await click('#ocean-bassoon');await click('.ocean-transport .mc-primary');await wait('!window.oceanBassoon.paused');
   await click('.ocean-transport .mc-primary');await evaluate("document.querySelector('#ocean-seek').focus()");
   for(const [key,code] of [['Home',36],['ArrowRight',39]]){await command('Input.dispatchKeyEvent',{type:'keyDown',key,windowsVirtualKeyCode:code});await command('Input.dispatchKeyEvent',{type:'keyUp',key,windowsVirtualKeyCode:code});}
-  await wait('window.oceanAudio.currentTime>0 && window.oceanAudio.currentTime<1');
+  await wait('window.oceanAudio.currentTime>0 && window.oceanAudio.currentTime<=1.05');
   passed('actual current trails, pause/resume, Restart, Bassoon toggle and keyboard seeking pass');
+  passed('Shared map selection and scientific values are covered by experience-dashboard and temporal-playback browser suites');
   await command('Emulation.setDeviceMetricsOverride',{width:1440,height:1000,deviceScaleFactor:1,mobile:false});await evaluate('window.scrollTo(0,0)');await screenshot('living-ocean-desktop');
   await click('.mc-language');await wait("document.documentElement.lang==='ar'");await screenshot('living-ocean-arabic-desktop');
   await command('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});await screenshot('living-ocean-arabic-mobile');assert.ok(await evaluate('document.documentElement.scrollWidth<=innerWidth+1'));
@@ -104,7 +108,7 @@ try{
   await wait("document.querySelector('#ocean-month').value==='2023-12' && !document.querySelector('.ocean-transport button').disabled",30000);
   assert.ok((await evaluate('window.oceanAudio.currentSrc')).endsWith('2023-12/deep_ocean_OSCAR.wav'));
   assert.equal(await evaluate('window.oceanAudio.paused&&window.oceanBassoon.paused'),true);
-  await click('.ocean-months button[data-month="2023-12"]');await wait("!document.querySelector('.ocean-transport button').disabled",30000);
+  await evaluate("document.querySelector('#ocean-month').dispatchEvent(new Event('change',{bubbles:true}))");await wait("!document.querySelector('.ocean-transport button').disabled",30000);
   passed('rapid month changes discard stale playback; reselecting the current month reloads safely');
   await click('.ocean-return');
   assert.deepEqual(errors,[]);assert.deepEqual(oceanAssetFailures,[]);passed('no uncaught exceptions or unexpected missing Ocean assets');

@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 import { Volume2, VolumeX } from 'lucide-react';
 import { useLocation } from 'wouter';
 import { useEarthSession } from '../earth/session';
@@ -12,31 +12,10 @@ export function IntroSoundscape() {
   const { muted, status } = snapshot;
   const unavailable = status === 'unavailable';
   const introductory = location === '/';
-  const allowed = useRef(introductory);
-  allowed.current = introductory;
 
   useLayoutEffect(() => {
-    if (location === '/mission-control') engine.fadeOut(3);
-    else engine.stop();
+    engine.stop();
   }, [engine, location]);
-
-  useEffect(() => {
-    if (!introductory || unavailable) return;
-    const activate = (event: Event) => {
-      if (!allowed.current || !event.isTrusted || muted) return;
-      if ((event.target as HTMLElement).closest?.('[data-ambient-toggle]')) return;
-      if (event instanceof KeyboardEvent && (event.ctrlKey || event.metaKey || event.altKey || event.key === 'Tab' || event.key === 'Shift')) return;
-      void engine.start().catch(() => engine.markUnavailable());
-    };
-    document.addEventListener('pointerup', activate, true);
-    document.addEventListener('click', activate, true);
-    document.addEventListener('keydown', activate, true);
-    return () => {
-      document.removeEventListener('pointerup', activate, true);
-      document.removeEventListener('click', activate, true);
-      document.removeEventListener('keydown', activate, true);
-    };
-  }, [engine, introductory, muted, unavailable]);
 
   useEffect(() => {
     if (!introductory) return;
@@ -71,7 +50,7 @@ export function IntroSoundscape() {
       const next = !engine.getSnapshot().muted;
       engine.setMuted(next);
       setSnapshot(engine.getSnapshot());
-      if (!next) void engine.start().catch(() => engine.markUnavailable());
+
     }}>
     {muted || unavailable ? <VolumeX size={17} aria-hidden="true"/> : <Volume2 size={17} aria-hidden="true"/>}
   </button>

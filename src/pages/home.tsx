@@ -1,23 +1,20 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation } from 'wouter';
-import Globe, { type GlobeFailure, type TravelLink, type Waypoint } from '../Globe';
+import Globe, { type GlobeFailure, type TravelLink } from '../Globe';
 import GlobeErrorBoundary from '../GlobeErrorBoundary';
-import { EXPERIENCES, EXP_COPY, UI, type DialogKind } from '../observatory/content';
-import { InfoDialog, ObservatoryHeader, ScienceContextPanel } from '../observatory/components';
+import { UI, type DialogKind } from '../observatory/content';
+import { InfoDialog, ObservatoryHeader } from '../observatory/components';
 import { IntroLayer, useCinematicIntro } from '../observatory/intro';
 import { useEarthSession } from '../earth/session';
 import { useEarthTextures } from '../earth/useEarthTextures';
 export default function Home() {
-  const { language, setLanguage, selected, setSelected, visited, setVisited, setMissionEntered, transitionProgress, transitionActive, transitionReverse, travelOrigin, globeRotation, runTransition, cinematicTransition } = useEarthSession();
+  const { arrivalRequested, cancelTransition, language, setLanguage, visited, setVisited, setMissionEntered, transitionProgress, transitionActive, transitionReverse, travelOrigin, globeRotation, runTransition, cinematicTransition } = useEarthSession();
   const [, navigate] = useLocation();
   const returning = useRef(visited);
-  const [focusVersion, setFocusVersion] = useState(0);
   const { textures, textureState, retryTextures } = useEarthTextures();
   const [globeFailure, setGlobeFailure] = useState<GlobeFailure | null>(null);
   const [globeAttempt, setGlobeAttempt] = useState(0);
   const [dialog, setDialog] = useState<DialogKind | null>(null);
-  const [expanded, setExpanded] = useState(false);
-  const [announce, setAnnounce] = useState('');
   const exploreRef = useRef<HTMLElement>(null);
   const t = UI[language];
   const rootRef = useRef<HTMLDivElement>(null);
@@ -71,8 +68,6 @@ export default function Home() {
     : globeReady ? t.introReady : t.introPreparing;
   const uiOn = intro.stage === 'reveal' || intro.stage === 'final';
 
-  const waypoints = useMemo(() => EXPERIENCES.map((e) => ({ ...e.waypoint, name: EXP_COPY[language][e.id].place })), [language]);
-  const activeExp = useMemo(() => EXPERIENCES.find((e) => e.waypoint.id === selected?.id) ?? null, [selected]);
 
   useEffect(() => {
     document.documentElement.lang = language;
@@ -80,14 +75,7 @@ export default function Home() {
   }, [language]);
 
 
-  const choosePlace = (place: Waypoint) => {
-    setSelected(place);
-    setFocusVersion((v) => v + 1);
-    const exp = EXPERIENCES.find((e) => e.waypoint.id === place.id);
-    setAnnounce(t.selectedAnnounce(exp ? EXP_COPY[language][exp.id].name : t.mapPoint));
-  };
-  const clear = () => { setSelected(null); setExpanded(false); setFocusVersion((v) => v + 1); };
-  const focusExperiences = () => { setVisited(true); navigate('/mission-control'); };
+  const focusExperiences = () => { arrivalRequested.current = true; setVisited(true); navigate('/mission-control'); };
   const beginListening = () => {
     if (beginHandled.current || cinematicTransition !== 'none') return;
     beginHandled.current = true;
@@ -96,10 +84,10 @@ export default function Home() {
     runTransition('forward', () => { setVisited(true); setMissionEntered(true); navigate('/mission-control'); });
   };
 
-  useEffect(() => () => { window.speechSynthesis?.cancel(); }, []);
+  useEffect(() => () => { cancelTransition(); window.speechSynthesis?.cancel(); }, [cancelTransition]);
 
   const globeLayer = (
-    <section ref={exploreRef} tabIndex={-1} id="explore" aria-label={t.globeRegion} data-testid="section-globe" className={`ob-globe${globeFailure ? ' is-unavailable' : ''}${selected ? ' has-selection' : ''}`}>
+    <section ref={exploreRef} tabIndex={-1} id="explore" aria-label={t.globeRegion} data-testid="section-globe" className={`ob-globe${globeFailure ? ' is-unavailable' : ''}`}>
       {globeFailure ? (
         <div className="state-card" role="alert" aria-atomic="true" data-testid="status-webgl-error">
           <p className="sci-kicker">SONARA / 3D</p>
@@ -110,7 +98,7 @@ export default function Home() {
         </div>
       ) : textureState === 'ready' && textures ? (
         <GlobeErrorBoundary key={globeAttempt} onFailure={() => setGlobeFailure('unavailable')}>
-          <Globe textures={textures} waypoints={waypoints} selected={selected} onSelect={choosePlace} focusVersion={focusVersion} onFailure={setGlobeFailure}
+          <Globe textures={textures} onFailure={setGlobeFailure}
             intro={introLink} travel={travelLink} onReady={onGlobeReady} rtl={language === 'ar'} rotation={globeRotation} />
         </GlobeErrorBoundary>
       ) : textureState === 'loading' ? (
@@ -159,8 +147,6 @@ export default function Home() {
 
           <div className="ob-lower">
             <div className="ob-context rv rv-5">
-              <ScienceContextPanel t={t} lang={language} experience={activeExp} place={selected} expanded={expanded}
-                onToggle={() => setExpanded((v) => !v)} onListen={focusExperiences} onClear={clear} />
             </div>
           </div>
         </div>
@@ -171,7 +157,6 @@ export default function Home() {
           <p><span className="ob-micro">{t.micro}</span> {t.archival}</p>
         </footer>
 
-        <p className="sr-only" aria-live="polite" data-testid="status-announce">{announce}</p>
         <InfoDialog kind={dialog} lang={language} t={t} onClose={() => setDialog(null)} />
       </main>
     </div>

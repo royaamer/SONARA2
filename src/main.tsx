@@ -5,6 +5,11 @@ import { ErrorBoundary } from '@/components/error-boundary';
 
 import './index.css';
 
+// A reload starts a new welcome flow; client-side history remains untouched.
+if (performance.getEntriesByType('navigation').some(entry => (entry as PerformanceNavigationTiming).type === 'reload')) {
+  history.replaceState(null, '', import.meta.env.BASE_URL);
+}
+
 createRoot(document.getElementById('root')!, {
   // Keeps caught errors off reportError(), which would raise the dev overlay.
   onCaughtError: (error, errorInfo) => {
