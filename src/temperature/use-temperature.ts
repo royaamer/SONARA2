@@ -1,3 +1,4 @@
+import { requestAudio, useAudioInterruption } from '../experiences/audio-focus';
 import { useEffect, useRef, useState } from 'react';
 import { TemperatureAudioEngine } from './audio-engine';
 import { temperatureJson, validateCatalog, validateTemperature, type TemperatureCatalog, type TemperatureMonth } from './data';
@@ -39,8 +40,9 @@ export function useTemperature(){
     frame=requestAnimationFrame(tick);
     return()=>{alive.current=false;cancelAnimationFrame(frame);engine.dispose();};
   },[engine]);
-  const play=async()=>{setStarting(true);setError('');try{await engine.play();}catch(e){if(alive.current){engine.pause();setError(String(e));}}finally{if(alive.current){setStarting(false);setSnapshot(engine.snapshot());}}};
+  const play=async()=>{requestAudio('temperature');setStarting(true);setError('');try{await engine.play();}catch(e){if(alive.current){engine.pause();setError(String(e));}}finally{if(alive.current){setStarting(false);setSnapshot(engine.snapshot());}}};
   const pause=()=>{engine.pause();setSnapshot(engine.snapshot());};
+  useAudioInterruption('temperature', pause);
   const restart=()=>{engine.restart();setSnapshot(engine.snapshot());};
   const seek=(seconds:number)=>{const resume=engine.seek(seconds);setSnapshot(engine.snapshot());if(resume)void play();};
   const changeMonth=(value:string)=>{if(!catalog?.months.some(m=>m.month===value))return;engine.restart();setData(null);setRaster(null);setSnapshot(engine.snapshot());if(value===month)setAttempt(n=>n+1);else setMonth(value);};

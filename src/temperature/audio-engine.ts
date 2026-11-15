@@ -54,7 +54,7 @@ export class TemperatureAudioEngine {
     const seconds=this.time(),column=scanColumn(seconds);
     const {counts,valid}=this.bands?colorCounts(this.bands,column):{counts:Array<number>(7).fill(0),valid:0};
     if(this.status==='playing'&&this.context){
-      if(seconds>=DURATION){this.position=DURATION;this.status='complete';this.release();}
+      if(seconds>=DURATION){this.position=DURATION;this.status='complete';this.playbackState='ended';this.release();}
       else if(this.context.state!=='running'){this.pause();}
       else if(column!==this.column){
         this.column=column;

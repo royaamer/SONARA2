@@ -80,6 +80,9 @@ try{
       await new Promise(r=>setTimeout(r,150));
       assert.equal(await evaluate("+document.querySelector('.dashboard-timeline [role=slider]').getAttribute('aria-valuenow')"),at);
       await evaluate("[...document.querySelectorAll('.dashboard-controls button')].find(b=>b.textContent.includes('Restart')).click()");
+      await wait("+document.querySelector('.dashboard-timeline [role=slider]').getAttribute('aria-valuenow')<.2");
+      await wait("+document.querySelector('.dashboard-timeline [role=slider]').getAttribute('aria-valuenow')>.2");
+      await evaluate("[...document.querySelectorAll('.dashboard-controls button')].find(b=>b.textContent.trim()==='Stop').click()");
       await wait("+document.querySelector('.dashboard-timeline [role=slider]').getAttribute('aria-valuenow')===0");
       assert.equal(await evaluate("document.querySelectorAll('.dashboard-timeline [role=slider]').length"),1);
       assert.equal(await evaluate("document.querySelectorAll('.dashboard-timeline input[type=range]').length"),0);

@@ -1,3 +1,4 @@
+import { requestAudio, useAudioInterruption } from '../experiences/audio-focus';
 import { useEffect, useLayoutEffect, useState } from 'react';
 import { Volume2, VolumeX } from 'lucide-react';
 import { useLocation } from 'wouter';
@@ -10,6 +11,7 @@ export function IntroSoundscape() {
   const [engine] = useState(() => new AmbientSoundscape());
   const [snapshot, setSnapshot] = useState(() => engine.getSnapshot());
   const { muted, status } = snapshot;
+  useAudioInterruption('ambient', () => { engine.stop(); setSnapshot(engine.getSnapshot()); });
   const unavailable = status === 'unavailable';
   const introductory = location === '/';
 
@@ -48,6 +50,7 @@ export function IntroSoundscape() {
     lang={language} aria-label={label} title={label} aria-pressed={muted} disabled={unavailable}
     onClick={() => {
       const next = !engine.getSnapshot().muted;
+      if (!next) { requestAudio('ambient'); void engine.start(); }
       engine.setMuted(next);
       setSnapshot(engine.getSnapshot());
 

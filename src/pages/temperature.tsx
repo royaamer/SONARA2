@@ -54,7 +54,7 @@ export default function Temperature(){
     <a className="mc-skip" href="#temperature-main">{t.title}</a><MissionHeader subtitle={t.title} back/>
     <main id="temperature-main">
       <div className="dashboard-heading"><h1 ref={heading} tabIndex={-1}>{t.title}</h1><Link className="temperature-return" href="/mission-control"><ArrowLeft size={15}/>{t.back}</Link></div>
-      <ExperienceDashboard temporal={{kind:"temperature"}} pauseOriginal={o.pause} point={point} onSelect={setPoint} label={t.map} busy={!ready&&!o.error} status={status}
+      <ExperienceDashboard locations={o.data?.anomalies.flatMap((row,y)=>{const x=row.findIndex(v=>v!==null);return x<0?[]:[{lat:o.data!.lat[y],lon:o.data!.lon[x]}];})} temporal={{kind:"temperature"}} pauseOriginal={o.pause} point={point} onSelect={setPoint} label={t.map} busy={!ready&&!o.error} status={status}
         footprints={cell?[cell]:[]} observationKey={o.month+(o.data?'-ready':'-loading')}
         selectionSummary={cell?`GISTEMP source cell, latitude ${cell.south} to ${cell.north}, longitude ${cell.west} to ${cell.east}. ${o.month}. Original anomaly ${cell.value===null?'unavailable':cell.value.toFixed(3)+' degrees Celsius difference relative to 1951 to 1980'}. Smoothed display ${measurement===null?'unavailable':measurement.toFixed(3)+' degrees Celsius difference'}.`:''}
         navigator={<ObservationNavigator id="temperature-month" label={t.month} ar={ar} value={o.month} disabled={!o.catalog||o.starting} onChange={o.changeMonth} options={o.catalog?.months.map(m=>({value:m.month,label:monthLabel(m.month)}))??[]}/>}
@@ -81,7 +81,7 @@ export default function Temperature(){
           </ScientificScale>
           <div className="dashboard-scope"><p>{ar?'الصوت الأصلي: مسح جغرافي لمدة 24 ثانية.':'Original audio · geographic scan (24 s).'}</p><p>{ar?'خلايا مفقودة شفافة؛ لا أرصاد يومية.':'Missing cells are transparent. No daily observations.'}</p></div>
         </>}
-        controls={<><PlaybackVolume onChange={o.setVolume}/><div className="temperature-transport"><button className="mc-button mc-primary" disabled={!ready||o.starting} onClick={()=>o.snapshot.status==='playing'?o.pause():void o.play()}>{o.snapshot.status==='playing'?<Pause size={17}/>:<Play size={17}/>} {o.snapshot.status==='playing'?t.pause:o.snapshot.status==='paused'?t.resume:t.play}</button><button className="mc-button" disabled={!ready} onClick={o.restart}><RotateCcw size={17}/>{t.restart}</button></div></>}
+        controls={<><PlaybackVolume onChange={o.setVolume}/><div className="temperature-transport"><button className="mc-button mc-primary" disabled={!ready} onClick={()=>o.snapshot.status==='playing'||o.starting?o.pause():void o.play()}>{o.snapshot.status==='playing'?<Pause size={17}/>:<Play size={17}/>} {o.snapshot.status==='playing'?t.pause:o.snapshot.status==='paused'?t.resume:t.play}</button><button className="mc-button" disabled={!ready} onClick={()=>{o.restart();void o.play();}}><RotateCcw size={17}/>{t.restart}</button><button className="mc-button" disabled={!ready} onClick={o.restart}>Stop</button></div></>}
         timeline={<OriginalWaveform id="temperature-seek" identity={o.month} seconds={o.snapshot.seconds} duration={DURATION} playing={o.snapshot.status==='playing'} getPcm={o.getPcm} onSeek={o.seek} disabled={!ready||o.starting}/>}
         error={o.error&&<div role="alert" className="temperature-error"><p>{o.error}</p><button className="mc-button" onClick={o.retry}>{t.retry}</button></div>}
       />

@@ -1,3 +1,4 @@
+import { requestAudio, useAudioInterruption } from '../experiences/audio-focus';
 import { OriginalWaveform, PlaybackVolume } from '../experiences/original-waveform';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link } from 'wouter';
@@ -51,8 +52,9 @@ export default function ElectricSky() {
   const monthLabel=new Date(NOMINAL_MONTH+'-01T12:00:00Z').toLocaleDateString(language==='ar'?'ar':'en',{timeZone:'UTC',month:'long',year:'numeric'});
   const additionalCount=calendar.additional.reduce((n,d)=>n+d.flashes.length,0);
   const boundaryNote=t.boundaryDetail.replace('{month}',monthLabel).replace('{dates}',calendar.additional.map(d=>dateLabel(d.day)).join(language==='ar'?' / ':', ')).replace('{count}',format(additionalCount));
-  const play=async() => {setStarting(true);setAudioError(false);try{await engine.play();}catch{if(mounted.current)setAudioError(true);}finally{if(mounted.current){setStarting(false);setSnapshot(engine.getSnapshot());}}};
+  const play=async() => {requestAudio('sky');setStarting(true);setAudioError(false);try{await engine.play();}catch{if(mounted.current)setAudioError(true);}finally{if(mounted.current){setStarting(false);setSnapshot(engine.getSnapshot());}}};
   const pause=async() => {try{await engine.pause();}catch{setAudioError(true);}if(mounted.current)setSnapshot(engine.getSnapshot());};
+  useAudioInterruption('sky', ()=>void pause());
   const stop=() => {engine.stop();setSnapshot(engine.getSnapshot());};
   const changeDate=(index:number) => {stop();setDateIndex(index);setAudioError(false);};
   const current=snapshot.status==='ready' ? null : snapshot.current;
@@ -71,7 +73,7 @@ export default function ElectricSky() {
     <main id="sky-main">
       <div className="dashboard-heading"><h1 ref={title} tabIndex={-1}>{t.title}</h1><Link className="sky-return" href="/mission-control"><ArrowLeft size={15}/>{t.returned}</Link></div>
       {query.isPending ? <div className="sky-load" role="status"><Radio size={30}/><p>{t.loading}</p></div> : query.isError || !query.data || !day || !score || !activity ? <div className="sky-load" role="alert"><p>{t.loadError}</p><button className="mc-button" onClick={()=>void query.refetch()}>{t.retry}</button></div> : <>
-        <ExperienceDashboard temporal={{kind:"lightning",days}} pauseOriginal={()=>void pause()} point={point} onSelect={setPoint} label={t.map} status={status}
+        <ExperienceDashboard locations={activity?.cells.map(cell=>({lon:-177.5+cell.x*5,lat:87.5-cell.y*5}))} temporal={{kind:"lightning",days}} pauseOriginal={()=>void pause()} point={point} onSelect={setPoint} label={t.map} status={status}
           footprints={point?[{west:cellWest,east:cellWest+5,south:cellNorth-5,north:cellNorth}]:[]}
           observationKey={day.day}
           selectionSummary={`ISS LIS cell, latitude ${cellNorth-5} to ${cellNorth}, longitude ${cellWest} to ${cellWest+5}. ${day.day} UTC. ${records.length} recorded flashes in the supplied extract. ${meanRadiance===null?'Radiance unavailable. Coverage unknown.':'Mean radiance '+meanRadiance.toFixed(2)+' '+query.data.radiance_unit+'. Coverage incomplete.'}`}
@@ -96,11 +98,11 @@ export default function ElectricSky() {
             <div className="dashboard-scope"><p>{language==='ar'?'الصوت الأصلي: مسح جغرافي لمدة 24 ثانية لليوم المحدد.':'Original geographic scan · selected day · 24 s.'}</p></div>
           </>}
           controls={<><div className="sky-transport">
-            <button className="mc-button mc-primary" title={snapshot.status==='playing'?t.pause:t.play} onClick={()=>snapshot.status==='playing'?void pause():void play()} disabled={!supported||starting}>{snapshot.status==='playing'?<Pause size={17}/>:<Play size={17}/>} {snapshot.status==='playing'?t.pause:snapshot.status==='paused'?t.resume:t.play}</button>
-            <button className="mc-button" disabled={!supported||starting} onClick={stop}><RotateCcw size={17}/>{language==='ar'?'إعادة البدء':'Restart'}</button>
+            <button className="mc-button mc-primary" title={snapshot.status==='playing'?t.pause:t.play} onClick={()=>snapshot.status==='playing'||starting?void pause():void play()} disabled={!supported}>{snapshot.status==='playing'?<Pause size={17}/>:<Play size={17}/>} {snapshot.status==='playing'?t.pause:snapshot.status==='paused'?t.resume:t.play}</button>
+            <button className="mc-button" disabled={!supported||starting} onClick={()=>{stop();void play();}}><RotateCcw size={17}/>{language==='ar'?'إعادة البدء':'Restart'}</button><button className="mc-button" onClick={stop} disabled={!supported}>Stop</button>
             <button className="sky-icon-button" onClick={stop} disabled={snapshot.status==='ready'&&!starting} aria-label={t.stop} title={t.stop}><Square size={17}/></button>
           </div><div className="sky-volume"><button className="sky-icon-button" aria-label={muted?t.unmute:t.mute} title={muted?t.unmute:t.mute} aria-pressed={muted} disabled={!supported} onClick={()=>{engine.setMuted(!muted);setMuted(!muted);}}>{muted?<VolumeX size={18}/>:<Volume2 size={18}/>}</button><label htmlFor="sky-volume">{t.volume}</label><input id="sky-volume" type="range" min="0" max="1" step=".01" value={volume} disabled={!supported} onChange={e=>{setVolume(+e.target.value);engine.setVolume(+e.target.value);}}/><output>{format(volume*100)}%</output></div></>}
-          timeline={<OriginalWaveform id="sky-position" identity={day.day+volume+String(muted)} seconds={snapshot.seconds} duration={score.seconds} playing={snapshot.status==='playing'} getPcm={()=>engine.getPcm()} onSeek={value=>{engine.seek(value);setSnapshot(engine.getSnapshot());}} disabled={starting}/>}
+          timeline={<OriginalWaveform id="sky-position" identity={day.day+volume+String(muted)} seconds={snapshot.seconds} duration={score.seconds} playing={snapshot.status==='playing'} getPcm={()=>engine.getPcm()} onSeek={value=>{const resume=snapshot.status==='playing';engine.seek(value);setSnapshot(engine.getSnapshot());if(resume&&value<score.seconds)void play();}} disabled={starting}/>}
           error={<>{!supported&&<p className="sky-warning" role="status">{t.unsupported}</p>}{audioError&&<p className="sky-warning" role="alert">{t.audioError}</p>}</>}
         />
         <details className="experience-science"><summary>{language==='ar'?'استكشف العلم':'Explore the Science'}</summary><p>{t.lead}</p><p>{t.intro}</p><p>{t.noLive}</p>{calendar.additional.length>0&&<aside className="sky-boundary-note"><strong>{t.boundaryTitle}</strong><p>{boundaryNote}</p></aside>}<div className="sky-map-legend"><span><i/>{t.legendRecorded}</span><span><i className="gold"/>{t.legendActive}</span><span><i className="band"/>{t.legendBand}</span></div>

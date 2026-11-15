@@ -46,7 +46,7 @@ export default function LivingOcean(){
   <a className="mc-skip" href="#ocean-main">{t.title}</a><MissionHeader subtitle={t.title} back/>
   <main id="ocean-main">
    <div className="dashboard-heading"><h1 ref={heading} tabIndex={-1}>{t.title}</h1><Link className="ocean-return" href="/mission-control"><ArrowLeft size={15}/>{t.back}</Link></div>
-   <ExperienceDashboard temporal={{kind:"ocean"}} pauseOriginal={o.pause} point={point} onSelect={setPoint} label={t.map} busy={!o.ready&&!o.error} status={status}
+   <ExperienceDashboard locations={data?.fields[0]?.u.flatMap((u,i)=>{const grid=data.manifest.grid;return i%grid.width===0?[]:u!==null&&data.fields[0].v[i]!==null&&i%60===0?[{lon:((grid.lonStart+(i%grid.width)*grid.lonStep+180)%360+360)%360-180,lat:grid.latStart-Math.floor(i/grid.width)*grid.latStep}]:[];}).slice(0,100)} temporal={{kind:"ocean"}} pauseOriginal={o.pause} point={point} onSelect={setPoint} label={t.map} busy={!o.ready&&!o.error} status={status}
     footprints={footprint} observationKey={data?.selected.month??o.month}
     selectionSummary={point?`Ocean sample at latitude ${point.lat.toFixed(2)}, longitude ${point.lon.toFixed(2)}. ${dateLabel}. ${inspection?.velocity?`Speed ${measurement!.toFixed(3)} m/s. Eastward ${inspection.velocity.u.toFixed(3)} m/s. Northward ${inspection.velocity.v.toFixed(3)} m/s. Direction ${inspection.heading!.toFixed(1)} degrees counterclockwise from east.`:'Velocity unavailable, land or missing data.'}`:''}
     navigator={<ObservationNavigator id="ocean-month" label={t.month} ar={ar} value={o.month} disabled={!o.catalog} onChange={o.changeMonth} options={o.catalog?.months.filter(m=>o.availability.some(a=>a.month===m.month&&a.ready)).map(m=>({value:m.month,label:monthLabel(m.month)}))??[]}/>}
@@ -68,7 +68,7 @@ export default function LivingOcean(){
     </>}
     controls={<><PlaybackVolume onChange={o.setVolume}/><div className="ocean-transport">
      <button className="mc-button mc-primary" disabled={!o.ready||!!o.error} onClick={()=>o.status==='playing'?o.pause():o.start()}>{o.status==='playing'?<Pause size={17}/>:<Play size={17}/>} {o.status==='playing'?t.pause:o.status==='paused'?t.resume:t.play}</button>
-     <button className="mc-button" disabled={!o.ready||!!o.error} onClick={()=>o.seek(0,false)}><RotateCcw size={17}/>{t.restart}</button>
+     <button className="mc-button" disabled={!o.ready||!!o.error} onClick={()=>o.seek(0,true)}><RotateCcw size={17}/>{t.restart}</button><button className="mc-button" disabled={!o.ready} onClick={()=>o.seek(0,false)}>Stop</button>
     </div><label className="dashboard-bassoon"><input id="ocean-bassoon" type="checkbox" checked={o.bassoonOn} disabled={!o.ready||!data?.bassoonAudit} onChange={e=>o.toggleBassoon(e.target.checked)}/>{t.bassoon}</label></>}
     timeline={<OriginalWaveform id="ocean-seek" identity={o.month+String(o.bassoonOn)} seconds={o.seconds} duration={duration} playing={o.status==='playing'} urls={data?[{url:OCEAN_ROOT+data.selected.audio,gain:1},...(o.bassoonOn&&data.selected.bassoon?[{url:OCEAN_ROOT+data.selected.bassoon,gain:.52}]:[])]:[]} onSeek={o.seek} disabled={!o.ready||!!o.error}/>}
     error={o.error&&<div className="experience-error" role="alert"><p>{t.error}</p><button className="mc-button" onClick={o.retry}>{t.retry}</button></div>}

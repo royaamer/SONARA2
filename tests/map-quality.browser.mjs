@@ -44,15 +44,15 @@ try{
   for (const name of ['electric-sky','living-ocean','temperature']) {
     console.log('Inspecting',name);await navigate('/mission-control/'+name);
     await wait("!!document.querySelector('.dashboard-controls .mc-primary') && !document.querySelector('.dashboard-controls .mc-primary').disabled",60000);
-    for (const [width,height] of [[1366,768],[1440,900],[1920,1080]]) {
+    for (const [width,height] of [[1366,768],[1440,900],[1920,1080],[390,844]]) {
       const deviceRatio=width===1440?2:1;
       await command('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:deviceRatio,mobile:width<700});
       await new Promise(r=>setTimeout(r,200));
-      const layout=await evaluate("(()=>{const rect=s=>{const r=document.querySelector(s).getBoundingClientRect();return {x:r.x,y:r.y,right:r.right,bottom:r.bottom,width:r.width,height:r.height}};return {map:rect('.controlled-map'),left:rect('.dashboard-information'),right:rect('.dashboard-science'),audio:rect('.dashboard-playback'),overflow:document.documentElement.scrollWidth>innerWidth+1,scrolls:[...document.querySelectorAll('.dashboard-information')].map(e=>e.scrollHeight>e.clientHeight+1)}})()");
+      const layout=await evaluate("(()=>{const rect=s=>{const r=document.querySelector(s).getBoundingClientRect();return {x:r.x,y:r.y,right:r.right,bottom:r.bottom,width:r.width,height:r.height}};return {map:rect('.map-viewport'),left:rect('.dashboard-information'),right:rect('.dashboard-science'),audio:rect('.dashboard-playback'),overflow:document.documentElement.scrollWidth>innerWidth+1,scrolls:[...document.querySelectorAll('.dashboard-information')].map(e=>e.scrollHeight>e.clientHeight+1)}})()");
       console.log(name,width,JSON.stringify(layout));
       assert.equal(layout.overflow,false);
       assert.ok(Math.abs(layout.map.width/layout.map.height-2)<.01);
-      if(width>1000){assert.ok(layout.left.right<=layout.map.x+1);assert.ok(layout.right.x>=layout.map.right-1);assert.ok(layout.map.width>width*.5);assert.deepEqual(layout.scrolls,[false,false]);}
+      assert.ok(layout.map.width>width*.9);assert.ok(layout.left.y>=layout.map.bottom);assert.ok(layout.right.y>=layout.map.bottom);assert.deepEqual(layout.scrolls,[false,false]);
       assert.equal(await evaluate("document.querySelectorAll('.dashboard-timeline input[type=range]').length"),0);
       assert.equal(await evaluate("document.querySelectorAll('.dashboard-timeline [role=slider]').length"),1);
       await evaluate('scrollTo(0,0)');

@@ -1,3 +1,4 @@
+import { requestAudio, useAudioInterruption } from '../experiences/audio-focus';
 import type { PlaybackState } from '../experiences/playback-state';
 import {useEffect,useRef,useState} from 'react';
 import type {Availability,Catalog,OceanData} from './types';
@@ -56,7 +57,8 @@ export function useOcean(){
   return()=>{renderer.current?.dispose();alive=false;playbackRequested.current=false;generation.current++;bassoonRequest.current++;cancelAnimationFrame(frame);a.removeEventListener('play',played);a.removeEventListener('pause',paused);a.removeEventListener('ended',ended);b.removeEventListener('play',bassoonPlayed);for(const x of [a,b]){x.removeEventListener('loadedmetadata',checkReady);x.removeEventListener('error',fail);x.pause();x.removeAttribute('src');x.load();}renderer.current=null;};
  },[data]);
  const pause=()=>{playbackRequested.current=false;generation.current++;bassoonRequest.current++;audio.current?.pause();bassoon.current?.pause();setSeconds(audio.current?.currentTime??0);setStatus('paused');playbackState.current='paused';};
- const start=()=>{if(!data||!ready||error)return;const a=audio.current!,b=bassoon.current!,mine=++generation.current;playbackRequested.current=true;setStatus('playing');if(a.ended)a.currentTime=0;
+  useAudioInterruption('ocean', pause);
+ const start=()=>{if(!data||!ready||error)return;requestAudio('ocean');const a=audio.current!,b=bassoon.current!,mine=++generation.current;playbackRequested.current=true;setStatus('playing');if(a.ended)a.currentTime=0;
   const failed=(e:DOMException)=>{if(generation.current===mine&&e.name!=='AbortError'){pause();setError(String(e));}};
   const settled=()=>{if(mine!==generation.current&&!playbackRequested.current){a.pause();b.pause();}};
   if(data.bassoonAudit&&bassoonOn){b.currentTime=a.currentTime;void b.play().then(settled).catch(failed);}

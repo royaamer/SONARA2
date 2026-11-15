@@ -1,3 +1,4 @@
+import { requestAudio, useAudioInterruption } from '../experiences/audio-focus';
 import type { PlaybackState } from './playback-state';
 import { oceanName } from '../living-ocean/ocean-name';
 import { observeMapResolution } from './map-resolution';
@@ -51,7 +52,8 @@ export function useTemporalPlayer(kind: Phenomenon | undefined, point: MapPoint 
     if (source.current) { source.current.onended = null; source.current.stop(); source.current.disconnect(); source.current = null; }
     setSeconds(position.current); setPlaying(false); setPlaybackState(position.current >= durationRef.current && durationRef.current > 0 ? 'ended' : 'paused');
   };
-  const play = async () => {
+  useAudioInterruption('temporal', pause);
+  const play = async () => {requestAudio('temporal');
     if (!pcm.current || running.current) return;
     const token = ++generation.current;
     try {
@@ -97,7 +99,8 @@ export function useTemporalPlayer(kind: Phenomenon | undefined, point: MapPoint 
   const index = temporalIndex(seconds, frames.length), frame = frames[index];
   return { playbackState, enabled, setEnabled, scope, setScope, frames, frame, index, error, seconds, playing, loading, duration, seek, pause,
     controls: <div className="temporal-controls"><button className="mc-button mc-primary" disabled={loading || !frames.length} onClick={() => playing ? pause() : void play()}>{playing ? 'Pause' : 'Play'}</button>
-      <button className="mc-button" disabled={!frames.length} onClick={() => { pause(); setPlaybackState('stopped'); position.current = 0; setSeconds(0); }}>Restart</button>
+      <button className="mc-button" disabled={!frames.length} onClick={() => { pause(); position.current = 0; setSeconds(0); void play(); }}>Restart</button>
+      <button className="mc-button" disabled={!frames.length} onClick={() => { pause(); setPlaybackState('stopped'); position.current = 0; setSeconds(0); }}>Stop</button>
       <button className="mc-button" aria-pressed={muted} onClick={() => setMuted(!muted)}>{muted ? 'Unmute' : 'Mute'}</button>
       <label>Volume <input aria-label="Volume" type="range" min="0" max="1" step=".01" value={volume} onChange={e => setVolume(+e.target.value)}/></label></div>,
     timeline: <Waveform peaks={peaks} seconds={seconds} duration={duration} onSeek={seek} disabled={loading}/>,

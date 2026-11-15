@@ -603,3 +603,35 @@
 
 .selection-values div:last-child{grid-column:auto}
 .selection-values div:last-child:nth-child(3){grid-column:1/-1}
+
+/* Width-led world maps use natural document scrolling at every viewport height. */
+.mc.experience.dashboard-experience .experience-dashboard{
+ height:auto;min-height:0;grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+ grid-template-rows:auto;
+ grid-template-areas:'navigation navigation' 'map map' 'information science' 'playback playback';
+}
+.mc.experience.dashboard-experience .dashboard-map{container-type:normal;align-self:start;min-width:0}
+.mc.experience.dashboard-experience .dashboard-map-content{width:100%;aspect-ratio:2/1}
+.mc.experience.dashboard-experience .dashboard-information{padding:20px;font-size:14px;overflow:visible}
+.mc.experience.dashboard-experience .dashboard-information p{font-size:14px;line-height:1.6}
+.mc.experience.dashboard-experience .scientific-hud dt{font-size:13px}
+.mc.experience.dashboard-experience .scientific-hud dd{font-size:17px}
+.mc.experience.dashboard-experience .dashboard-playback{padding:16px;gap:16px;grid-template-columns:minmax(0,1fr)}
+.mc.experience.dashboard-experience .playback-mode{flex-wrap:wrap}
+.mc.experience.dashboard-experience .dashboard-controls .mc-button,
+.mc.experience .playback-mode select,.mc.experience .coordinate-selection input,
+.mc.experience .coordinate-selection .mc-button{min-height:44px}
+.mc.experience.dashboard-experience .dashboard-navigation{min-height:54px;flex-wrap:wrap}
+.map-zoom-controls{position:static;padding:8px;max-width:100%;background:#071829}
+.map-zoom-controls button{min-height:44px;min-width:44px}
+@media(max-width:700px){
+ .mc.experience.dashboard-experience .experience-dashboard{grid-template-columns:minmax(0,1fr);grid-template-areas:'navigation' 'map' 'information' 'science' 'playback'}
+ .mc.experience.dashboard-experience .dashboard-information{padding:16px;border-inline:0}
+ .dashboard-navigation,.observation-navigator,.observation-navigator>div{max-width:100%}
+ .coordinate-selection{margin:0;flex-wrap:wrap}
+}
+
+.mc.experience.dashboard-experience .dashboard-map-content{aspect-ratio:auto}
+.controlled-map{aspect-ratio:auto}
+.map-viewport{position:relative;aspect-ratio:2/1;touch-action:pan-y}
+.map-viewport:has(+ .map-zoom-controls button[aria-label="Zoom out"]:not(:disabled)){touch-action:none}

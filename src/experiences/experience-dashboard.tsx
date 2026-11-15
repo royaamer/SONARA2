@@ -36,7 +36,8 @@ export function ObservationNavigator({ id, label, options, value, onChange, disa
 export { ScientificScale } from './scientific-scale';
 export type MapFootprint = { west: number; east: number; south: number; north: number };
 
-export function ExperienceDashboard({ label, navigator, status, map, information, science, controls, timeline, busy, error, point, onSelect, footprints = [], selectionSummary = '', observationKey = '', temporal, pauseOriginal }: {
+export function ExperienceDashboard({ label, navigator, status, map, information, science, controls, timeline, busy, error, point, onSelect, footprints = [], selectionSummary = '', observationKey = '', temporal, pauseOriginal, locations = [] }: {
+    locations?: MapPoint[];
     temporal?: { kind: Phenomenon; days?: ObservationDay[] };
     pauseOriginal?: () => void;
     footprints?: MapFootprint[];
@@ -71,14 +72,14 @@ export function ExperienceDashboard({ label, navigator, status, map, information
         if (event.key === 'Escape') { event.preventDefault(); onSelect(null); }
     }}>
     <div className="dashboard-navigation">{player.enabled ? <label className="temporal-date">Observation date <select aria-label="Temporal observation date" disabled={!player.frames.length} value={player.index} onChange={e => { player.pause(); player.seek(+e.target.value * .6); setAnnouncement(`Observation ${player.frames[+e.target.value].date}`); }}>{player.frames.map((frame, i) => <option key={frame.date} value={i}>{frame.date}</option>)}</select></label> : navigator}<span className="dashboard-status" role="status" aria-live="polite">{player.enabled ? player.loading ? 'Loading temporal observations' : player.playing ? 'Playing temporal observations' : 'Temporal playback ' + player.playbackState : status}</span></div>
+    <div className="dashboard-map"><div className="dashboard-map-content"><ControlledMap point={point} onSelect={p => { pauseOriginal?.(); player.pause(); onSelect(p); }} footprints={footprints}><div hidden={player.enabled}>{map}</div>{player.enabled && temporal && <TemporalMap kind={temporal.kind} frame={player.frame} days={temporal.days}/>}</ControlledMap></div></div>
     <aside className="dashboard-information" aria-label={label}>{player.enabled && temporal ? <TemporalReading days={temporal.days} kind={temporal.kind} frame={player.frame} point={point} selected={player.scope === 'selected'} panel="selection"/> : information}</aside>
     <aside className="dashboard-information dashboard-science" aria-label="Scientific scale and general statistics">{player.enabled && temporal ? <TemporalReading days={temporal.days} kind={temporal.kind} frame={player.frame} point={point} selected={player.scope === 'selected'} panel="science"/> : science}</aside>
-    <div className="dashboard-map"><div className="dashboard-map-content"><ControlledMap point={point} onSelect={p => { pauseOriginal?.(); player.pause(); onSelect(p); }} footprints={footprints}><div hidden={player.enabled}>{map}</div>{player.enabled && temporal && <TemporalMap kind={temporal.kind} frame={player.frame} days={temporal.days}/>}</ControlledMap></div></div>
     <span className="sr-only selection-announcement" role="status" aria-live="polite" aria-atomic="true">{announcement}</span>
     <div className="dashboard-playback">
       {temporal && <div className="playback-mode"><label>Audio mode <select aria-label="Audio mode" value={player.enabled ? 'temporal' : 'original'} onChange={e => { pauseOriginal?.(); player.pause(); player.setEnabled(e.target.value === 'temporal'); setAnnouncement(e.target.value === 'temporal' ? 'Temporal synthesis. Observation period follows available source dates.' : 'Original audio selected.'); }}><option value="original">{temporal.kind === 'ocean' ? 'Original Deep Ocean / Bassoon WAV' : 'Original geographic scan'}</option><option value="temporal">Data-driven temporal synthesis</option></select></label>
         <label>Playback scope <select aria-label="Playback scope" disabled={!player.enabled} value={player.scope} onChange={e => { pauseOriginal?.(); player.pause(); player.setScope(e.target.value); }}><option value="full">Full Map</option><option value="selected" disabled={!point}>Selected Region</option></select></label>
-        <CoordinateSelection point={point} onSelect={onSelect}/>
+        <CoordinateSelection point={point} onSelect={onSelect} locations={locations}/>
       </div>}
       <div className="dashboard-controls">{player.enabled ? player.controls : controls}</div><div className="dashboard-timeline">{player.enabled ? player.timeline : timeline}</div>
       {player.enabled && <span className="waveform-description">{player.frames[0]?.date} – {player.frames.at(-1)?.date} · PCM waveform · {player.frames.filter(f => f.value !== null).length} synthesized notes</span>}
@@ -86,10 +87,11 @@ export function ExperienceDashboard({ label, navigator, status, map, information
     </div>
   </section>;
 }
-function CoordinateSelection({ point, onSelect }: { point: MapPoint | null; onSelect: (p: MapPoint) => void }) {
+function CoordinateSelection({ point, onSelect, locations }: { locations: MapPoint[]; point: MapPoint | null; onSelect: (p: MapPoint) => void }) {
   const [lon, setLon] = useState('0'), [lat, setLat] = useState('0');
   useEffect(() => { if (point) { setLon(point.lon.toFixed(3)); setLat(point.lat.toFixed(3)); } }, [point]);
   return <form className="coordinate-selection" aria-label="Select geographic coordinates" onSubmit={e => { e.preventDefault(); const longitude = Number(lon), latitude = Number(lat); if (lon.trim() && lat.trim() && Number.isFinite(longitude) && Number.isFinite(latitude) && Math.abs(longitude) <= 180 && Math.abs(latitude) <= 90) onSelect({ lon: longitude, lat: latitude }); }}>
+    <label>Available source locations<select aria-label="Available source locations" value="" onChange={e => { const location = locations[Number(e.target.value)]; if (location) onSelect(location); }}><option value="">Choose a source location</option>{locations.map((location, index) => <option key={index} value={index}>{location.lat.toFixed(3)} latitude, {location.lon.toFixed(3)} longitude</option>)}</select></label>
     <label>Latitude<input aria-label="Latitude" type="number" min="-90" max="90" step="any" required value={lat} onChange={e => setLat(e.target.value)}/></label>
     <label>Longitude<input aria-label="Longitude" type="number" min="-180" max="180" step="any" required value={lon} onChange={e => setLon(e.target.value)}/></label>
     <button type="submit" className="mc-button">Select</button>

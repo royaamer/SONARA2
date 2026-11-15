@@ -1,0 +1,11 @@
+.accessibility-tools{position:relative;z-index:20;display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:8px 12px;background:#091525;color:#f4f8ff;font:14px/1.5 sans-serif}
+.accessibility-tools button,.accessibility-tools summary{min-height:44px;padding:10px;border:1px solid #8da9bd;border-radius:5px;cursor:pointer}
+.accessibility-tools button:disabled{opacity:.6;cursor:default}
+.accessibility-tools details[open]{flex-basis:100%}
+.accessibility-tools p{max-width:85ch}
+:where(a,button,input,select,summary,[tabindex]):focus-visible{outline:3px solid #ffdf6c!important;outline-offset:3px}
+.sonara-high-contrast{--exp-muted:#fff!important;--exp-accent:#ffdf6c!important;--exp-line:#fff!important}
+.sonara-high-contrast :is(.mc,.ob,.accessibility-tools){background:#000!important;color:#fff!important}
+.sonara-high-contrast :is(p,dt,dd,label,summary,button,a,select,input,output){color:#fff!important;text-shadow:none!important}
+.sonara-high-contrast :is(button,select,input,.dashboard-information,.dashboard-playback,.dashboard-navigation){background:#000!important;border-color:#fff!important}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}

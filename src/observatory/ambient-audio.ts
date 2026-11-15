@@ -23,7 +23,7 @@ export class AmbientSoundscape {
     activated: boolean;
   } | null = null;
   private generation = 0;
-  private muted = false;
+  private muted = true;
   private fading = false;
   private unavailable = typeof window.AudioContext === 'undefined';
   private fadeTimer: ReturnType<typeof setTimeout> | undefined;

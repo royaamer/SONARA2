@@ -1,3 +1,4 @@
+import { AccessibilityTools } from './experiences/accessibility';
 import { type ReactNode, useEffect } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ErrorBoundary } from '@/components/error-boundary';
@@ -37,6 +38,7 @@ function Router() {
     </Suspense>
   </RoutedErrorBoundary>;
   return <>
+    <AccessibilityTools />
     <IntroSoundscape />
     <div className={forward ? 'nav-transition-current' : undefined} style={forward ? { opacity: 'calc(1 - var(--nav-crossfade, 0))' } : undefined} aria-hidden={forward ? true : undefined}>
       {route}
