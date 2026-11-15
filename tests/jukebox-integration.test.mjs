@@ -1,11 +1,11 @@
 ﻿import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
-import {execFileSync} from 'node:child_process';
+import {readFileSync} from 'node:fs';
+import {assertSource} from './nimer-source.mjs';
 import {transform} from 'esbuild';
-const source=(spec)=>execFileSync('git',['-c','safe.directory=C:/Users/user/EarthJukeBox','-C','C:/Users/user/EarthJukeBox','show',spec],{maxBuffer:20e6});
-const js=source('79102a1:audio/temperaturePlayer.js').toString();
-const oceanJs=source('4929d2e:audio/oscarMonthlyBassoon.js').toString();
+const js=readFileSync('tests/fixtures/nimer/temperaturePlayer.js','utf8');
+const oceanJs=readFileSync('tests/fixtures/nimer/oscarMonthlyBassoon.js','utf8');
 async function module(file){const {code}=await transform(await readFile(file,'utf8'),{loader:'ts',format:'cjs'});const m={exports:{}};new Function('module','exports',code)(m,m.exports);return m.exports;}
 function canvas(){return {getContext(){return {createImageData(w,h){return {data:new Uint8ClampedArray(w*h*4)};},putImageData(img){this.image=img;},clearRect(){},drawImage(){}};}};}
 const document={createElement:canvas};
@@ -15,7 +15,7 @@ const inspection=await module('src/living-ocean/inspection.ts');
 test('all twelve 2025 datasets and scientific metadata are byte-identical to source commit',async()=>{
  const catalog=JSON.parse(await readFile('public/data/temperature/months.json'));
  assert.equal(catalog.months.length,12);
- for(const name of ['months.json','sonification_audit.json',...catalog.months.map(m=>m.file)])assert.deepEqual(await readFile('public/data/temperature/'+name),source('79102a1:data/processed/temperature/'+name));
+ for(const name of ['months.json','sonification_audit.json',...catalog.months.map(m=>m.file)])assertSource('data/processed/temperature/'+name,await readFile('public/data/temperature/'+name));
 });
 
 test('temperature raster and every audio color bin match original player for January and November',async()=>{

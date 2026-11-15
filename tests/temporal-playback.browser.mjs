@@ -51,6 +51,7 @@ try{
   for(const name of (process.env.OCEAN_NAMES_ONLY ? ['living-ocean'] : ['electric-sky','temperature','living-ocean'])){
     await navigate('/mission-control/'+name);
     await wait("!!document.querySelector('.dashboard-controls .mc-primary') && !document.querySelector('.dashboard-controls .mc-primary').disabled",45000);
+    await click('.dashboard-toggle');
     await evaluate("(()=>{for(const [label,v] of [['Latitude','30'],['Longitude','-40']]){const e=document.querySelector('input[aria-label='+label+']');Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value').set.call(e,v);e.dispatchEvent(new Event('input',{bubbles:true}));}})()");
     await click('.coordinate-selection button');
     await wait("!!document.querySelector('.map-selected-point')");
@@ -75,27 +76,36 @@ try{
       await command('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:width<700});
       await new Promise(r=>setTimeout(r,120));
       assert.equal(await evaluate('document.documentElement.scrollWidth>innerWidth+1'),false,name+' horizontal overflow');
-      if(width>900 && !process.env.SCIENTIFIC_SCALE_ONLY){
-        const layout=await evaluate("(()=>{const p=document.querySelector('.dashboard-playback').getBoundingClientRect(),i=document.querySelector('.dashboard-information');return {bottom:p.bottom,body:document.documentElement.scrollHeight,info:i.scrollHeight,client:i.clientHeight}})()");
-        assert.ok(layout.bottom<=height+1,name+' playback visible '+JSON.stringify(layout));
-        assert.ok(layout.body<=height+1,name+' page fits '+JSON.stringify(layout));
+      const layout=await evaluate("(()=>{const rect=e=>{const r=e.getBoundingClientRect();return {top:r.top,bottom:r.bottom,left:r.left,right:r.right}};return {map:rect(document.querySelector('.map-viewport')),playback:rect(document.querySelector('.dashboard-playback')),wave:rect(document.querySelector('.dashboard-timeline')),cards:[...document.querySelectorAll('.dashboard-card')].map(rect),scales:document.querySelectorAll('.scientific-scale').length,huds:document.querySelectorAll('.scientific-hud').length}})()");
+      assert.ok(Math.abs(layout.playback.top-layout.map.bottom)<1,name+' temporal Play directly below map');
+      assert.equal(layout.scales,1);assert.equal(layout.huds,1);
+      for(const card of layout.cards){
+        if(width>1000)assert.ok(card.top>=layout.map.top&&card.bottom<=layout.map.bottom&&card.left>=layout.map.left&&card.right<=layout.map.right,name+' temporal card within map');
+        else assert.ok(card.top>=layout.wave.bottom,name+' mobile temporal card after waveform');
       }
       await screenshot('temporal-'+name+'-'+width);
     }
     await command('Emulation.setDeviceMetricsOverride',{width:1366,height:768,deviceScaleFactor:1,mobile:false});
     await click('.dashboard-controls .mc-primary');await wait("+document.querySelector('.pcm-waveform svg').getAttribute('aria-valuenow')>.65");
+    const beforeToggle=await evaluate("+document.querySelector('.pcm-waveform svg').getAttribute('aria-valuenow')");
+    await click('.dashboard-toggle');
+    await wait(`+document.querySelector('.pcm-waveform svg').getAttribute('aria-valuenow')>${beforeToggle+.15}`);
+    assert.equal(await evaluate("document.querySelector('.dashboard-overlays').checkVisibility()"),false,name+' temporal playback continues while dashboard is hidden');
+    await click('.dashboard-toggle');
     await verifyScale();
     await click('.dashboard-controls .mc-primary');
     const frozenScale=await verifyScale();
     const paused=await evaluate("+document.querySelector('.pcm-waveform svg').getAttribute('aria-valuenow')");await new Promise(r=>setTimeout(r,150));assert.equal(await evaluate("+document.querySelector('.pcm-waveform svg').getAttribute('aria-valuenow')"),paused);
     assert.deepEqual(await verifyScale(),frozenScale);
     await click('.temporal-controls button:nth-child(2)');
+    await wait("+document.querySelector('.pcm-waveform svg').getAttribute('aria-valuenow')>.1 && document.querySelector('.temporal-controls .mc-primary').textContent==='Pause'");
+    await click('.temporal-controls button:nth-child(3)');
     await wait("+document.querySelector('.pcm-waveform svg').getAttribute('aria-valuenow')===0");
     assert.equal(await evaluate("+document.querySelector('.temporal-date select').value"),0);
     await verifyScale();
     await evaluate("document.querySelector('.pcm-waveform svg').focus()");await command('Input.dispatchKeyEvent',{type:'keyDown',key:'Home',code:'Home'});for(let i=0;i<3;i++)await command('Input.dispatchKeyEvent',{type:'keyDown',key:'ArrowRight',code:'ArrowRight'});
     await wait("+document.querySelector('.temporal-date select').value===5");
-    assert.equal(await evaluate("document.querySelector('.temporal-reading h2').textContent"),await evaluate("document.querySelector('.temporal-date select').selectedOptions[0].textContent"));
+    assert.equal(await evaluate("document.querySelector('.dashboard-telemetry dd').textContent"),await evaluate("document.querySelector('.temporal-date select').selectedOptions[0].textContent"));
     await evaluate("document.querySelector('.pcm-waveform svg').focus()");await command('Input.dispatchKeyEvent',{type:'keyDown',key:'ArrowRight',code:'ArrowRight'});
     assert.ok(await evaluate("+document.querySelector('.pcm-waveform svg').getAttribute('aria-valuenow')>=3"));
     await verifyScale();

@@ -1,6 +1,6 @@
 export type Field={date:string;u:(number|null)[];v:(number|null)[]};
 export type Manifest={source:string;units:string;grid:{width:number;height:number;lonStart:number;latStart:number;lonStep:number;latStep:number};days:{date:string;file:string}[]};
-export type Note={at_seconds:number;data_day_position:number;region:string;velocity_speed_mps:number;velocity_east_mps:number;velocity_north_mps:number;midi_note:number};
+export type Note={at_seconds:number;duration_seconds:number;data_day_position:number;region:string;velocity_speed_mps:number;velocity_east_mps:number;velocity_north_mps:number;midi_note:number};
 export type Audit={provenance:string;duration_seconds:number;source_files:string[];note_events:Note[];days:{date:string;metrics:Record<string,{speed:number;u:number;v:number}>}[]};
 export type BassoonNote={at_seconds:number;duration_seconds:number;source_date:string;source_file:string;region:string;regional_mean_speed_mps:number;midi_note:number};
 export type BassoonAudit={dataset:string;month:string;duration_seconds:number;source_files:string[];speed_threshold_mps:number;note_events:BassoonNote[]};

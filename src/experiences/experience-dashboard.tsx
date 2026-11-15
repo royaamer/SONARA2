@@ -1,5 +1,5 @@
-import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useEffect, useId, useLayoutEffect, useRef, useState, type ReactNode } from 'react';
+import { ChevronLeft, ChevronRight, RotateCcw, X } from 'lucide-react';
 import './experience-dashboard.css';
 import { TemporalMap, TemporalReading, useTemporalPlayer } from './temporal-player';
 import type { Phenomenon } from './temporal-science';
@@ -36,7 +36,10 @@ export function ObservationNavigator({ id, label, options, value, onChange, disa
 export { ScientificScale } from './scientific-scale';
 export type MapFootprint = { west: number; east: number; south: number; north: number };
 
-export function ExperienceDashboard({ label, navigator, status, map, information, science, controls, timeline, busy, error, point, onSelect, footprints = [], selectionSummary = '', observationKey = '', temporal, pauseOriginal, locations = [] }: {
+export function ExperienceDashboard({ label, navigator, status, map, telemetry, information, science, controls, timeline, busy, error, point, onSelect, footprints = [], selectionSummary = '', observationKey = '', temporal, pauseOriginal, locations = [], comparison, language = 'en', dashboardTogglePlacement = 'navigation' }: {
+    dashboardTogglePlacement?: 'navigation' | 'map';
+    language?: string;
+    comparison?: (month: string, returnToOriginal: () => void) => ReactNode;
     locations?: MapPoint[];
     temporal?: { kind: Phenomenon; days?: ObservationDay[] };
     pauseOriginal?: () => void;
@@ -49,6 +52,7 @@ export function ExperienceDashboard({ label, navigator, status, map, information
     navigator: ReactNode;
     status: string;
     map: ReactNode;
+    telemetry: ReactNode;
     information: ReactNode;
     science: ReactNode;
     controls: ReactNode;
@@ -57,6 +61,12 @@ export function ExperienceDashboard({ label, navigator, status, map, information
     error?: ReactNode;
 }) {
     const player = useTemporalPlayer(temporal?.kind, point, temporal?.days);
+    const [dashboardVisible, setDashboardVisible] = useState(false);
+    const dashboardId = useId();
+    const dashboardToggleLabel = language === 'ar'
+        ? dashboardVisible ? 'إخفاء لوحة البيانات' : 'إظهار لوحة البيانات'
+        : dashboardVisible ? 'Hide Dashboard' : 'Show Dashboard';
+    const dashboardToggle = <button type="button" className="mc-button dashboard-toggle" aria-label={dashboardToggleLabel} aria-expanded={dashboardVisible} aria-controls={dashboardId} onClick={() => setDashboardVisible(visible => !visible)}>{dashboardToggleLabel}</button>;
     useLayoutEffect(() => { pauseOriginal?.(); player.pause(); }, [point, observationKey, player.scope]);
     const [announcement, setAnnouncement] = useState('');
     const summary = useRef(selectionSummary);
@@ -68,23 +78,32 @@ export function ExperienceDashboard({ label, navigator, status, map, information
     useEffect(() => {
         if (player.enabled && player.frames.length) setAnnouncement(`${player.scope === 'selected' ? 'Selected Region' : 'Full Map'} observation period ${player.frames[0].date} to ${player.frames.at(-1)!.date}. ${player.frames.length} source dates.`);
     }, [player.enabled, player.frames, player.scope]);
-    return <section className="experience-dashboard" aria-label={label} aria-busy={busy} onKeyDown={event => {
+    return <section className={`experience-dashboard${dashboardTogglePlacement === 'map' ? ' dashboard-toggle-on-map' : ''}`} aria-label={label} aria-busy={busy} onKeyDown={event => {
         if (event.key === 'Escape') { event.preventDefault(); onSelect(null); }
     }}>
-    <div className="dashboard-navigation">{player.enabled ? <label className="temporal-date">Observation date <select aria-label="Temporal observation date" disabled={!player.frames.length} value={player.index} onChange={e => { player.pause(); player.seek(+e.target.value * .6); setAnnouncement(`Observation ${player.frames[+e.target.value].date}`); }}>{player.frames.map((frame, i) => <option key={frame.date} value={i}>{frame.date}</option>)}</select></label> : navigator}<span className="dashboard-status" role="status" aria-live="polite">{player.enabled ? player.loading ? 'Loading temporal observations' : player.playing ? 'Playing temporal observations' : 'Temporal playback ' + player.playbackState : status}</span></div>
-    <div className="dashboard-map"><div className="dashboard-map-content"><ControlledMap point={point} onSelect={p => { pauseOriginal?.(); player.pause(); onSelect(p); }} footprints={footprints}><div hidden={player.enabled}>{map}</div>{player.enabled && temporal && <TemporalMap kind={temporal.kind} frame={player.frame} days={temporal.days}/>}</ControlledMap></div></div>
-    <aside className="dashboard-information" aria-label={label}>{player.enabled && temporal ? <TemporalReading days={temporal.days} kind={temporal.kind} frame={player.frame} point={point} selected={player.scope === 'selected'} panel="selection"/> : information}</aside>
-    <aside className="dashboard-information dashboard-science" aria-label="Scientific scale and general statistics">{player.enabled && temporal ? <TemporalReading days={temporal.days} kind={temporal.kind} frame={player.frame} point={point} selected={player.scope === 'selected'} panel="science"/> : science}</aside>
-    <span className="sr-only selection-announcement" role="status" aria-live="polite" aria-atomic="true">{announcement}</span>
+    <div className="dashboard-navigation">{player.enabled ? <label className="temporal-date">Observation date <select aria-label="Temporal observation date" disabled={!player.frames.length} value={player.index} onChange={e => { player.pause(); player.seek(+e.target.value * .6); setAnnouncement(`Observation ${player.frames[+e.target.value].date}`); }}>{player.frames.map((frame, i) => <option key={frame.date} value={i}>{frame.date}</option>)}</select></label> : navigator}<span className="dashboard-status" role="status" aria-live="polite">{player.enabled ? player.loading ? 'Loading temporal observations' : player.playing ? 'Playing temporal observations' : 'Temporal playback ' + player.playbackState : status}</span>
+      {dashboardTogglePlacement === 'navigation' && dashboardToggle}
+    </div>
+    <div className="dashboard-map"><div className="dashboard-map-content"><ControlledMap language={language} point={point} onSelect={p => { pauseOriginal?.(); player.pause(); onSelect(p); }} footprints={footprints}><div hidden={player.enabled}>{map}</div>{player.enabled && temporal && <TemporalMap kind={temporal.kind} frame={player.frame} days={temporal.days}/>}</ControlledMap>{dashboardTogglePlacement === 'map' && dashboardToggle}</div></div>
+    {/* Sibling of the viewport: readings stay fixed while only the map transforms.
+        CSS moves these same cards after playback on small screens. */}
+    <div id={dashboardId} className="dashboard-overlays" hidden={!dashboardVisible}>
+      <aside className="dashboard-card dashboard-telemetry" aria-label={language === 'ar' ? 'قراءات الرصد' : 'Observation readings'}>{player.enabled && temporal ? <TemporalReading days={temporal.days} kind={temporal.kind} frame={player.frame} point={point} selected={player.scope === 'selected'} panel="telemetry" language={language} playing={player.playing}/> : telemetry}</aside>
+      <aside className="dashboard-card dashboard-information" aria-label={language === 'ar' ? 'الموقع المحدد' : 'Selected location'}>{player.enabled && temporal ? <TemporalReading days={temporal.days} kind={temporal.kind} frame={player.frame} point={point} selected={player.scope === 'selected'} panel="selection"/> : information}</aside>
+      <aside className="dashboard-card dashboard-science" aria-label={language === 'ar' ? 'المقياس العلمي' : 'Scientific scale and general statistics'}>{player.enabled && temporal ? <TemporalReading days={temporal.days} kind={temporal.kind} frame={player.frame} point={point} selected={player.scope === 'selected'} panel="science"/> : science}</aside>
+    </div>
     <div className="dashboard-playback">
-      {temporal && <div className="playback-mode"><label>Audio mode <select aria-label="Audio mode" value={player.enabled ? 'temporal' : 'original'} onChange={e => { pauseOriginal?.(); player.pause(); player.setEnabled(e.target.value === 'temporal'); setAnnouncement(e.target.value === 'temporal' ? 'Temporal synthesis. Observation period follows available source dates.' : 'Original audio selected.'); }}><option value="original">{temporal.kind === 'ocean' ? 'Original Deep Ocean / Bassoon WAV' : 'Original geographic scan'}</option><option value="temporal">Data-driven temporal synthesis</option></select></label>
+      <div className="dashboard-controls">{player.enabled ? player.controls : controls}</div>
+      <div className="dashboard-timeline">{player.enabled ? player.timeline : timeline}</div>
+      {temporal && <div className="playback-mode"><label>Audio mode <select aria-label="Audio mode" value={player.enabled ? 'temporal' : 'original'} onChange={e => { pauseOriginal?.(); player.pause(); player.setEnabled(e.target.value === 'temporal'); setAnnouncement(e.target.value === 'temporal' ? 'Temporal synthesis. Observation period follows available source dates.' : 'Original audio selected.'); }}><option value="original">{temporal.kind === 'ocean' ? 'Original Ocean WAV / optional Bassoon' : 'Original geographic scan'}</option><option value="temporal">Data-driven temporal synthesis</option></select></label>
         <label>Playback scope <select aria-label="Playback scope" disabled={!player.enabled} value={player.scope} onChange={e => { pauseOriginal?.(); player.pause(); player.setScope(e.target.value); }}><option value="full">Full Map</option><option value="selected" disabled={!point}>Selected Region</option></select></label>
         <CoordinateSelection point={point} onSelect={onSelect} locations={locations}/>
       </div>}
-      <div className="dashboard-controls">{player.enabled ? player.controls : controls}</div><div className="dashboard-timeline">{player.enabled ? player.timeline : timeline}</div>
       {player.enabled && <span className="waveform-description">{player.frames[0]?.date} – {player.frames.at(-1)?.date} · PCM waveform · {player.frames.filter(f => f.value !== null).length} synthesized notes</span>}
       {player.error && <p role="alert">{player.error}<button type="button" onClick={() => { player.setEnabled(false); }}>Return to original audio</button></p>}{!player.enabled && error}
     </div>
+    {comparison && <div className="dashboard-comparison">{comparison(player.enabled ? player.frame?.date.slice(0,7) ?? observationKey.slice(0,7) : observationKey.slice(0,7), () => { player.pause(); player.setEnabled(false); })}</div>}
+    <span className="sr-only selection-announcement" role="status" aria-live="polite" aria-atomic="true">{announcement}</span>
   </section>;
 }
 function CoordinateSelection({ point, onSelect, locations }: { locations: MapPoint[]; point: MapPoint | null; onSelect: (p: MapPoint) => void }) {
@@ -102,7 +121,8 @@ export type MapPoint = {
     lat: number;
 };
 
-function ControlledMap({ children, point, onSelect, footprints }: {
+function ControlledMap({ children, point, onSelect, footprints, language }: {
+  language: string;
   footprints: MapFootprint[];
   children: ReactNode;
   point: MapPoint | null;
@@ -189,7 +209,7 @@ function ControlledMap({ children, point, onSelect, footprints }: {
     <div className="map-zoom-controls" role="group" aria-label="Map zoom controls">
       <button type="button" aria-label="Zoom in" disabled={view.zoom === 4} onClick={() => zoom(.5)}>+</button>
       <button type="button" aria-label="Zoom out" disabled={view.zoom === 1} onClick={() => zoom(-.5)}>-</button>
-      <button type="button" onClick={() => setView({ zoom: 1, x: 0, y: 0 })}>Reset View</button><button type="button" disabled={!point} onClick={() => select(null)}>Clear selection</button>
+      <button type="button" aria-label={language === 'ar' ? 'إعادة ضبط العرض' : 'Reset View'} onClick={() => setView({ zoom: 1, x: 0, y: 0 })}><RotateCcw size={15}/><span className="map-control-label">{language === 'ar' ? 'إعادة ضبط العرض' : 'Reset View'}</span></button><button type="button" aria-label={language === 'ar' ? 'مسح التحديد' : 'Clear selection'} disabled={!point} onClick={() => select(null)}><X size={15}/><span className="map-control-label">{language === 'ar' ? 'مسح التحديد' : 'Clear selection'}</span></button>
     </div>
   </div>;
 }

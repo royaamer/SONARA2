@@ -3,8 +3,10 @@ import type { PlaybackState } from '../experiences/playback-state';
 import {useEffect,useRef,useState} from 'react';
 import type {Availability,Catalog,OceanData} from './types';
 import {createOceanRenderer} from './renderer';
+import {oceanStylePath, type OceanStyle} from './comparison';
 export const OCEAN_ROOT=import.meta.env.BASE_URL+'data/ocean/';
 export function useOcean(){
+ const [style,setStyle]=useState<OceanStyle>('deep_ocean');
  const [catalog,setCatalog]=useState<Catalog|null>(null),[availability,setAvailability]=useState<Availability[]>([]),[month,setMonth]=useState('');
  const [data,setData]=useState<OceanData|null>(null),[progress,setProgress]=useState(0),[error,setError]=useState(''),[ready,setReady]=useState(false),[seconds,setSeconds]=useState(0),[status,setStatus]=useState<'ready'|'playing'|'paused'|'complete'>('ready'),[bassoonOn,setBassoonOn]=useState(true),[attempt,setAttempt]=useState(0);
  const playbackState=useRef<PlaybackState>('idle');
@@ -51,11 +53,11 @@ export function useOcean(){
   a.addEventListener('play',played);a.addEventListener('pause',paused);a.addEventListener('ended',ended);
   b.addEventListener('play',bassoonPlayed);
   for(const x of [a,b]){x.addEventListener('loadedmetadata',checkReady);x.addEventListener('error',fail);}
-  a.src=OCEAN_ROOT+data.selected.audio;a.volume=volume.current;a.load();
+  a.src=OCEAN_ROOT+oceanStylePath(data.selected.audio,style);a.volume=volume.current;a.load();
   if(data.bassoonAudit&&data.selected.bassoon){b.src=OCEAN_ROOT+data.selected.bassoon;b.volume=volume.current*.52;b.load();}
   checkReady();
   return()=>{renderer.current?.dispose();alive=false;playbackRequested.current=false;generation.current++;bassoonRequest.current++;cancelAnimationFrame(frame);a.removeEventListener('play',played);a.removeEventListener('pause',paused);a.removeEventListener('ended',ended);b.removeEventListener('play',bassoonPlayed);for(const x of [a,b]){x.removeEventListener('loadedmetadata',checkReady);x.removeEventListener('error',fail);x.pause();x.removeAttribute('src');x.load();}renderer.current=null;};
- },[data]);
+ },[data,style]);
  const pause=()=>{playbackRequested.current=false;generation.current++;bassoonRequest.current++;audio.current?.pause();bassoon.current?.pause();setSeconds(audio.current?.currentTime??0);setStatus('paused');playbackState.current='paused';};
   useAudioInterruption('ocean', pause);
  const start=()=>{if(!data||!ready||error)return;requestAudio('ocean');const a=audio.current!,b=bassoon.current!,mine=++generation.current;playbackRequested.current=true;setStatus('playing');if(a.ended)a.currentTime=0;
@@ -67,6 +69,7 @@ export function useOcean(){
  const seek=(value:number,resume=!audio.current!.paused)=>{pause();const a=audio.current!,b=bassoon.current!;a.currentTime=value;if(data?.bassoonAudit)b.currentTime=value;setSeconds(value);renderer.current?.reset();if(!resume&&value===0)playbackState.current='stopped';if(value>=(data?.audit.duration_seconds??Infinity)){setStatus('complete');playbackState.current='ended';}else if(resume)start();};
  const changeMonth=(value:string)=>{if(!availability.some(m=>m.month===value&&m.ready))return;pause();setReady(false);setData(null);if(value===month)setAttempt(n=>n+1);else setMonth(value);};
  const toggleBassoon=(value:boolean)=>{pause();bassoonEnabled.current=value;setBassoonOn(value);};
+ const changeStyle=(value:OceanStyle)=>{if(value===style)return;pause();setReady(false);setError('');setSeconds(0);setStatus('ready');setStyle(value);};
  const retry=()=>{pause();setError('');setAttempt(n=>n+1);};
- return {playbackState:playbackState.current,catalog,availability,month,data,progress,error,ready,seconds,status,bassoonOn,audio,bassoon,canvas,setVolume,start,pause,seek,changeMonth,toggleBassoon,retry};
+ return {playbackState:playbackState.current,catalog,availability,month,data,progress,error,ready,seconds,status,bassoonOn,audio,bassoon,canvas,setVolume,start,pause,seek,changeMonth,toggleBassoon,retry,style,changeStyle};
 }

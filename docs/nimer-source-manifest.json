@@ -1,0 +1,2923 @@
+{
+  "repository": "https://github.com/Namalomaa/EarthJukeBox",
+  "branch": "main",
+  "commit": "a568df3fa6a4af815563f77aee2faf4c408e3fc3",
+  "verifiedWavs": 48,
+  "files": [
+    {
+      "source": "audio/oceanComparison.js",
+      "sha256": "15d44840a65a27021128eabaa45b932424a200ade0e2c78a72bbf8ce33e0dae3",
+      "bytes": 12379
+    },
+    {
+      "source": "audio/oscarMonthlyBassoon.html",
+      "sha256": "c9d80e4d4911a96c2aecfe27336f4351078737e1671fdb20a40d16505e8fec5c",
+      "bytes": 23475
+    },
+    {
+      "source": "audio/oscarMonthlyBassoon.js",
+      "sha256": "869f6dbb169017c6e74f0d54bc16dc36a12d02e4874c3e9ca0716f3531a8e767",
+      "bytes": 24007
+    },
+    {
+      "source": "audio/temperaturePlayer.js",
+      "sha256": "bb6027c38890aa34bbced424d509b305fed343625416212b459bef2e29268ac3",
+      "bytes": 28470
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/2023-01/bassoon_OSCAR.wav",
+      "sha256": "b50d251dd4c1bb76fc7f731c1633848fa06a8f124b52d06fa8fc54cd696881ce",
+      "bytes": 2400044,
+      "target": "public/data/ocean/audio_previews/2023-01/bassoon_OSCAR.wav"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/2023-01/bassoon_audit.json",
+      "sha256": "9880316055c70388fd099586c361681cf6c43fcc511718854440d4b74d01716d",
+      "bytes": 3687,
+      "target": "public/data/ocean/audio_previews/2023-01/bassoon_audit.json"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/2023-01/deep_ocean_OSCAR.wav",
+      "sha256": "821a2f36826f699f582cdf8319f9c5cf1886ddda1923f93a8a568be5ac285fdd",
+      "bytes": 2400044,
+      "target": "public/data/ocean/audio_previews/2023-01/deep_ocean_OSCAR.wav"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/2023-01/hybrid_OSCAR.wav",
+      "sha256": "35ac92d7e6e4c571c7af8fc8d6c11d10237de2d2d5d67603e21e47a9119c28d4",
+      "bytes": 2400044,
+      "target": "public/data/ocean/audio_previews/2023-01/hybrid_OSCAR.wav"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/2023-01/orchestral_OSCAR.wav",
+      "sha256": "259da20d562b25e8c0b0e1a88afa539487dd3bc38454e08af844feecbe7362ba",
+      "bytes": 2400044,
+      "target": "public/data/ocean/audio_previews/2023-01/orchestral_OSCAR.wav"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/2023-01/sonification_audit.json",
+      "sha256": "76a514e6b557982bdb8c2382d1d24fca46963367fbafb0fae5cf4f2b26a4d24b",
+      "bytes": 30659,
+      "target": "public/data/ocean/audio_previews/2023-01/sonification_audit.json"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/2023-02/bassoon_OSCAR.wav",
+      "sha256": "f3ecea87c448bad79c83d321ec7274a678be016aea78a0d5bfa0c237ac4a2498",
+      "bytes": 2400044,
+      "target": "public/data/ocean/audio_previews/2023-02/bassoon_OSCAR.wav"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/2023-02/bassoon_audit.json",
+      "sha256": "b94178097f34228947f56811655c9ea4ae90c7a7f32484b133a00e0853592f55",
+      "bytes": 3562,
+      "target": "public/data/ocean/audio_previews/2023-02/bassoon_audit.json"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/2023-02/deep_ocean_OSCAR.wav",
+      "sha256": "d13a55763c1b65a4f482caffc2b5fe0a54ba2ae042ffbc286a3d8380322d90db",
+      "bytes": 2400044,
+      "target": "public/data/ocean/audio_previews/2023-02/deep_ocean_OSCAR.wav"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/2023-02/hybrid_OSCAR.wav",
+      "sha256": "0249305b60e01daec5acd133af47752966a383dde82c7e2e5fd97cf2e4afde7a",
+      "bytes": 2400044,
+      "target": "public/data/ocean/audio_previews/2023-02/hybrid_OSCAR.wav"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/2023-02/orchestral_OSCAR.wav",
+      "sha256": "bb5f81de99645b0f588ad09c8c19e4a1ad78d88d92211b83e3cc414a94bcf166",
+      "bytes": 2400044,
+      "target": "public/data/ocean/audio_previews/2023-02/orchestral_OSCAR.wav"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/2023-02/sonification_audit.json",
+      "sha256": "47014c04b1d80f07d0f04af548a2bb3527dec7d70b1bd8212c89bd2a9c265264",
+      "bytes": 28219,
+      "target": "public/data/ocean/audio_previews/2023-02/sonification_audit.json"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/2023-03/bassoon_OSCAR.wav",
+      "sha256": "7e582558d419b5ccce4f37947c4771c0f83e4eeb7fbf5f8c9419db4ba58a3af0",
+      "bytes": 2400044,
+      "target": "public/data/ocean/audio_previews/2023-03/bassoon_OSCAR.wav"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/2023-03/bassoon_audit.json",
+      "sha256": "7e0b63d181cebb93472e9563931d50606a775c4a2384e8dd96a55654d9aa37ca",
+      "bytes": 4086,
+      "target": "public/data/ocean/audio_previews/2023-03/bassoon_audit.json"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/2023-03/deep_ocean_OSCAR.wav",
+      "sha256": "56aa189883ad7f40d7afd53cb31810a3f3837437720326a26fc8b61f2db78f53",
+      "bytes": 2400044,
+      "target": "public/data/ocean/audio_previews/2023-03/deep_ocean_OSCAR.wav"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/2023-03/hybrid_OSCAR.wav",
+      "sha256": "564557322ad7cc85f511fabf13e9ec19c89f1655c3182d03ea26febe796a87d4",
+      "bytes": 2400044,
+      "target": "public/data/ocean/audio_previews/2023-03/hybrid_OSCAR.wav"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/2023-03/orchestral_OSCAR.wav",
+      "sha256": "aa07352be24c819c4d72ae3a6ae63f93d294a119451a02b1569ccd35535bdda3",
+      "bytes": 2400044,
+      "target": "public/data/ocean/audio_previews/2023-03/orchestral_OSCAR.wav"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/2023-03/sonification_audit.json",
+      "sha256": "3b78a89d79c4033e4c28610cb5ad1f2b0fd9a291e4d4ce885bd2a615dd227c68",
+      "bytes": 30613,
+      "target": "public/data/ocean/audio_previews/2023-03/sonification_audit.json"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/2023-04/bassoon_OSCAR.wav",
+      "sha256": "8d291968dd883991dee18557e5f069cf86a26ff901ee6c4067caf333a289cc4b",
+      "bytes": 2400044,
+      "target": "public/data/ocean/audio_previews/2023-04/bassoon_OSCAR.wav"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/2023-04/bassoon_audit.json",
+      "sha256": "0447761b0a1029fe20fda8298b85deb187449f93be0ad07c2c9a3c2255ebf5ca",
+      "bytes": 3631,
+      "target": "public/data/ocean/audio_previews/2023-04/bassoon_audit.json"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/2023-04/deep_ocean_OSCAR.wav",
+      "sha256": "d191d1a8978698499c9613a3d3c54c94f1f2d3537dc07c356baaf60f84b9974e",
+      "bytes": 2400044,
+      "target": "public/data/ocean/audio_previews/2023-04/deep_ocean_OSCAR.wav"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/2023-04/hybrid_OSCAR.wav",
+      "sha256": "5c1b539bc193bdcee61d0af7d675ef98bec97209a0bb7673b5066dee5d16827e",
+      "bytes": 2400044,
+      "target": "public/data/ocean/audio_previews/2023-04/hybrid_OSCAR.wav"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/2023-04/orchestral_OSCAR.wav",
+      "sha256": "49b673b2aa1897b86f04ebdfaa14fc509002d644b336679eabba272b61cb90fa",
+      "bytes": 2400044,
+      "target": "public/data/ocean/audio_previews/2023-04/orchestral_OSCAR.wav"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/2023-04/sonification_audit.json",
+      "sha256": "6db4de79a2a5cfae60ac9373b7e9690fa6595db8523ac3166d24da952c2d0ebb",
+      "bytes": 29804,
+      "target": "public/data/ocean/audio_previews/2023-04/sonification_audit.json"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/2023-05/bassoon_OSCAR.wav",
+      "sha256": "3d4e331c95ad2bbb65c0f712f69a35fac742a78e1ac283285481b713222c72d3",
+      "bytes": 2400044,
+      "target": "public/data/ocean/audio_previews/2023-05/bassoon_OSCAR.wav"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/2023-05/bassoon_audit.json",
+      "sha256": "9676b69ae9874e419a6e494196b9bc70c52cd95e9bb8a835c3e951c7dd7ddd42",
+      "bytes": 4082,
+      "target": "public/data/ocean/audio_previews/2023-05/bassoon_audit.json"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/2023-05/deep_ocean_OSCAR.wav",
+      "sha256": "ddd178064461c0fdfa70078d1557eece363c8eac367f32161b1522347089d7d8",
+      "bytes": 2400044,
+      "target": "public/data/ocean/audio_previews/2023-05/deep_ocean_OSCAR.wav"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/2023-05/hybrid_OSCAR.wav",
+      "sha256": "81ef03fad5183a65f6caf8d6ed73080e89ad217340b1fcd789055580e5a9f274",
+      "bytes": 2400044,
+      "target": "public/data/ocean/audio_previews/2023-05/hybrid_OSCAR.wav"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/2023-05/orchestral_OSCAR.wav",
+      "sha256": "5e499e8d7914aa9c87f0fcf0b95d65740a490ac10e09c880a9c5124cde288359",
+      "bytes": 2400044,
+      "target": "public/data/ocean/audio_previews/2023-05/orchestral_OSCAR.wav"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/2023-05/sonification_audit.json",
+      "sha256": "8424a6e15ef15077959105bfcf59a87d05203cf4d9b154a3c1e868220b8a9b62",
+      "bytes": 30534,
+      "target": "public/data/ocean/audio_previews/2023-05/sonification_audit.json"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/2023-06/bassoon_OSCAR.wav",
+      "sha256": "64a283f94bc41952ad40cb456077e39438a03dafdd34a29bbd79bc32a4039bc7",
+      "bytes": 2400044,
+      "target": "public/data/ocean/audio_previews/2023-06/bassoon_OSCAR.wav"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/2023-06/bassoon_audit.json",
+      "sha256": "d776d33aae24d971d5a6500527461dae407d02768c528c7f2bb40782cd39285a",
+      "bytes": 3632,
+      "target": "public/data/ocean/audio_previews/2023-06/bassoon_audit.json"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/2023-06/deep_ocean_OSCAR.wav",
+      "sha256": "3dd0e11a5e8a202e13fab5b7c0eca1cf41a7fb01d9d2bf79b22365105b98178a",
+      "bytes": 2400044,
+      "target": "public/data/ocean/audio_previews/2023-06/deep_ocean_OSCAR.wav"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/2023-06/hybrid_OSCAR.wav",
+      "sha256": "91abc6e7937afd842fa00a7b029274c6031f2b72cd089aa0632cded75a906a69",
+      "bytes": 2400044,
+      "target": "public/data/ocean/audio_previews/2023-06/hybrid_OSCAR.wav"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/2023-06/orchestral_OSCAR.wav",
+      "sha256": "b724bb5b7533ec14d4713bf9139c293bdaafc437432d4cc8de3ac15e2fdab82f",
+      "bytes": 2400044,
+      "target": "public/data/ocean/audio_previews/2023-06/orchestral_OSCAR.wav"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/2023-06/sonification_audit.json",
+      "sha256": "fffa315860601ebea14434e496aed22c5e9fa1fd59593f7ea0f9571c26121f98",
+      "bytes": 29763,
+      "target": "public/data/ocean/audio_previews/2023-06/sonification_audit.json"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/2023-07/bassoon_OSCAR.wav",
+      "sha256": "f31c92a74a80ad6c07f2b0c937b70d5d117c9eb91f1b7e926dabd8630bcb2906",
+      "bytes": 2400044,
+      "target": "public/data/ocean/audio_previews/2023-07/bassoon_OSCAR.wav"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/2023-07/bassoon_audit.json",
+      "sha256": "9676724b2a5b41ed92ceecabb2a8a267c7c29e7aeed1be0dc511a2245777c664",
+      "bytes": 4477,
+      "target": "public/data/ocean/audio_previews/2023-07/bassoon_audit.json"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/2023-07/deep_ocean_OSCAR.wav",
+      "sha256": "343936744a2665d631ce322ed3b789e46e5a3e60446be04d7d23336336f448a9",
+      "bytes": 2400044,
+      "target": "public/data/ocean/audio_previews/2023-07/deep_ocean_OSCAR.wav"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/2023-07/hybrid_OSCAR.wav",
+      "sha256": "f43be28291512782ff9726e78aa6146477335bf5fed69dcd7e5af34e8278532d",
+      "bytes": 2400044,
+      "target": "public/data/ocean/audio_previews/2023-07/hybrid_OSCAR.wav"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/2023-07/orchestral_OSCAR.wav",
+      "sha256": "936db00f1dd1866bab6bcaa18656956015f0df320d42342a3cd4fda6d46853b4",
+      "bytes": 2400044,
+      "target": "public/data/ocean/audio_previews/2023-07/orchestral_OSCAR.wav"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/2023-07/sonification_audit.json",
+      "sha256": "e6dcdf33ae3275eead1a6f652b06797eaa7e0548431070640bd18aeb7b8a0ef1",
+      "bytes": 30525,
+      "target": "public/data/ocean/audio_previews/2023-07/sonification_audit.json"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/2023-08/bassoon_OSCAR.wav",
+      "sha256": "495ba54b8ae127900a4c56f79f0e07f5c760e3cc65b100682a6e378db5fdf7b6",
+      "bytes": 2400044,
+      "target": "public/data/ocean/audio_previews/2023-08/bassoon_OSCAR.wav"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/2023-08/bassoon_audit.json",
+      "sha256": "df799730d3a7be110779ecca85f49bdc4f6cea30832615388ba2590d3a2c18cb",
+      "bytes": 3684,
+      "target": "public/data/ocean/audio_previews/2023-08/bassoon_audit.json"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/2023-08/deep_ocean_OSCAR.wav",
+      "sha256": "dfc1b831f0ea32b69813f742d76ce998946a93920e29017f9e1e7e27242505c5",
+      "bytes": 2400044,
+      "target": "public/data/ocean/audio_previews/2023-08/deep_ocean_OSCAR.wav"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/2023-08/hybrid_OSCAR.wav",
+      "sha256": "032dfe7997620481201b1cf5996b02c808bf5281f69815fb278a892551e3415c",
+      "bytes": 2400044,
+      "target": "public/data/ocean/audio_previews/2023-08/hybrid_OSCAR.wav"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/2023-08/orchestral_OSCAR.wav",
+      "sha256": "e901f45855121e4dfc3ac21de45c7c97b3b4a82e2eba2e5dc95d3a8d7a594222",
+      "bytes": 2400044,
+      "target": "public/data/ocean/audio_previews/2023-08/orchestral_OSCAR.wav"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/2023-08/sonification_audit.json",
+      "sha256": "90b892ff2f1981e657ef8f8b52b679e671e787103a12f2be98ab2753aea31aa2",
+      "bytes": 30548,
+      "target": "public/data/ocean/audio_previews/2023-08/sonification_audit.json"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/2023-09/bassoon_OSCAR.wav",
+      "sha256": "6b8533fb150838c2000a7f18aa540efba61edad3de3f1cfd77f46204fde377c8",
+      "bytes": 2400044,
+      "target": "public/data/ocean/audio_previews/2023-09/bassoon_OSCAR.wav"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/2023-09/bassoon_audit.json",
+      "sha256": "024cb9e4ee810e3f1341d05bc83b14f69cbfc4250ac0970e078521095c959d2e",
+      "bytes": 3234,
+      "target": "public/data/ocean/audio_previews/2023-09/bassoon_audit.json"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/2023-09/deep_ocean_OSCAR.wav",
+      "sha256": "a1d26b601e42a1c79dc89d257d42dae34e419a875e4829dcdac93d6fed466aeb",
+      "bytes": 2400044,
+      "target": "public/data/ocean/audio_previews/2023-09/deep_ocean_OSCAR.wav"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/2023-09/hybrid_OSCAR.wav",
+      "sha256": "96c219c048983939f8ad0ca86c4af50591504d22fcfd6a0140855b9bf8bcea70",
+      "bytes": 2400044,
+      "target": "public/data/ocean/audio_previews/2023-09/hybrid_OSCAR.wav"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/2023-09/orchestral_OSCAR.wav",
+      "sha256": "a7dc844cfc9a76275798e75e9a46c976ec1ee12035d4faafc1b04c42d297a0e6",
+      "bytes": 2400044,
+      "target": "public/data/ocean/audio_previews/2023-09/orchestral_OSCAR.wav"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/2023-09/sonification_audit.json",
+      "sha256": "0e104103f4ffcb72417ba7f9097a35dd6b8aa24e9aa2099d97e9f02a75f1b8ef",
+      "bytes": 29801,
+      "target": "public/data/ocean/audio_previews/2023-09/sonification_audit.json"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/2023-10/bassoon_OSCAR.wav",
+      "sha256": "ddd5d1678d72c3b01761b0aed3f76bc1d2191114b951fcbddc03c6ca26d4fbe8",
+      "bytes": 2400044,
+      "target": "public/data/ocean/audio_previews/2023-10/bassoon_OSCAR.wav"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/2023-10/bassoon_audit.json",
+      "sha256": "ab22adf5d23bf6edf3f07564bef763102d5b36a7e33eb9cd1ac7c64bed1b6e4c",
+      "bytes": 4484,
+      "target": "public/data/ocean/audio_previews/2023-10/bassoon_audit.json"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/2023-10/deep_ocean_OSCAR.wav",
+      "sha256": "f394e9d4efd3c5ccd341cb30150983103bcb6284d3f68e1cfcc1d8770e65f99a",
+      "bytes": 2400044,
+      "target": "public/data/ocean/audio_previews/2023-10/deep_ocean_OSCAR.wav"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/2023-10/hybrid_OSCAR.wav",
+      "sha256": "593b04ab415fb0c91a3287575b5c914b63f6380473aefa9524d620e97d3e4a32",
+      "bytes": 2400044,
+      "target": "public/data/ocean/audio_previews/2023-10/hybrid_OSCAR.wav"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/2023-10/orchestral_OSCAR.wav",
+      "sha256": "b86eb83261807753892fc6d15266cdb9f5f2152c175c8cbce4b8f0d0bcd504f0",
+      "bytes": 2400044,
+      "target": "public/data/ocean/audio_previews/2023-10/orchestral_OSCAR.wav"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/2023-10/sonification_audit.json",
+      "sha256": "113a60d515ae3519810cd05bc64f741b57d3770f91ea3eee8ee1650cc563bb2b",
+      "bytes": 30631,
+      "target": "public/data/ocean/audio_previews/2023-10/sonification_audit.json"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/2023-12/bassoon_OSCAR.wav",
+      "sha256": "3406df04ae2e652feadc2a2ca82020685292cfe3793a2dd93bd5de49a71f6749",
+      "bytes": 2400044,
+      "target": "public/data/ocean/audio_previews/2023-12/bassoon_OSCAR.wav"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/2023-12/bassoon_audit.json",
+      "sha256": "d07fd03282ba4f27444098d05d794ab747ab7b78abeca46f139fbe01279b7321",
+      "bytes": 3686,
+      "target": "public/data/ocean/audio_previews/2023-12/bassoon_audit.json"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/2023-12/deep_ocean_OSCAR.wav",
+      "sha256": "625c5e897794b3438351637b869e7ea38c2a70619e4e76a23f736df60f0310af",
+      "bytes": 2400044,
+      "target": "public/data/ocean/audio_previews/2023-12/deep_ocean_OSCAR.wav"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/2023-12/hybrid_OSCAR.wav",
+      "sha256": "608b5c61aaff16be5d3168904a7b3bb8eae2a2dcb4d081fc769b3d05353cfc2f",
+      "bytes": 2400044,
+      "target": "public/data/ocean/audio_previews/2023-12/hybrid_OSCAR.wav"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/2023-12/orchestral_OSCAR.wav",
+      "sha256": "533ea606adb05ca328cb8ffd7f79f0d15d951488cf2e2d4f7512ec8c7fabc533",
+      "bytes": 2400044,
+      "target": "public/data/ocean/audio_previews/2023-12/orchestral_OSCAR.wav"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/2023-12/sonification_audit.json",
+      "sha256": "95695b940f2ac26313f6fcb16f0d8df0200dd053456ab21b92cd8c1f6a2fa90f",
+      "bytes": 30573,
+      "target": "public/data/ocean/audio_previews/2023-12/sonification_audit.json"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/bassoon_OSCAR.wav",
+      "sha256": "edb72457b35171cd76fe37fc91534329fbefffc177241b825753b0c1bdead41c",
+      "bytes": 2400044,
+      "target": "public/data/ocean/audio_previews/bassoon_OSCAR.wav"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/bassoon_audit.json",
+      "sha256": "f289f63046db9ec7ece3cf615971ae9a1900ec7e66b4be1ae6dc027290266250",
+      "bytes": 4428,
+      "target": "public/data/ocean/audio_previews/bassoon_audit.json"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/deep_ocean_OSCAR.wav",
+      "sha256": "e3c13a11138f635e0939e80a8449e55ab8fbc279343d514b605f2f4a325258cf",
+      "bytes": 2400044,
+      "target": "public/data/ocean/audio_previews/deep_ocean_OSCAR.wav"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/hybrid_OSCAR.wav",
+      "sha256": "c27883ed03084801fbdbd089d687549dd3955a2e95ce37884f6d06a2eced3ab4",
+      "bytes": 2400044,
+      "target": "public/data/ocean/audio_previews/hybrid_OSCAR.wav"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/orchestral_OSCAR.wav",
+      "sha256": "4e91e8726bdf187b2111cff430150239b7870463d6291dc01ca0703352e830ba",
+      "bytes": 2400044,
+      "target": "public/data/ocean/audio_previews/orchestral_OSCAR.wav"
+    },
+    {
+      "source": "data/processed/oscar/audio_previews/sonification_audit.json",
+      "sha256": "dd563925b86e906c1294f0cb5699d5f80965b6d6db852c04a4ea9ceb243aab30",
+      "bytes": 29831,
+      "target": "public/data/ocean/audio_previews/sonification_audit.json"
+    },
+    {
+      "source": "data/processed/oscar/comparison/2023-01.json",
+      "sha256": "324b125a11c9d1526bcd16ac1fd43b066ce659997a5fcd94f6d15f9b9a3223e8",
+      "bytes": 1418247,
+      "target": "public/data/ocean/comparison/2023-01.json"
+    },
+    {
+      "source": "data/processed/oscar/comparison/2023-02.json",
+      "sha256": "5c6294cc4b9b302ec7574b661c5996da2519783eaa58a8cb7d0fadaf4d4b79ae",
+      "bytes": 1417744,
+      "target": "public/data/ocean/comparison/2023-02.json"
+    },
+    {
+      "source": "data/processed/oscar/comparison/2023-03.json",
+      "sha256": "fca4ef5ecb4aae15bfda28d13db725ebfb8f8a60502600372cb1251da8b5d436",
+      "bytes": 1418293,
+      "target": "public/data/ocean/comparison/2023-03.json"
+    },
+    {
+      "source": "data/processed/oscar/comparison/2023-04.json",
+      "sha256": "2e5235893adb9cc9d5404d8a668c3c5f63839dfeddc5c165b69d5d07c3ae7099",
+      "bytes": 1418345,
+      "target": "public/data/ocean/comparison/2023-04.json"
+    },
+    {
+      "source": "data/processed/oscar/comparison/2023-05.json",
+      "sha256": "2a187a24aebe8ceeba2bbc8d2c8ecf139461d2f2e8c21362a34b8bb727faed61",
+      "bytes": 1418625,
+      "target": "public/data/ocean/comparison/2023-05.json"
+    },
+    {
+      "source": "data/processed/oscar/comparison/2023-06.json",
+      "sha256": "a7615b227f3dbd080c07b3c57609a20009688d2d9ac19e24d9a2d14072329631",
+      "bytes": 1418178,
+      "target": "public/data/ocean/comparison/2023-06.json"
+    },
+    {
+      "source": "data/processed/oscar/comparison/2023-07.json",
+      "sha256": "1264dbe65e1fdb75f3706b7b216457efe6d056383f3c38672b24821a285d0c23",
+      "bytes": 1418907,
+      "target": "public/data/ocean/comparison/2023-07.json"
+    },
+    {
+      "source": "data/processed/oscar/comparison/2023-08.json",
+      "sha256": "cb1f553b5632c308c939c64308e46f592a8478f88025f8cf0f4c37064b56358a",
+      "bytes": 1418661,
+      "target": "public/data/ocean/comparison/2023-08.json"
+    },
+    {
+      "source": "data/processed/oscar/comparison/2023-09.json",
+      "sha256": "bf52adf0889d423a2255500a703848f53f9394f85476f06e5d3894748fe05ed8",
+      "bytes": 1419316,
+      "target": "public/data/ocean/comparison/2023-09.json"
+    },
+    {
+      "source": "data/processed/oscar/comparison/2023-10.json",
+      "sha256": "79e175a5bcb398e76f2cabd85dc86ff941965443e84ec69bed838c9e0a82debf",
+      "bytes": 1418690,
+      "target": "public/data/ocean/comparison/2023-10.json"
+    },
+    {
+      "source": "data/processed/oscar/comparison/2023-11.json",
+      "sha256": "2077e2eace94c6544e945bf494eef5d99ded5a55a665b7fce443ee369baf0006",
+      "bytes": 1418340,
+      "target": "public/data/ocean/comparison/2023-11.json"
+    },
+    {
+      "source": "data/processed/oscar/comparison/2023-12.json",
+      "sha256": "fe5f3339fc75e35f6a38c5478492b7dcb921552e9c9c59b9208eb748d4b8d484",
+      "bytes": 1418258,
+      "target": "public/data/ocean/comparison/2023-12.json"
+    },
+    {
+      "source": "data/processed/oscar/comparison/months.json",
+      "sha256": "ae6fdd484588e60c02a8ec011715c40eba1db261a351b7397500ff669ae6f958",
+      "bytes": 2194,
+      "target": "public/data/ocean/comparison/months.json"
+    },
+    {
+      "source": "data/processed/oscar/global_29days.mp4",
+      "sha256": "57b643ca64515b76149350d3ac7ce080d9b3c1e602ade5b5a8b6282a408d27ea",
+      "bytes": 30336722
+    },
+    {
+      "source": "data/processed/oscar/global_clean_7days.mp4",
+      "sha256": "ff870f9fc682d27f9efa20d37f4ffe1f664a8922da05f694e13b2fd5a7b787ea",
+      "bytes": 2554173
+    },
+    {
+      "source": "data/processed/oscar/global_clean_test.mp4",
+      "sha256": "bb3ac40fb39dc783369edc2bdf43aa7164f2c1591fc6dd634daa3c42711b6128",
+      "bytes": 7395054
+    },
+    {
+      "source": "data/processed/oscar/gulf_stream_particles.mp4",
+      "sha256": "3332cbb629063f5daebf9f3018a85c41a3bac1423ded24915fa14df9e773575e",
+      "bytes": 2679261
+    },
+    {
+      "source": "data/processed/oscar/months.json",
+      "sha256": "58c0076dd23fa2a002b0a9d6d05c6d44decac47442ea7ae4cd35712d2f9bb225",
+      "bytes": 6960,
+      "target": "public/data/ocean/months.json"
+    },
+    {
+      "source": "data/processed/oscar/oscar_preview_7days.mp4",
+      "sha256": "fa592a1b6897d08c161a9a27e4e9f36ac625da591364fdab95832921534f3cc9",
+      "bytes": 637263
+    },
+    {
+      "source": "data/processed/oscar/web/2023-01/2023-01-01.json",
+      "sha256": "40279d2ef67503b84045ad1e8a598607a9e9b0a4ed913b37d59bac1b8aabf85b",
+      "bytes": 761004,
+      "target": "public/data/ocean/web/2023-01/2023-01-01.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-01/2023-01-02.json",
+      "sha256": "acda8cdc21befd4d9f8afc69bdea36db044b5b560e54d5e60cd8acff89de1073",
+      "bytes": 761174,
+      "target": "public/data/ocean/web/2023-01/2023-01-02.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-01/2023-01-03.json",
+      "sha256": "eac0312e70d5b1d912660d6f52924be80501b0d560920e3061f000c3992e8b6e",
+      "bytes": 761474,
+      "target": "public/data/ocean/web/2023-01/2023-01-03.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-01/2023-01-04.json",
+      "sha256": "5d912ca3d337db973b2224bf1fed56015ce4f5b072442d8aa1945fef600a8c37",
+      "bytes": 761500,
+      "target": "public/data/ocean/web/2023-01/2023-01-04.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-01/2023-01-05.json",
+      "sha256": "83e31d6fa703d5446e56475bb0504158374f491cd31ab6c3ba55f633ada8976c",
+      "bytes": 761223,
+      "target": "public/data/ocean/web/2023-01/2023-01-05.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-01/2023-01-06.json",
+      "sha256": "d07cf02d3daf0117dc0cf4314e26b231da185321fb248b6f98d2b2cf18ca4404",
+      "bytes": 761213,
+      "target": "public/data/ocean/web/2023-01/2023-01-06.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-01/2023-01-07.json",
+      "sha256": "f4d73e50bf38811f5479644b5b281cc9ea4617ef00196a5e1311f39ccf825258",
+      "bytes": 761640,
+      "target": "public/data/ocean/web/2023-01/2023-01-07.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-01/2023-01-08.json",
+      "sha256": "19961b7913cd446608b7d827b51f1c783d4aaa8a3b05852b2ba3d4190799da88",
+      "bytes": 761071,
+      "target": "public/data/ocean/web/2023-01/2023-01-08.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-01/2023-01-09.json",
+      "sha256": "724854d9468dc0117e155182ebe9545a4ad48deb7478281a6c147dc4bed91c5d",
+      "bytes": 760695,
+      "target": "public/data/ocean/web/2023-01/2023-01-09.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-01/2023-01-10.json",
+      "sha256": "52aa81608187b7b69c1d833a16965bf103f673df6611c913394455389a0c143a",
+      "bytes": 760460,
+      "target": "public/data/ocean/web/2023-01/2023-01-10.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-01/2023-01-11.json",
+      "sha256": "99547bcd01d63b65b44cc77d125ca5ab8c3f3994fae0151857bd1383458fe02a",
+      "bytes": 761022,
+      "target": "public/data/ocean/web/2023-01/2023-01-11.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-01/2023-01-12.json",
+      "sha256": "3fda0627cb606effc76d77e805aa0d35bff3fdec70e1f67e7a5f6ea7f431649c",
+      "bytes": 761158,
+      "target": "public/data/ocean/web/2023-01/2023-01-12.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-01/2023-01-13.json",
+      "sha256": "83d36dc3e7c19b80f48fcac4bffd5da296f6c87a6549dac28d139c636cebcee4",
+      "bytes": 761314,
+      "target": "public/data/ocean/web/2023-01/2023-01-13.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-01/2023-01-14.json",
+      "sha256": "b35fd21d9b0a3b170acf980eb34a47e2319a1749ca24223ad3c7744d76689ad7",
+      "bytes": 761248,
+      "target": "public/data/ocean/web/2023-01/2023-01-14.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-01/2023-01-15.json",
+      "sha256": "b5dd2a800a63f780e5445e06787b9b5a0982aa76879414f5f3fc48ea601dccfc",
+      "bytes": 761023,
+      "target": "public/data/ocean/web/2023-01/2023-01-15.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-01/2023-01-16.json",
+      "sha256": "d11eb99e3e4da0f4fb40a2e0748980fb6880fd8e905915c4b165360b9bbdee58",
+      "bytes": 761209,
+      "target": "public/data/ocean/web/2023-01/2023-01-16.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-01/2023-01-17.json",
+      "sha256": "103272c34f19d54371bf14729c31c89ef74a0d71188342134988d2d1af0e5f17",
+      "bytes": 761409,
+      "target": "public/data/ocean/web/2023-01/2023-01-17.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-01/2023-01-18.json",
+      "sha256": "a6d956005ff48a3d722c57834bb9d08054588c7d6813124e0bb2de86ac57b273",
+      "bytes": 761523,
+      "target": "public/data/ocean/web/2023-01/2023-01-18.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-01/2023-01-19.json",
+      "sha256": "3c634e3a0d956d7d6e44c33003de3fce5a7303f082b6aa64b047f2a9e67358d2",
+      "bytes": 761215,
+      "target": "public/data/ocean/web/2023-01/2023-01-19.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-01/2023-01-20.json",
+      "sha256": "431ffff30fd6cc18e20996f806bb1e900cd33d78cdfa050a3237922b166043ab",
+      "bytes": 761591,
+      "target": "public/data/ocean/web/2023-01/2023-01-20.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-01/2023-01-21.json",
+      "sha256": "fb510c3f0576e2bde3067b3b2d22cc1bbaafbcb61452bff83ca1fbb20a1f9c8e",
+      "bytes": 761287,
+      "target": "public/data/ocean/web/2023-01/2023-01-21.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-01/2023-01-22.json",
+      "sha256": "4f1a43e32083169f14e5494f9d400f0f6340a71b5c7932548420a3c1c005d769",
+      "bytes": 761679,
+      "target": "public/data/ocean/web/2023-01/2023-01-22.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-01/2023-01-23.json",
+      "sha256": "349b58a2f4fa525b57407646582ba87c1eaebea520fc9c28f9312190ca01fe59",
+      "bytes": 762027,
+      "target": "public/data/ocean/web/2023-01/2023-01-23.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-01/2023-01-24.json",
+      "sha256": "7dd184c8f8d92308f9bf53f2bab573b0be7328129fdefda3a695532d993d8332",
+      "bytes": 762134,
+      "target": "public/data/ocean/web/2023-01/2023-01-24.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-01/2023-01-25.json",
+      "sha256": "f81945c0bbb3023faa88e12259032afdae05b79c7a9d23df3dc82313386434ef",
+      "bytes": 762287,
+      "target": "public/data/ocean/web/2023-01/2023-01-25.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-01/2023-01-26.json",
+      "sha256": "bb7340823d0b3242f36c6858bc0fa3e4f2eabb7cee1a82046ac52fae3d0dc0f5",
+      "bytes": 761791,
+      "target": "public/data/ocean/web/2023-01/2023-01-26.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-01/2023-01-27.json",
+      "sha256": "3332657d4ecdc31a3826114a36f75b591e136f7d95fb1b1aab3e4b9998a4520f",
+      "bytes": 761629,
+      "target": "public/data/ocean/web/2023-01/2023-01-27.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-01/2023-01-28.json",
+      "sha256": "cdebf2825b5740251bad770b0b3f18b5378a9c7833253e8cb836e158faea7e99",
+      "bytes": 761501,
+      "target": "public/data/ocean/web/2023-01/2023-01-28.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-01/2023-01-29.json",
+      "sha256": "06204d86002009aff9b079481102fe09b60d774642fb30b5748402c5dd76166f",
+      "bytes": 761154,
+      "target": "public/data/ocean/web/2023-01/2023-01-29.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-01/2023-01-30.json",
+      "sha256": "c87aba5c379062fb9327f08242f81bc900172525c2eeff7d973395db70723cb7",
+      "bytes": 761268,
+      "target": "public/data/ocean/web/2023-01/2023-01-30.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-01/2023-01-31.json",
+      "sha256": "6b966073410adf150d496d591b27986acd2d00a09adc374be446ab3d852966a2",
+      "bytes": 761643,
+      "target": "public/data/ocean/web/2023-01/2023-01-31.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-01/manifest.json",
+      "sha256": "43c9dc4db80237ab92694ef50685315fd731c189fe1ce5e4a9c4d17fb4ecb0bf",
+      "bytes": 2732,
+      "target": "public/data/ocean/web/2023-01/manifest.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-02/2023-02-01.json",
+      "sha256": "aec81ebd905ae907b48f09fc78b87aa20a3752ace42ba99ca60138a5bf84bd21",
+      "bytes": 761405,
+      "target": "public/data/ocean/web/2023-02/2023-02-01.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-02/2023-02-02.json",
+      "sha256": "aadae55f86d480371718bf2728d934715974b34b8283035d82ccda12a4bbf02e",
+      "bytes": 761259,
+      "target": "public/data/ocean/web/2023-02/2023-02-02.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-02/2023-02-03.json",
+      "sha256": "b03c1fea36d924afbb339c1287f81cd1dada3e8ac13df4ecc746c29724e7fb80",
+      "bytes": 761006,
+      "target": "public/data/ocean/web/2023-02/2023-02-03.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-02/2023-02-04.json",
+      "sha256": "20d83696a87de8c53d6736b8ccca61ea870e200fdb2092e53f33a7c9d1f986de",
+      "bytes": 760952,
+      "target": "public/data/ocean/web/2023-02/2023-02-04.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-02/2023-02-05.json",
+      "sha256": "7d50ee53a242423f4f984f49d212e144011ef6e89ca72c9bf22cde9ae157dfa7",
+      "bytes": 760715,
+      "target": "public/data/ocean/web/2023-02/2023-02-05.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-02/2023-02-06.json",
+      "sha256": "aa384bc0bb731190c68fb20931e8a3694d6e1b31d23abb5ed1bb36723761e7ba",
+      "bytes": 762085,
+      "target": "public/data/ocean/web/2023-02/2023-02-06.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-02/2023-02-07.json",
+      "sha256": "4119e39531a9203a24b366ffb0eac006ff2a8856f891b58f63f6b795ba82a58b",
+      "bytes": 762594,
+      "target": "public/data/ocean/web/2023-02/2023-02-07.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-02/2023-02-08.json",
+      "sha256": "58bee80ced1e079925e20b5f9e561457d37b41e2ed1cf315b57851008fa7ce0a",
+      "bytes": 762350,
+      "target": "public/data/ocean/web/2023-02/2023-02-08.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-02/2023-02-09.json",
+      "sha256": "67d24e47cf951ce4e72412501689a6d879d01f97ef343d87bc6431b25dc1efef",
+      "bytes": 762009,
+      "target": "public/data/ocean/web/2023-02/2023-02-09.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-02/2023-02-10.json",
+      "sha256": "11e0f8ec7cee56cec10f405f9b4f11365035aefee78b6b16807625f9c1f544d7",
+      "bytes": 762341,
+      "target": "public/data/ocean/web/2023-02/2023-02-10.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-02/2023-02-11.json",
+      "sha256": "65bb6c4225f5508821b6ff8941b0f8e4b2c2724a8451232b46f6b8a776d7c51c",
+      "bytes": 762103,
+      "target": "public/data/ocean/web/2023-02/2023-02-11.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-02/2023-02-12.json",
+      "sha256": "28be3781136483c8c58c03ce6bdfdeea69ca17a637c6a72de1ab04839c17f6ad",
+      "bytes": 761479,
+      "target": "public/data/ocean/web/2023-02/2023-02-12.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-02/2023-02-13.json",
+      "sha256": "f638ea1f9c5f9eaff3a3461bb75c9d6de215bf5b50b343d80f6ed09363dcb60e",
+      "bytes": 761555,
+      "target": "public/data/ocean/web/2023-02/2023-02-13.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-02/2023-02-14.json",
+      "sha256": "d5aaef208c24a179d7d3a32d95e7c5ed3f05284e14007dd6d076e26a1a045a49",
+      "bytes": 762042,
+      "target": "public/data/ocean/web/2023-02/2023-02-14.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-02/2023-02-15.json",
+      "sha256": "6e19f57e27e2f89b8062f280c2898daf1b18d986d0459e363c6e98d696acf0b4",
+      "bytes": 762134,
+      "target": "public/data/ocean/web/2023-02/2023-02-15.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-02/2023-02-16.json",
+      "sha256": "138010078a42e9c39b780ca53b19be9c96884bbe8738445af2a24d76c58841ed",
+      "bytes": 762441,
+      "target": "public/data/ocean/web/2023-02/2023-02-16.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-02/2023-02-17.json",
+      "sha256": "d734c3a5b05cc51dd14c638bb4d027e52bded64f6f66a457447aa3b0682c7358",
+      "bytes": 761962,
+      "target": "public/data/ocean/web/2023-02/2023-02-17.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-02/2023-02-18.json",
+      "sha256": "21d5b8b3c69cc2dde2f64ea8ffdc52ab067d8e13ec925ae4afb773fa7bf91de0",
+      "bytes": 761985,
+      "target": "public/data/ocean/web/2023-02/2023-02-18.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-02/2023-02-19.json",
+      "sha256": "0e665a39af0faf95dd04da13111502d9edd9dbb56254e5622ceb0ec33602b2e8",
+      "bytes": 761988,
+      "target": "public/data/ocean/web/2023-02/2023-02-19.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-02/2023-02-20.json",
+      "sha256": "40d25e93b11a56683f92d5581c7555b7fcd16651a5c4b8a5cdc1bb35508ed724",
+      "bytes": 762259,
+      "target": "public/data/ocean/web/2023-02/2023-02-20.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-02/2023-02-21.json",
+      "sha256": "a85b5f2fce4855962096283bf0c329670f0cfed97a40a56fb03cceb93df60ea2",
+      "bytes": 762433,
+      "target": "public/data/ocean/web/2023-02/2023-02-21.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-02/2023-02-22.json",
+      "sha256": "13ab4fe1f5d34b8ccca70e48717b47dcc96524f36104ca60262a4c96f6a7ae0d",
+      "bytes": 762098,
+      "target": "public/data/ocean/web/2023-02/2023-02-22.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-02/2023-02-23.json",
+      "sha256": "29d6d16f4a88e2ed165be9240e554f4a734ad0ebe643e37f324828ea788e22f2",
+      "bytes": 761334,
+      "target": "public/data/ocean/web/2023-02/2023-02-23.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-02/2023-02-24.json",
+      "sha256": "6c7870f14b1fc637d88ea09b8e45b6df8e6a35bedf414e211782df6384c83ec5",
+      "bytes": 761852,
+      "target": "public/data/ocean/web/2023-02/2023-02-24.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-02/2023-02-25.json",
+      "sha256": "2dbfbb0475eb4b5c9be597afa7de7289e0cc9874a52b1ca18c5d8472181943d8",
+      "bytes": 762277,
+      "target": "public/data/ocean/web/2023-02/2023-02-25.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-02/2023-02-26.json",
+      "sha256": "33579cedfcaf73090413be27be97325c3e6a41cb54fc37f47ea0ff9158e8885b",
+      "bytes": 762156,
+      "target": "public/data/ocean/web/2023-02/2023-02-26.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-02/2023-02-27.json",
+      "sha256": "e2db6d175b9710bd32db36a96e1b1e4f4fab51ce7770b38e01b1aba164696509",
+      "bytes": 761864,
+      "target": "public/data/ocean/web/2023-02/2023-02-27.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-02/2023-02-28.json",
+      "sha256": "018a036db84a15bec6cc28e620a34e94865e88cc56c9c67e137cf9076d231d80",
+      "bytes": 762061,
+      "target": "public/data/ocean/web/2023-02/2023-02-28.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-02/manifest.json",
+      "sha256": "b35b26864523022fa0a181e82c81960a274f522d81276c957bd37db67f72bc32",
+      "bytes": 2501,
+      "target": "public/data/ocean/web/2023-02/manifest.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-03/2023-03-01.json",
+      "sha256": "b842ba85aca9dfaa6fde4a860de81c5e07b6ae7a4dc2451f5219e78d35804867",
+      "bytes": 762161,
+      "target": "public/data/ocean/web/2023-03/2023-03-01.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-03/2023-03-02.json",
+      "sha256": "023768c092aa89c4ee68d089bf3727bf3f8d9407c87cbd371c0c18a36049d41c",
+      "bytes": 761796,
+      "target": "public/data/ocean/web/2023-03/2023-03-02.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-03/2023-03-03.json",
+      "sha256": "562012dbf3739e9e6284811fba88d90b84994b5d12177ff850dfe2b4b3938be2",
+      "bytes": 762139,
+      "target": "public/data/ocean/web/2023-03/2023-03-03.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-03/2023-03-04.json",
+      "sha256": "c1d0f94a062f1c2df1c5f428490391630755b543746524cfab4d50eea2d17ee4",
+      "bytes": 762117,
+      "target": "public/data/ocean/web/2023-03/2023-03-04.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-03/2023-03-05.json",
+      "sha256": "e2212af8a4c7ac9a34e3fc8ca43635374c540e7514c0cc367c69107b1ceac435",
+      "bytes": 761402,
+      "target": "public/data/ocean/web/2023-03/2023-03-05.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-03/2023-03-06.json",
+      "sha256": "81ff619f49ed6718d4c596a0059501d3ecf0ea30e1582688e1ffde6a7b7d6f27",
+      "bytes": 761468,
+      "target": "public/data/ocean/web/2023-03/2023-03-06.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-03/2023-03-07.json",
+      "sha256": "53048cf6c5334bcf44ca2e9b2e94972d550c3ac426ec7c554b0ac71e3cc39653",
+      "bytes": 761818,
+      "target": "public/data/ocean/web/2023-03/2023-03-07.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-03/2023-03-08.json",
+      "sha256": "822a56a8cb921121245b81a5d6be74d20eb078f90e22bcb33a79c994838e8092",
+      "bytes": 761426,
+      "target": "public/data/ocean/web/2023-03/2023-03-08.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-03/2023-03-09.json",
+      "sha256": "e12261e40912a186632d909bdc110d2c83febf49101dfaeecdbd62047a0c4ffa",
+      "bytes": 761503,
+      "target": "public/data/ocean/web/2023-03/2023-03-09.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-03/2023-03-10.json",
+      "sha256": "8959378d4afd5a3beee70c96b84f725080d13c72f3e0664df98839cc98b6af97",
+      "bytes": 761747,
+      "target": "public/data/ocean/web/2023-03/2023-03-10.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-03/2023-03-11.json",
+      "sha256": "fcdba874e98c470e17ca7b0d5d02e2f921405123ef3788d118c22f83f8741b33",
+      "bytes": 761531,
+      "target": "public/data/ocean/web/2023-03/2023-03-11.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-03/2023-03-12.json",
+      "sha256": "5cab93cb5d758cb45853ad1c75b3d154f06adf6b54b43f2129ebc678e0089a89",
+      "bytes": 761152,
+      "target": "public/data/ocean/web/2023-03/2023-03-12.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-03/2023-03-13.json",
+      "sha256": "2669150bb6d0889cf84ed6375734fb0778bf19b9d7712e8ba38764cae4554f2b",
+      "bytes": 761556,
+      "target": "public/data/ocean/web/2023-03/2023-03-13.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-03/2023-03-14.json",
+      "sha256": "41a7c65c4477a43b3e63b15d1b50148e3f697426225485d88d94b73760fb2b78",
+      "bytes": 761387,
+      "target": "public/data/ocean/web/2023-03/2023-03-14.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-03/2023-03-15.json",
+      "sha256": "60ac67ca7ffbdd753a5fe7cc84eaf08a2e59ba980c1388f0f4243a4348185f54",
+      "bytes": 761492,
+      "target": "public/data/ocean/web/2023-03/2023-03-15.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-03/2023-03-16.json",
+      "sha256": "f3f70eec9d342490e116c1cc33885457bc3cfb92086e1ae0656f53bc0e91c73c",
+      "bytes": 761562,
+      "target": "public/data/ocean/web/2023-03/2023-03-16.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-03/2023-03-17.json",
+      "sha256": "fff52e82e090e49339a463c651dd051bf5cc6e009b0046b53678b0e2e0add756",
+      "bytes": 761459,
+      "target": "public/data/ocean/web/2023-03/2023-03-17.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-03/2023-03-18.json",
+      "sha256": "219ea54a3bd3b30f969b0b3eec647b00a9b5e987fcd74fbe59c28e42b37bf9c8",
+      "bytes": 761546,
+      "target": "public/data/ocean/web/2023-03/2023-03-18.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-03/2023-03-19.json",
+      "sha256": "aabd5cdaa19d471e0ee8d3ce4d84865ebe6e8e3d1b6f923ce650ea497ab374b5",
+      "bytes": 761400,
+      "target": "public/data/ocean/web/2023-03/2023-03-19.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-03/2023-03-20.json",
+      "sha256": "efb44af69bf29d6dfda995898fc1d784433767d176afb6457354c10f1aa6b296",
+      "bytes": 761451,
+      "target": "public/data/ocean/web/2023-03/2023-03-20.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-03/2023-03-21.json",
+      "sha256": "4153a60f89996500e0902dfc14c8285aeb68503d8cf260e652bb999873974888",
+      "bytes": 761454,
+      "target": "public/data/ocean/web/2023-03/2023-03-21.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-03/2023-03-22.json",
+      "sha256": "4736528557c572f294c177e5a669e07342c3a220d44a5f6103876982b75d85a7",
+      "bytes": 761171,
+      "target": "public/data/ocean/web/2023-03/2023-03-22.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-03/2023-03-23.json",
+      "sha256": "3fdafb328043f4beaca389e7c4ab27a62001854e0897e54f4df987a0abb548c0",
+      "bytes": 760791,
+      "target": "public/data/ocean/web/2023-03/2023-03-23.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-03/2023-03-24.json",
+      "sha256": "449b2c64ee46436a4f01b3066a1c3ba47e3aabd534247804d849d9d7313f7772",
+      "bytes": 761129,
+      "target": "public/data/ocean/web/2023-03/2023-03-24.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-03/2023-03-25.json",
+      "sha256": "d74c3edecef418308635f56dc96e47f63bd3d7d54dafa589d2684030d0434cc3",
+      "bytes": 760796,
+      "target": "public/data/ocean/web/2023-03/2023-03-25.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-03/2023-03-26.json",
+      "sha256": "a5681c8fa5150d5f51c321b49b12567eb5745fe87222fa5c373d0380cdf72adf",
+      "bytes": 761262,
+      "target": "public/data/ocean/web/2023-03/2023-03-26.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-03/2023-03-27.json",
+      "sha256": "00e125e2729be6377dbebb081c2e241c3cff66f24fc546813ca919aa1533e675",
+      "bytes": 761588,
+      "target": "public/data/ocean/web/2023-03/2023-03-27.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-03/2023-03-28.json",
+      "sha256": "aad986df5430f772f62b3e685614384894ff718f189c42d7fba4bb4d58e57f63",
+      "bytes": 761580,
+      "target": "public/data/ocean/web/2023-03/2023-03-28.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-03/2023-03-29.json",
+      "sha256": "3a50f37666d50eda2c4b49998cce45953cf500e46d5e752e28297484e7793a50",
+      "bytes": 761005,
+      "target": "public/data/ocean/web/2023-03/2023-03-29.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-03/2023-03-30.json",
+      "sha256": "fcd0df74fb0e3ce2a2066e1a5edee93d3e75acb42c07a1e1baf0f356a2603d76",
+      "bytes": 761197,
+      "target": "public/data/ocean/web/2023-03/2023-03-30.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-03/2023-03-31.json",
+      "sha256": "c0ab602a3535f6832db7b797bfe8cf5a68c90eecd7e2cf002ece864e9070c607",
+      "bytes": 761717,
+      "target": "public/data/ocean/web/2023-03/2023-03-31.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-03/manifest.json",
+      "sha256": "ec9c39b6d9fbc631454e15c213ba8c1d81a67e06c73349de3a2cb3ab015d91b6",
+      "bytes": 2732,
+      "target": "public/data/ocean/web/2023-03/manifest.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-04/2023-04-01.json",
+      "sha256": "47f12af8c93b66e664a820ad1045c43c5cd51621e516464487e23bf6dedd4c53",
+      "bytes": 761725,
+      "target": "public/data/ocean/web/2023-04/2023-04-01.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-04/2023-04-02.json",
+      "sha256": "e1e74df84254b6bf9ceb32e7e1f293505e3df9ab367c06b9a2b4bbd26ecd5bb3",
+      "bytes": 761465,
+      "target": "public/data/ocean/web/2023-04/2023-04-02.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-04/2023-04-03.json",
+      "sha256": "a5a6d7744101229eef4d4bf14c81b5d28fd5692d952923f0fd830551d4c1cc18",
+      "bytes": 761596,
+      "target": "public/data/ocean/web/2023-04/2023-04-03.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-04/2023-04-04.json",
+      "sha256": "301dd7e51b92766db5fa2bd0edc838ec5e99ac0fb9a665a64481fb638de01744",
+      "bytes": 761586,
+      "target": "public/data/ocean/web/2023-04/2023-04-04.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-04/2023-04-05.json",
+      "sha256": "8d256efb1eff73d638e0e25b546e7155a3cb25059efaa7e713e547e3e93763f3",
+      "bytes": 761226,
+      "target": "public/data/ocean/web/2023-04/2023-04-05.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-04/2023-04-06.json",
+      "sha256": "8b01326a05a9bee9c3302c68d68e4ddf2e05c3f92e0a111ecaf7dc8e5a9a2f59",
+      "bytes": 761410,
+      "target": "public/data/ocean/web/2023-04/2023-04-06.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-04/2023-04-07.json",
+      "sha256": "1d98c21c053a5d228b0ca5ed6f1256a6f6d70d12fd6a63e89ae559d9fdb777b8",
+      "bytes": 762053,
+      "target": "public/data/ocean/web/2023-04/2023-04-07.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-04/2023-04-08.json",
+      "sha256": "84bf3fa32df889fd314a90af564dbc6387f286e44af831680409ea4d060d3f65",
+      "bytes": 762023,
+      "target": "public/data/ocean/web/2023-04/2023-04-08.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-04/2023-04-09.json",
+      "sha256": "38d3ca4b0ca7e7e5e1971bd46d83d79dadccd09cefbbb84236b565c6da771d99",
+      "bytes": 761743,
+      "target": "public/data/ocean/web/2023-04/2023-04-09.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-04/2023-04-10.json",
+      "sha256": "dab014b92e53f174ef1c2d943a4a883fe390ea2dad4cf5e882f1e23ed29eb5f5",
+      "bytes": 761269,
+      "target": "public/data/ocean/web/2023-04/2023-04-10.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-04/2023-04-11.json",
+      "sha256": "414a3490274a1edb609c12919e93b89b7ee0fb6dca70038d871fc0064d170ca6",
+      "bytes": 761123,
+      "target": "public/data/ocean/web/2023-04/2023-04-11.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-04/2023-04-12.json",
+      "sha256": "a838bec21af86de4fe79bae8946a35a5497f4c984295f6b4bcb82932e0f63f7a",
+      "bytes": 761568,
+      "target": "public/data/ocean/web/2023-04/2023-04-12.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-04/2023-04-13.json",
+      "sha256": "7e8dc284fd7e1929ac5d85b42ad9d5ddd1b163fb560b5aa391cc58e4d8972b56",
+      "bytes": 761763,
+      "target": "public/data/ocean/web/2023-04/2023-04-13.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-04/2023-04-14.json",
+      "sha256": "23969d2604dc765bc9ed1fc24e3f794b0664969a42cb2115e17ad6caf447e3c8",
+      "bytes": 761778,
+      "target": "public/data/ocean/web/2023-04/2023-04-14.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-04/2023-04-15.json",
+      "sha256": "bc116984f016b5c06ab9c327edd021dc012e051d4e2da207833fe973b5d0b601",
+      "bytes": 761519,
+      "target": "public/data/ocean/web/2023-04/2023-04-15.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-04/2023-04-16.json",
+      "sha256": "755c004c9b1f7c35473c358afbd466f497978fe95c142dd744579815524d8615",
+      "bytes": 761546,
+      "target": "public/data/ocean/web/2023-04/2023-04-16.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-04/2023-04-17.json",
+      "sha256": "3cf272972c2a348b4db62fd16cb7770de89a25cdc01a645abf660fe39095598b",
+      "bytes": 761850,
+      "target": "public/data/ocean/web/2023-04/2023-04-17.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-04/2023-04-18.json",
+      "sha256": "4d69f719696af6d50b5a9a2827b89811ac4a9b2c86aaee838018f12142f61d3f",
+      "bytes": 762250,
+      "target": "public/data/ocean/web/2023-04/2023-04-18.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-04/2023-04-19.json",
+      "sha256": "75cd9ee7969054b9cb58da408ec577755b8ffd1386110cc92a8124ac15f3027a",
+      "bytes": 761821,
+      "target": "public/data/ocean/web/2023-04/2023-04-19.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-04/2023-04-20.json",
+      "sha256": "783a3ceae81920cbf1b82ab80daefef9ccc26191aee484b5248fd26b4b99492c",
+      "bytes": 760953,
+      "target": "public/data/ocean/web/2023-04/2023-04-20.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-04/2023-04-21.json",
+      "sha256": "816642c56d4d4ac09513ffc95a7dd35b058483d4f6d872f45d2df2e5e70f7823",
+      "bytes": 761628,
+      "target": "public/data/ocean/web/2023-04/2023-04-21.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-04/2023-04-22.json",
+      "sha256": "1fa5863db568e9c57e0c4df0e4289bb9ead2d6a01e90a8be9d54a46bae4fb997",
+      "bytes": 761320,
+      "target": "public/data/ocean/web/2023-04/2023-04-22.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-04/2023-04-23.json",
+      "sha256": "e6f27ce188ef802b0e33c15a88d464752eaab175eac5b9a2a4e144730f04d809",
+      "bytes": 761340,
+      "target": "public/data/ocean/web/2023-04/2023-04-23.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-04/2023-04-24.json",
+      "sha256": "2fbc7e18b280ddbd6b6745d2f7e4e0d6004e029029a59374af2ee8ae3c47afe5",
+      "bytes": 761703,
+      "target": "public/data/ocean/web/2023-04/2023-04-24.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-04/2023-04-25.json",
+      "sha256": "52e893d111c4caa53f5cc4152599781c413881665647e83f672a4e2816e67fcc",
+      "bytes": 761769,
+      "target": "public/data/ocean/web/2023-04/2023-04-25.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-04/2023-04-26.json",
+      "sha256": "4dcda68716c5b62efcbc73a195adacb4cf742d0b2ad31f0e2bde0f906bff0b8c",
+      "bytes": 761918,
+      "target": "public/data/ocean/web/2023-04/2023-04-26.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-04/2023-04-27.json",
+      "sha256": "7ab2239f5690563df3a10e58a2213c7060ff24d42add092323135324460e6e04",
+      "bytes": 761163,
+      "target": "public/data/ocean/web/2023-04/2023-04-27.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-04/2023-04-28.json",
+      "sha256": "09726c79d7193b86bc4cc4daa84f1968edcff8df9d70b122601b19b8c6557468",
+      "bytes": 761504,
+      "target": "public/data/ocean/web/2023-04/2023-04-28.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-04/2023-04-29.json",
+      "sha256": "b27614f34ba8c252de432d9dfeeedd9ebd609aa230cc0ab579c46b9b37429479",
+      "bytes": 761581,
+      "target": "public/data/ocean/web/2023-04/2023-04-29.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-04/2023-04-30.json",
+      "sha256": "0afbaeb41c9779b9502c5d169a93f4190ed1744db7701424222039c21a70e3bf",
+      "bytes": 761771,
+      "target": "public/data/ocean/web/2023-04/2023-04-30.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-04/manifest.json",
+      "sha256": "c855b79014445dd054b8d65d22b28b1a5aba4b81652eef48278839cb8259358b",
+      "bytes": 2655,
+      "target": "public/data/ocean/web/2023-04/manifest.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-05/2023-05-01.json",
+      "sha256": "4812203a6183836dc98a5caa22441ac6c29d167219528c669799e4142bb52da3",
+      "bytes": 762488,
+      "target": "public/data/ocean/web/2023-05/2023-05-01.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-05/2023-05-02.json",
+      "sha256": "0a499634a1e2087af5d278ff888526a39b79dc3f3016530b50de18c9d14bdf2c",
+      "bytes": 763106,
+      "target": "public/data/ocean/web/2023-05/2023-05-02.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-05/2023-05-03.json",
+      "sha256": "a44ba302a17a300f8260427eaac98fc0171a6ac773abea261f2185285fcb3e2b",
+      "bytes": 763008,
+      "target": "public/data/ocean/web/2023-05/2023-05-03.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-05/2023-05-04.json",
+      "sha256": "fbccec89e71da615ab51454845de5d012297af0b2b7cb849b160176241dddd52",
+      "bytes": 763177,
+      "target": "public/data/ocean/web/2023-05/2023-05-04.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-05/2023-05-05.json",
+      "sha256": "c117a6ac2e440399c313ae2fc95b3a943fe299676c6e5c91334148c2817c2cec",
+      "bytes": 762613,
+      "target": "public/data/ocean/web/2023-05/2023-05-05.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-05/2023-05-06.json",
+      "sha256": "dad744613fd8a4988c3ddc3813d8ed264d5e6920d83c05e3929fd7f9771d7c80",
+      "bytes": 762436,
+      "target": "public/data/ocean/web/2023-05/2023-05-06.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-05/2023-05-07.json",
+      "sha256": "dedf53a06ff727ee33cb18ea767fbe760f11a307394c8f949f0a92a42446a961",
+      "bytes": 762117,
+      "target": "public/data/ocean/web/2023-05/2023-05-07.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-05/2023-05-08.json",
+      "sha256": "1eda646906b4f8be48e52f2d42e8439af8767a2f24f00188d907dd218deda185",
+      "bytes": 761529,
+      "target": "public/data/ocean/web/2023-05/2023-05-08.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-05/2023-05-09.json",
+      "sha256": "745e5ff6458f9ef8f1b2596c869087d78f27561ecd4b4a9a81086214ec403c18",
+      "bytes": 761821,
+      "target": "public/data/ocean/web/2023-05/2023-05-09.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-05/2023-05-10.json",
+      "sha256": "031ad8ec3b76d0d8fcfe88a2479086ea6d0b19a23ffa94e54520f5ae0c916e4e",
+      "bytes": 762001,
+      "target": "public/data/ocean/web/2023-05/2023-05-10.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-05/2023-05-11.json",
+      "sha256": "074d3f69adbbaeadb57a8088804083478707cf064290341e4a93834dab3bd29d",
+      "bytes": 761781,
+      "target": "public/data/ocean/web/2023-05/2023-05-11.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-05/2023-05-12.json",
+      "sha256": "830cef64c1619cdfe4a245a65677f36a9405176bef9e535d5f02064161f6d849",
+      "bytes": 761903,
+      "target": "public/data/ocean/web/2023-05/2023-05-12.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-05/2023-05-13.json",
+      "sha256": "eb53699d0c99ad0e8ee74c343e2b5b0a038ccbd59c3672c2e6bd7dceabe04267",
+      "bytes": 761194,
+      "target": "public/data/ocean/web/2023-05/2023-05-13.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-05/2023-05-14.json",
+      "sha256": "8b6e8b7fe84227821bdb8964403f137db3f50f85483967dded4a68fa8d66d1db",
+      "bytes": 760653,
+      "target": "public/data/ocean/web/2023-05/2023-05-14.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-05/2023-05-15.json",
+      "sha256": "21cea5cdd639e494639ae729d4ad368591f455c50bd81d6cd0e0a4a263bfca65",
+      "bytes": 760788,
+      "target": "public/data/ocean/web/2023-05/2023-05-15.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-05/2023-05-16.json",
+      "sha256": "a188f6bc74df455989982abd8110e471bc473ea902172ad06e7f06ddee7fac41",
+      "bytes": 760783,
+      "target": "public/data/ocean/web/2023-05/2023-05-16.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-05/2023-05-17.json",
+      "sha256": "6ded3bdd0cec4c17f850db64d7a6ac2c597dcb4e4297fb9fff7d0234ba84757a",
+      "bytes": 760974,
+      "target": "public/data/ocean/web/2023-05/2023-05-17.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-05/2023-05-18.json",
+      "sha256": "1a46d1a7b3b4dc37efa1a196922d599922f2a7672e0e1f2a06b7197dc9db0d4b",
+      "bytes": 761568,
+      "target": "public/data/ocean/web/2023-05/2023-05-18.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-05/2023-05-19.json",
+      "sha256": "6aa834c11860190deea9d1afc2858b77129add73f4c338d726232c63f06c5e41",
+      "bytes": 761627,
+      "target": "public/data/ocean/web/2023-05/2023-05-19.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-05/2023-05-20.json",
+      "sha256": "d54ef0a7702d501e1e4d90d7343812b2f9037ff47cd8ce271f8140a877b87d4a",
+      "bytes": 761823,
+      "target": "public/data/ocean/web/2023-05/2023-05-20.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-05/2023-05-21.json",
+      "sha256": "cc52372916caaa01b8155fd91d565d5cb72585f5bf8d9a517e3bbca168087771",
+      "bytes": 761661,
+      "target": "public/data/ocean/web/2023-05/2023-05-21.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-05/2023-05-22.json",
+      "sha256": "41f8e43c61aaf03b47aa12fadc846f01900b2e6e0c9f73fc0d68bdbc53cc9d61",
+      "bytes": 761303,
+      "target": "public/data/ocean/web/2023-05/2023-05-22.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-05/2023-05-23.json",
+      "sha256": "b7e8ac00438816c1aa5c342e1ec2a4aff0ad210a5b7e0a15154f62bd7a1d5779",
+      "bytes": 762107,
+      "target": "public/data/ocean/web/2023-05/2023-05-23.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-05/2023-05-24.json",
+      "sha256": "b5abb78932308529a4cd2bee12d423492b019964fb0c6921e2be9904b64e1f3a",
+      "bytes": 761407,
+      "target": "public/data/ocean/web/2023-05/2023-05-24.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-05/2023-05-25.json",
+      "sha256": "1b04f23b24076db392123275de4a10335295c53347c11d7acf176bb52ff924b4",
+      "bytes": 761631,
+      "target": "public/data/ocean/web/2023-05/2023-05-25.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-05/2023-05-26.json",
+      "sha256": "c5e1de4edfd3b55ac688951f4adf814ff26fb8fdd293bcf401b72785fa5cfe87",
+      "bytes": 761697,
+      "target": "public/data/ocean/web/2023-05/2023-05-26.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-05/2023-05-27.json",
+      "sha256": "696665a2c0ad5cb6c2ba1d7c1bb1d0bdafe6351530d14600547100c5cb2cc0ac",
+      "bytes": 761500,
+      "target": "public/data/ocean/web/2023-05/2023-05-27.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-05/2023-05-28.json",
+      "sha256": "84e971ead2540ebd85a6caf6cf9542a39e3558a6a96f489658107b82017e06e3",
+      "bytes": 761986,
+      "target": "public/data/ocean/web/2023-05/2023-05-28.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-05/2023-05-29.json",
+      "sha256": "86fc67f7ac9d9076ea1ab3717dc54e1631db6036cb99040d96bcc55192152f3d",
+      "bytes": 762240,
+      "target": "public/data/ocean/web/2023-05/2023-05-29.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-05/2023-05-30.json",
+      "sha256": "b9de1ce72dbc4353140e72c98ec88ee8fd5311c9c0a41973470a0c2e9cdf1066",
+      "bytes": 761771,
+      "target": "public/data/ocean/web/2023-05/2023-05-30.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-05/2023-05-31.json",
+      "sha256": "a475c4f3fe31be99bd040de79915c0fa9d1dc9aef858f374bdc7f4e5eb99a72d",
+      "bytes": 761847,
+      "target": "public/data/ocean/web/2023-05/2023-05-31.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-05/manifest.json",
+      "sha256": "c2363dc0506e102539422908b65283677a303d689cb5880812216731a51b8ca2",
+      "bytes": 2732,
+      "target": "public/data/ocean/web/2023-05/manifest.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-06/2023-06-01.json",
+      "sha256": "2a6a3ac430bee73d35791c9a26ae04c27738db5ca42c19ebe5f859b4a00fcc91",
+      "bytes": 761601,
+      "target": "public/data/ocean/web/2023-06/2023-06-01.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-06/2023-06-02.json",
+      "sha256": "3cda4e3e3db2b93cfb598d8237a842ca204bc258cd2583f370d3e58756b15900",
+      "bytes": 761040,
+      "target": "public/data/ocean/web/2023-06/2023-06-02.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-06/2023-06-03.json",
+      "sha256": "4ddfb8a049c30e75a503696055ef39bcd9cd2856cf0fbfb736f785e04158291b",
+      "bytes": 760563,
+      "target": "public/data/ocean/web/2023-06/2023-06-03.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-06/2023-06-04.json",
+      "sha256": "0b4eacc2c4fd3780c2891a3a513f0bbbfc314fea664eb2fcbe7fd9c8bd48d657",
+      "bytes": 760117,
+      "target": "public/data/ocean/web/2023-06/2023-06-04.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-06/2023-06-05.json",
+      "sha256": "6fc56d04f92241d5e6c7405cc8aa1281ce96356ca883657738475bdf5681e54c",
+      "bytes": 760888,
+      "target": "public/data/ocean/web/2023-06/2023-06-05.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-06/2023-06-06.json",
+      "sha256": "a8b70040e77506867a913828c11070ca1fe7b9e734a01625b3197301141ae376",
+      "bytes": 761067,
+      "target": "public/data/ocean/web/2023-06/2023-06-06.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-06/2023-06-07.json",
+      "sha256": "0395ca62e553c918ab0be6d2ca649d16afb4621a8d81daddd74282c9500303d9",
+      "bytes": 760975,
+      "target": "public/data/ocean/web/2023-06/2023-06-07.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-06/2023-06-08.json",
+      "sha256": "3dea2d86a513a04ffd8905fc9cd4ad905ac61cd10a0a4ff65583061b106c9f30",
+      "bytes": 760908,
+      "target": "public/data/ocean/web/2023-06/2023-06-08.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-06/2023-06-09.json",
+      "sha256": "cde6dbf40a2292b845d5ece03666bcf0bb243e11d1303fd606cd97b9d68e149f",
+      "bytes": 761565,
+      "target": "public/data/ocean/web/2023-06/2023-06-09.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-06/2023-06-10.json",
+      "sha256": "d1fdb95188b375f8640e5882585f6b08efe74be1ab0d6440257f2a17af49950f",
+      "bytes": 762001,
+      "target": "public/data/ocean/web/2023-06/2023-06-10.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-06/2023-06-11.json",
+      "sha256": "7244cbe6967ccd73f1b00e7d9ab28f7e22d71be4134f5fe66896c7d25ceed21c",
+      "bytes": 762839,
+      "target": "public/data/ocean/web/2023-06/2023-06-11.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-06/2023-06-12.json",
+      "sha256": "c93ba4cb863c11a44feaa69b3b5a0def1721269f565f6a10f071f54bbcfdf971",
+      "bytes": 762382,
+      "target": "public/data/ocean/web/2023-06/2023-06-12.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-06/2023-06-13.json",
+      "sha256": "d0686eed2ba57aa84c49bb743cf8c3af4b3e266c06ec3668c58c7507b16c733b",
+      "bytes": 762385,
+      "target": "public/data/ocean/web/2023-06/2023-06-13.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-06/2023-06-14.json",
+      "sha256": "e855d8cb492d9ed0dd36189afb7d7b054307f978676e4bf9a53d6e2aac1e67c3",
+      "bytes": 762250,
+      "target": "public/data/ocean/web/2023-06/2023-06-14.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-06/2023-06-15.json",
+      "sha256": "10a2f91294af8640be8c46005870d7c297f550961654acf403642c340e4a28a6",
+      "bytes": 761948,
+      "target": "public/data/ocean/web/2023-06/2023-06-15.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-06/2023-06-16.json",
+      "sha256": "6df79abbd52eb4385f834da9d9d770ca43f5999cd2b59f765c85860f27240b2b",
+      "bytes": 761879,
+      "target": "public/data/ocean/web/2023-06/2023-06-16.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-06/2023-06-17.json",
+      "sha256": "80ce21c85361359fde505e56adacf085011ed6f3d32b508dc52701e136ebbd47",
+      "bytes": 761503,
+      "target": "public/data/ocean/web/2023-06/2023-06-17.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-06/2023-06-18.json",
+      "sha256": "2022e67b72a0145c094f1ee5c55d2d11e2970619703a735bf00950fb780917c8",
+      "bytes": 760849,
+      "target": "public/data/ocean/web/2023-06/2023-06-18.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-06/2023-06-19.json",
+      "sha256": "c8b67e269a939cd7112ba1b4698f80500f16fdcdb2eb1609ac81f548c9fb4c3d",
+      "bytes": 760579,
+      "target": "public/data/ocean/web/2023-06/2023-06-19.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-06/2023-06-20.json",
+      "sha256": "44d02a17c5e4c89506b856ecfc23dce905b261fe8f7c5468287703b3ae3a3ee1",
+      "bytes": 760518,
+      "target": "public/data/ocean/web/2023-06/2023-06-20.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-06/2023-06-21.json",
+      "sha256": "1834056a8ebb8ef0d0985ae4947ec6a3e46c1ccfa6c1879a0657079a6f85ae93",
+      "bytes": 760894,
+      "target": "public/data/ocean/web/2023-06/2023-06-21.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-06/2023-06-22.json",
+      "sha256": "6d8b441e8ea4ae6defa2cb9af739a0be8a5578afdbc43ddf3b9e73afdb7fb052",
+      "bytes": 760498,
+      "target": "public/data/ocean/web/2023-06/2023-06-22.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-06/2023-06-23.json",
+      "sha256": "99257a15c10bf04ef1e4d5d38deacef1e2822600a8276865e2c053de7812fa05",
+      "bytes": 760916,
+      "target": "public/data/ocean/web/2023-06/2023-06-23.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-06/2023-06-24.json",
+      "sha256": "ce6b6a67858292719dafc81677e6a5aea61a19f29f77162618bac0379b7c87a8",
+      "bytes": 761412,
+      "target": "public/data/ocean/web/2023-06/2023-06-24.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-06/2023-06-25.json",
+      "sha256": "7d37fdae639a094d9f709abe192d4c4cb3fc27bfb6e821e5c93d95214345e199",
+      "bytes": 761498,
+      "target": "public/data/ocean/web/2023-06/2023-06-25.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-06/2023-06-26.json",
+      "sha256": "c4f1d694a9919ce105c867d86f1e9b05c40c09e9c6ffeed1dce48354fffcbae4",
+      "bytes": 761438,
+      "target": "public/data/ocean/web/2023-06/2023-06-26.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-06/2023-06-27.json",
+      "sha256": "10ddcf3d8cd3d53e977efa5c6181f764d4edbb6b8cab3b8a7ff8521ae81358e3",
+      "bytes": 761898,
+      "target": "public/data/ocean/web/2023-06/2023-06-27.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-06/2023-06-28.json",
+      "sha256": "52f81011e10f2857d0f6d7020cd7c4a741760ce450dfcfd303e355a0a47e629d",
+      "bytes": 760902,
+      "target": "public/data/ocean/web/2023-06/2023-06-28.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-06/2023-06-29.json",
+      "sha256": "4d86d33887db3b001ddeb09455cb4dbdd02a9e702167888a837fd8e7897d4dcf",
+      "bytes": 761066,
+      "target": "public/data/ocean/web/2023-06/2023-06-29.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-06/2023-06-30.json",
+      "sha256": "b5c6e8d62c4ac1d35db58abe632ab9a9b1772514e9032367d89f8786144eb0e2",
+      "bytes": 761253,
+      "target": "public/data/ocean/web/2023-06/2023-06-30.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-06/manifest.json",
+      "sha256": "9a4e774b5a1099fa8b8afa51fa6bfb3428181a807cdf37057125ab4be518d3fb",
+      "bytes": 2655,
+      "target": "public/data/ocean/web/2023-06/manifest.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-07/2023-07-01.json",
+      "sha256": "6b70fb02dfa5a15ead6679c6cde6ac673ecd1d2f56e129a72ebdb599fe3eabee",
+      "bytes": 762130,
+      "target": "public/data/ocean/web/2023-07/2023-07-01.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-07/2023-07-02.json",
+      "sha256": "c3915c9921abe8dc93c91aff7faebb74d08e7d8e44624b751c24dc8486b7a741",
+      "bytes": 761449,
+      "target": "public/data/ocean/web/2023-07/2023-07-02.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-07/2023-07-03.json",
+      "sha256": "e17b7e6a958c9ae4881f7ace5db2c33c91d1c9c4d6bc252dc95e17ec668397b7",
+      "bytes": 761505,
+      "target": "public/data/ocean/web/2023-07/2023-07-03.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-07/2023-07-04.json",
+      "sha256": "e2a3d305fa6c8944defcb83c04ad916345c3ba100d180a921c7b66ad0b2f1830",
+      "bytes": 760954,
+      "target": "public/data/ocean/web/2023-07/2023-07-04.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-07/2023-07-05.json",
+      "sha256": "429a52ae681468da33c9a396b1e9776ed01677edfeb3a9646d9710b80bd38d14",
+      "bytes": 761446,
+      "target": "public/data/ocean/web/2023-07/2023-07-05.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-07/2023-07-06.json",
+      "sha256": "7b4dae93ec2aa2d718ec093eab5b723c7bb6a0e95cb12586ba5204f4a7783742",
+      "bytes": 761858,
+      "target": "public/data/ocean/web/2023-07/2023-07-06.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-07/2023-07-07.json",
+      "sha256": "7ffe44cb191dc80fd0f9d3218915c26202c8038cca5a830cdbe5d2f1f9390876",
+      "bytes": 762153,
+      "target": "public/data/ocean/web/2023-07/2023-07-07.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-07/2023-07-08.json",
+      "sha256": "0b8a8ea02c1ab21b607781de3d64a53dbc753e64d98a91e13a076e6da7d5c54e",
+      "bytes": 762184,
+      "target": "public/data/ocean/web/2023-07/2023-07-08.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-07/2023-07-09.json",
+      "sha256": "903367b676059bc8c0cc53fe550060d1fd398ad2e14a064063a2eeeb0b12cf9d",
+      "bytes": 761917,
+      "target": "public/data/ocean/web/2023-07/2023-07-09.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-07/2023-07-10.json",
+      "sha256": "b8617b79b512e62593a99ac0cdeee2445692146d5ad0150a7e8c37a1695b9f63",
+      "bytes": 762290,
+      "target": "public/data/ocean/web/2023-07/2023-07-10.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-07/2023-07-11.json",
+      "sha256": "8e0a0428e5610eb4165bba5d96b8ca06c7aa9bb0d0854e59bedc2e32f23d7608",
+      "bytes": 762121,
+      "target": "public/data/ocean/web/2023-07/2023-07-11.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-07/2023-07-12.json",
+      "sha256": "3f63bfb99e479afe45ffdbdd63d106c6dfe433190d5d306e1a496df172335dae",
+      "bytes": 760852,
+      "target": "public/data/ocean/web/2023-07/2023-07-12.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-07/2023-07-13.json",
+      "sha256": "b47e650f37bbd4fde09a4b5e07062317e2c4571ee22f6cc462538b5a804fc9ae",
+      "bytes": 761480,
+      "target": "public/data/ocean/web/2023-07/2023-07-13.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-07/2023-07-14.json",
+      "sha256": "b78735026b08bc56e3944f6efc4b7da7f79509bb856546e78c4c88237f868363",
+      "bytes": 761898,
+      "target": "public/data/ocean/web/2023-07/2023-07-14.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-07/2023-07-15.json",
+      "sha256": "6069872784cf16964b5724955f751bebbd3865d26b40e12495a78d0b1b2ba920",
+      "bytes": 761348,
+      "target": "public/data/ocean/web/2023-07/2023-07-15.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-07/2023-07-16.json",
+      "sha256": "a2b7d9a780fadc80d3ca824f78cbb268218930c9d5620e41e2bfe05cf6fc72ac",
+      "bytes": 761352,
+      "target": "public/data/ocean/web/2023-07/2023-07-16.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-07/2023-07-17.json",
+      "sha256": "69f7ceef52e5024304b0d1d1530c90d9adeb51b6dce8a5f2d19ac98273f9cb60",
+      "bytes": 761358,
+      "target": "public/data/ocean/web/2023-07/2023-07-17.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-07/2023-07-18.json",
+      "sha256": "7c2552f994658c7273277f7f225a526bb65bb1c3ced0dd51742910dbe46c513c",
+      "bytes": 761415,
+      "target": "public/data/ocean/web/2023-07/2023-07-18.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-07/2023-07-19.json",
+      "sha256": "0eb2d9d875be001431dc04396359c2a6fdfa37f3ee6c5a5baea3e3866e3f71b7",
+      "bytes": 761999,
+      "target": "public/data/ocean/web/2023-07/2023-07-19.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-07/2023-07-20.json",
+      "sha256": "80141cf1aa163ac32a834101dd57cc78941676cec7ca9d37d94374769cf2eb46",
+      "bytes": 761934,
+      "target": "public/data/ocean/web/2023-07/2023-07-20.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-07/2023-07-21.json",
+      "sha256": "c3971c0bb605b78734633ca80facdba9b39c80c00b63767febc3f843fbd0d78a",
+      "bytes": 762231,
+      "target": "public/data/ocean/web/2023-07/2023-07-21.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-07/2023-07-22.json",
+      "sha256": "33eb0e4435f435265c4c3b7502c5dfbebcc5ffa6eb06d048214a54114b42ed58",
+      "bytes": 762391,
+      "target": "public/data/ocean/web/2023-07/2023-07-22.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-07/2023-07-23.json",
+      "sha256": "1102c295daf5053525362530a4bd43504f380deaa18b2a21323b26ec3644457e",
+      "bytes": 761716,
+      "target": "public/data/ocean/web/2023-07/2023-07-23.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-07/2023-07-24.json",
+      "sha256": "da0257244440231545287a9e5644c035a88cfcc43a72c6ee4335a622347e5b44",
+      "bytes": 761741,
+      "target": "public/data/ocean/web/2023-07/2023-07-24.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-07/2023-07-25.json",
+      "sha256": "62f990158babd98bdd2f1f5021794966a205db954b6fe06cc130188598268207",
+      "bytes": 761116,
+      "target": "public/data/ocean/web/2023-07/2023-07-25.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-07/2023-07-26.json",
+      "sha256": "dbbdf35f2d471b730e2548c8c4d4b703215e5caa40934906c2ea665a88afa972",
+      "bytes": 761200,
+      "target": "public/data/ocean/web/2023-07/2023-07-26.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-07/2023-07-27.json",
+      "sha256": "a8d8d2405eabd50e20b35aa21a7dbf73f2f5795a051a99c2b8fefba5c7ee7150",
+      "bytes": 761499,
+      "target": "public/data/ocean/web/2023-07/2023-07-27.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-07/2023-07-28.json",
+      "sha256": "b3a2e1c1a382c4aa8d31ea0d751f61b234e83868a40a6f92c28972422a8f2d8b",
+      "bytes": 761384,
+      "target": "public/data/ocean/web/2023-07/2023-07-28.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-07/2023-07-29.json",
+      "sha256": "f0536a959be101d8acfcb2a560120256b1cab3fd2db732fdf8fd2ba62f49db8a",
+      "bytes": 761224,
+      "target": "public/data/ocean/web/2023-07/2023-07-29.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-07/2023-07-30.json",
+      "sha256": "061a571b414822aecb40517b465a64dbe531110e453d42a7a0227bc7c1be4c0a",
+      "bytes": 761292,
+      "target": "public/data/ocean/web/2023-07/2023-07-30.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-07/2023-07-31.json",
+      "sha256": "f09ffbbe1cdf4f74d179fccf09cb5020e78083726fcf531dd66500298d46176b",
+      "bytes": 761488,
+      "target": "public/data/ocean/web/2023-07/2023-07-31.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-07/manifest.json",
+      "sha256": "f776cf60c752baffdd25d5aa25e51cf95434cc4895f6df308a60d8dc487dd9ca",
+      "bytes": 2732,
+      "target": "public/data/ocean/web/2023-07/manifest.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-08/2023-08-01.json",
+      "sha256": "54dbf4ca8560f15fa7b260c20a22988474df5a24d4c1fc67a103caef1bca4e13",
+      "bytes": 761890,
+      "target": "public/data/ocean/web/2023-08/2023-08-01.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-08/2023-08-02.json",
+      "sha256": "1940e271250a09e7fb13bbe52e0be1ca9ae251a191c12e1f4db338028332a506",
+      "bytes": 761906,
+      "target": "public/data/ocean/web/2023-08/2023-08-02.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-08/2023-08-03.json",
+      "sha256": "261c4fb9664a8db0185135e06c9a270a09ac36e2bf022925b920882ccf2fd853",
+      "bytes": 761504,
+      "target": "public/data/ocean/web/2023-08/2023-08-03.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-08/2023-08-04.json",
+      "sha256": "7e1aaa6b93505383c4b73becd8a332cabdeaebead24b81f08dd71b8c7d6915d3",
+      "bytes": 761827,
+      "target": "public/data/ocean/web/2023-08/2023-08-04.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-08/2023-08-05.json",
+      "sha256": "9421f7e348c8c0042bf2725202e4f7d907ff85485081ea29b0288c9fe0ef3e33",
+      "bytes": 761746,
+      "target": "public/data/ocean/web/2023-08/2023-08-05.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-08/2023-08-06.json",
+      "sha256": "1e67a9c54f40c9aacb8f73ba5f5d8a4708c6c5964c6e299e0611fce87510059b",
+      "bytes": 760772,
+      "target": "public/data/ocean/web/2023-08/2023-08-06.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-08/2023-08-07.json",
+      "sha256": "3e7531109279fda754e3f6e5dd46ed0e34d20f1ffa59a31006726cace9308d78",
+      "bytes": 761197,
+      "target": "public/data/ocean/web/2023-08/2023-08-07.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-08/2023-08-08.json",
+      "sha256": "ed0156a21eb8501b674cc2e6f642e0cd4f284d976a74a2f69745e61be7aaaa27",
+      "bytes": 761795,
+      "target": "public/data/ocean/web/2023-08/2023-08-08.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-08/2023-08-09.json",
+      "sha256": "3bad1c555a6d2562d5168cdc760f74024708eaee9e495f7fc8d3e2fef5a4bf76",
+      "bytes": 761166,
+      "target": "public/data/ocean/web/2023-08/2023-08-09.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-08/2023-08-10.json",
+      "sha256": "844db4ab85cbccf2d63af302fff4424eaaf2821883b094c679242cf3f5be5612",
+      "bytes": 761426,
+      "target": "public/data/ocean/web/2023-08/2023-08-10.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-08/2023-08-11.json",
+      "sha256": "76b08b0c171955281d7fa7dfd2742ad4eee0149118f4335f15251a62fce54880",
+      "bytes": 760779,
+      "target": "public/data/ocean/web/2023-08/2023-08-11.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-08/2023-08-12.json",
+      "sha256": "9b7f8230bb99dd165078f51303f5d6814fd997069cabeb8c3dcabc8b6d38a98b",
+      "bytes": 760404,
+      "target": "public/data/ocean/web/2023-08/2023-08-12.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-08/2023-08-13.json",
+      "sha256": "1ee79e74caec0e515b6ae5c14ba8520294038e9720718beddad719ece05c9e48",
+      "bytes": 761030,
+      "target": "public/data/ocean/web/2023-08/2023-08-13.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-08/2023-08-14.json",
+      "sha256": "c473d5e20b86e5b6979144957489ddde486d9e341f217922e43fed99ebc19fa0",
+      "bytes": 760796,
+      "target": "public/data/ocean/web/2023-08/2023-08-14.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-08/2023-08-15.json",
+      "sha256": "84a886cce0b88f00abf1b454122187b037861ddbf16d3f88c772fc1dbc32cbfe",
+      "bytes": 760848,
+      "target": "public/data/ocean/web/2023-08/2023-08-15.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-08/2023-08-16.json",
+      "sha256": "63dbd033b8f48c10e16be5fca57b62cfaab66fc424310b062bc623390b687946",
+      "bytes": 761497,
+      "target": "public/data/ocean/web/2023-08/2023-08-16.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-08/2023-08-17.json",
+      "sha256": "09dbdf9d643fda27f27c7c5ae21039f85d0c06ede92d28bbad517c2571ad456c",
+      "bytes": 761120,
+      "target": "public/data/ocean/web/2023-08/2023-08-17.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-08/2023-08-18.json",
+      "sha256": "7e9b787153edc90b15ad55e3fe7cfd1f950760f1eed9ff3dff26402d6432b7c4",
+      "bytes": 761326,
+      "target": "public/data/ocean/web/2023-08/2023-08-18.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-08/2023-08-19.json",
+      "sha256": "2a6fd3b84b00c07441750efb37c31fa597d49270f186f4b5f0214f07ddbf23ab",
+      "bytes": 761657,
+      "target": "public/data/ocean/web/2023-08/2023-08-19.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-08/2023-08-20.json",
+      "sha256": "c4903840a57046ca204bad497bec9ad634cdb78be81ba7dc7cafa8a5b1fc7de2",
+      "bytes": 761756,
+      "target": "public/data/ocean/web/2023-08/2023-08-20.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-08/2023-08-21.json",
+      "sha256": "6b3ed2c5399d246f20920e0e5054f669867442a36ac23d63ff93cd506c7df64d",
+      "bytes": 762184,
+      "target": "public/data/ocean/web/2023-08/2023-08-21.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-08/2023-08-22.json",
+      "sha256": "0db5ebb4d0a5c6a62591f1b91b4c21b1b257e374ad494c3f6b042b08abcddb51",
+      "bytes": 762648,
+      "target": "public/data/ocean/web/2023-08/2023-08-22.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-08/2023-08-23.json",
+      "sha256": "885b70d826a158fdc676df743a9cd2434cd57a16bdfb523a6827d4a246ae86f4",
+      "bytes": 762521,
+      "target": "public/data/ocean/web/2023-08/2023-08-23.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-08/2023-08-24.json",
+      "sha256": "e942aef3c95f26f7cb3e998ae59596107747b15ff6bd731fcd33346ce2e78158",
+      "bytes": 762584,
+      "target": "public/data/ocean/web/2023-08/2023-08-24.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-08/2023-08-25.json",
+      "sha256": "c3ac56d797020463ffe694324d4dc2e5c31c7aa305afeffffc5f32396b07cfcb",
+      "bytes": 762901,
+      "target": "public/data/ocean/web/2023-08/2023-08-25.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-08/2023-08-26.json",
+      "sha256": "cbe5d59ef7bc75d224a7af3f9a9b95a881d29535ab15a94c5567f9082dd3137b",
+      "bytes": 762738,
+      "target": "public/data/ocean/web/2023-08/2023-08-26.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-08/2023-08-27.json",
+      "sha256": "d30dbed0a36e0741d68273d9ae41f3465f9518afb414b7080c468365b9094fb1",
+      "bytes": 762721,
+      "target": "public/data/ocean/web/2023-08/2023-08-27.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-08/2023-08-28.json",
+      "sha256": "049e693ee96c58cb7b27fab2835efa22c6f797bf716fd0b8021e39d878a6a774",
+      "bytes": 762424,
+      "target": "public/data/ocean/web/2023-08/2023-08-28.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-08/2023-08-29.json",
+      "sha256": "b87153b310fccb9cfc17706c90d42e06cfa4bb4e9cfac8e958df9b3e97894225",
+      "bytes": 762528,
+      "target": "public/data/ocean/web/2023-08/2023-08-29.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-08/2023-08-30.json",
+      "sha256": "6f9ab7880b232a00c398b1ef24202b611ab6a0c83e97d2ec3ab78be5b87aadb7",
+      "bytes": 761977,
+      "target": "public/data/ocean/web/2023-08/2023-08-30.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-08/2023-08-31.json",
+      "sha256": "eaafa0ea54b820e2715a8058afb7869bc9365081b5697b0bf14f289d58f43dc5",
+      "bytes": 762398,
+      "target": "public/data/ocean/web/2023-08/2023-08-31.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-08/manifest.json",
+      "sha256": "7792f20dc3d80f4b960be9c84f1ce01e634b0b61010b86526810deea71a7849c",
+      "bytes": 2732,
+      "target": "public/data/ocean/web/2023-08/manifest.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-09/2023-09-01.json",
+      "sha256": "bd14e2fe00136bbbac253ced88d839ab511d016682f5d1899e0c57e9c4777e0a",
+      "bytes": 761831,
+      "target": "public/data/ocean/web/2023-09/2023-09-01.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-09/2023-09-02.json",
+      "sha256": "56373d339deccd8a3c9f83eade69ce17f139d458115b2493aed9e1ed5213f3a0",
+      "bytes": 762273,
+      "target": "public/data/ocean/web/2023-09/2023-09-02.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-09/2023-09-03.json",
+      "sha256": "38024460f6c508bf31c769b7ae4462e309f320cb6622c82fc70a3f27e794318d",
+      "bytes": 761933,
+      "target": "public/data/ocean/web/2023-09/2023-09-03.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-09/2023-09-04.json",
+      "sha256": "1743015a75388a5086cfce2b2efd62a90f5f3ddccabd22a57d15b4e2b64e36d9",
+      "bytes": 761700,
+      "target": "public/data/ocean/web/2023-09/2023-09-04.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-09/2023-09-05.json",
+      "sha256": "065b25e22eef752ca2b22e6c4353887dae4b66ae17a99374843af7a836771594",
+      "bytes": 762331,
+      "target": "public/data/ocean/web/2023-09/2023-09-05.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-09/2023-09-06.json",
+      "sha256": "244de01a329c86b66ab0ba6bf9528f74904509598fdbed952867bf6d111ab479",
+      "bytes": 762114,
+      "target": "public/data/ocean/web/2023-09/2023-09-06.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-09/2023-09-07.json",
+      "sha256": "8ebb7650b60143e4ed2234f51ba39dfef92f3db70a93f4d3569f892f31daee81",
+      "bytes": 762621,
+      "target": "public/data/ocean/web/2023-09/2023-09-07.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-09/2023-09-08.json",
+      "sha256": "7f4b03e76a699ba97ec10960e775095865ecdd330f7cb8aca17e6a1d72583e0f",
+      "bytes": 762040,
+      "target": "public/data/ocean/web/2023-09/2023-09-08.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-09/2023-09-09.json",
+      "sha256": "f5e08d5f611a250f4f65239f76180decdbc51938b25e05314dd3248646d92b3d",
+      "bytes": 761867,
+      "target": "public/data/ocean/web/2023-09/2023-09-09.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-09/2023-09-10.json",
+      "sha256": "bf252eaec897187b2eadfa151ae82049575120cdf099638aea2e0674602e1cc7",
+      "bytes": 762434,
+      "target": "public/data/ocean/web/2023-09/2023-09-10.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-09/2023-09-11.json",
+      "sha256": "d8fd7d4b016afcffd89b412672e7eaf8c106776cfcffbcf99a60964fd2db608d",
+      "bytes": 762883,
+      "target": "public/data/ocean/web/2023-09/2023-09-11.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-09/2023-09-12.json",
+      "sha256": "84d34dca13b9204aecc6cd4f05b3b2fe7a1072ba5990d7127541e3105c767ccf",
+      "bytes": 763169,
+      "target": "public/data/ocean/web/2023-09/2023-09-12.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-09/2023-09-13.json",
+      "sha256": "62bbe7530dd2ed0631670c8d5e868463d4dec09c560bd5d3ae62364e0ca6a963",
+      "bytes": 762609,
+      "target": "public/data/ocean/web/2023-09/2023-09-13.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-09/2023-09-14.json",
+      "sha256": "2af87e6e2720634dcb4bfdededf255c2b96fde0cf386385e2280ca2a413c951d",
+      "bytes": 762960,
+      "target": "public/data/ocean/web/2023-09/2023-09-14.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-09/2023-09-15.json",
+      "sha256": "e0beafc3628b0667e414f1e7ae20c4e27ad891cd28a07d1dc8c2deb3eb65d05a",
+      "bytes": 762824,
+      "target": "public/data/ocean/web/2023-09/2023-09-15.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-09/2023-09-16.json",
+      "sha256": "cbeff93c4a361003ef263052add4f887798d1cb824d1547bbf7ce499676c8a5f",
+      "bytes": 763253,
+      "target": "public/data/ocean/web/2023-09/2023-09-16.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-09/2023-09-17.json",
+      "sha256": "9ad39c361f059c648fd854708c10a0ec27674c8b446bb994159eda31dfe71e98",
+      "bytes": 762341,
+      "target": "public/data/ocean/web/2023-09/2023-09-17.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-09/2023-09-18.json",
+      "sha256": "7a2561452a423f8737a4f4f7493d3936098c0b17b16986194503e0cb40aa28ac",
+      "bytes": 762591,
+      "target": "public/data/ocean/web/2023-09/2023-09-18.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-09/2023-09-19.json",
+      "sha256": "bb7f4e3375c6fa58a713a1ba45a0f645b797433b951697e9799ecf1697b5d9e9",
+      "bytes": 762679,
+      "target": "public/data/ocean/web/2023-09/2023-09-19.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-09/2023-09-20.json",
+      "sha256": "c55bd38155231e2d05cf41696f69ed7e6e805084f9eccf9f0cc822f6ddfcb067",
+      "bytes": 762496,
+      "target": "public/data/ocean/web/2023-09/2023-09-20.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-09/2023-09-21.json",
+      "sha256": "018883d47a3cd2384acc573c5efc7fab4b9542b0d1fd7be146d0993b5d7681e1",
+      "bytes": 762526,
+      "target": "public/data/ocean/web/2023-09/2023-09-21.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-09/2023-09-22.json",
+      "sha256": "eebfb1f667ec182285edfdc1c3219c8b407b111ee84f1b9140fd455cff00d569",
+      "bytes": 762313,
+      "target": "public/data/ocean/web/2023-09/2023-09-22.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-09/2023-09-23.json",
+      "sha256": "f30c94398eb0c943e512f4003aad4c08a239fe8c474345770ccd0120f80a2292",
+      "bytes": 762361,
+      "target": "public/data/ocean/web/2023-09/2023-09-23.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-09/2023-09-24.json",
+      "sha256": "edc96021d3c3f25904a406c02a7be01a2c0aa131e4706f6a7626266f802c47e5",
+      "bytes": 762638,
+      "target": "public/data/ocean/web/2023-09/2023-09-24.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-09/2023-09-25.json",
+      "sha256": "e0d4a9d823e362429b8f32091ace782e4231c4bd7c1623f2f05f63077f8cf642",
+      "bytes": 762509,
+      "target": "public/data/ocean/web/2023-09/2023-09-25.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-09/2023-09-26.json",
+      "sha256": "577f3ee65e69c360577d89c67b804a63d0bd7781f9ecc279985a8ac27eb7f9b1",
+      "bytes": 763127,
+      "target": "public/data/ocean/web/2023-09/2023-09-26.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-09/2023-09-27.json",
+      "sha256": "912161d23c8cf2edb71a292a9c104280a5a680a1d80c26bf686053cac0eb4082",
+      "bytes": 762433,
+      "target": "public/data/ocean/web/2023-09/2023-09-27.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-09/2023-09-28.json",
+      "sha256": "202b5d9380136ef7d215f30d2aababb94ade7f53dfa3573651466207129ed563",
+      "bytes": 761915,
+      "target": "public/data/ocean/web/2023-09/2023-09-28.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-09/2023-09-29.json",
+      "sha256": "3d8fd7e54f2f58d7212b247e02942dec41f10ad15f4517ca7eff6277904e73da",
+      "bytes": 762232,
+      "target": "public/data/ocean/web/2023-09/2023-09-29.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-09/2023-09-30.json",
+      "sha256": "100b3618e1e9a5e2ef579a0e2abef3429b893c40ea36d41c791fcd39d6549eb4",
+      "bytes": 762257,
+      "target": "public/data/ocean/web/2023-09/2023-09-30.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-09/manifest.json",
+      "sha256": "e3c7befd427cf93fdec454559448d47ad7102049d706204cb9caac5139d2b6a2",
+      "bytes": 2655,
+      "target": "public/data/ocean/web/2023-09/manifest.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-10/2023-10-01.json",
+      "sha256": "9622948de70e4daae54c33a97c91898252853bde7b91ee1ff01bdfc38b15dcc1",
+      "bytes": 762212,
+      "target": "public/data/ocean/web/2023-10/2023-10-01.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-10/2023-10-02.json",
+      "sha256": "7d5b8695979a32cfca7cc430a4ca36656a5461fd3f0b115971d4120d9b34b123",
+      "bytes": 762344,
+      "target": "public/data/ocean/web/2023-10/2023-10-02.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-10/2023-10-03.json",
+      "sha256": "968f5d80c7abbff1976e09aa2adb621e387dfb14e8e6bc60305c439fedad4ffd",
+      "bytes": 762353,
+      "target": "public/data/ocean/web/2023-10/2023-10-03.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-10/2023-10-04.json",
+      "sha256": "9b195787a3f2e36068c0b24e0a86d93d7f7a739d418e482ab07d12f27b5d79f7",
+      "bytes": 762130,
+      "target": "public/data/ocean/web/2023-10/2023-10-04.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-10/2023-10-05.json",
+      "sha256": "9270c7c6fec5e08f75f9761443ac729bee71bea21694735583bc12971f69bc8e",
+      "bytes": 761733,
+      "target": "public/data/ocean/web/2023-10/2023-10-05.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-10/2023-10-06.json",
+      "sha256": "e0f6299ec8bf4d00d59c335a6e19d822fbfb36c40d0fd8d6dee6402b776ac8e8",
+      "bytes": 761848,
+      "target": "public/data/ocean/web/2023-10/2023-10-06.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-10/2023-10-07.json",
+      "sha256": "662b879c00745fda5a831195b8751ed3d7f236580bcfbb5df969a5d14beacaf5",
+      "bytes": 762470,
+      "target": "public/data/ocean/web/2023-10/2023-10-07.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-10/2023-10-08.json",
+      "sha256": "024ea9be285e62d586bbcaac8edeae3d826b4ef0088209af138b526b462a9cc8",
+      "bytes": 762869,
+      "target": "public/data/ocean/web/2023-10/2023-10-08.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-10/2023-10-09.json",
+      "sha256": "a204d7379f7ea06cba5f3b2588d1e06d623de2f51e3ca39a021d06d2d9151229",
+      "bytes": 762398,
+      "target": "public/data/ocean/web/2023-10/2023-10-09.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-10/2023-10-10.json",
+      "sha256": "a4a9300c1356c634129c3f1743983888ff37440548398b9ec2471087c04f9a91",
+      "bytes": 762062,
+      "target": "public/data/ocean/web/2023-10/2023-10-10.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-10/2023-10-11.json",
+      "sha256": "fb9b32149ce4c8defe20efadaccb71736d7daeb6c42c6b88fa579c76a47d475d",
+      "bytes": 761510,
+      "target": "public/data/ocean/web/2023-10/2023-10-11.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-10/2023-10-12.json",
+      "sha256": "eb7dc70b726ed92186a0e5d857b735d48a5669d96d2dc3df7f3fe065e3297b71",
+      "bytes": 761501,
+      "target": "public/data/ocean/web/2023-10/2023-10-12.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-10/2023-10-13.json",
+      "sha256": "f8296d74f82ac1247c5ab8cabbcc345d0958aad8c602e6eb5a3f4a2970f070fc",
+      "bytes": 762405,
+      "target": "public/data/ocean/web/2023-10/2023-10-13.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-10/2023-10-14.json",
+      "sha256": "471d2cbebe54a4a04995777bef5c538b5c0a3581bc59a8a3d06395c353676538",
+      "bytes": 762314,
+      "target": "public/data/ocean/web/2023-10/2023-10-14.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-10/2023-10-15.json",
+      "sha256": "5d537c6c3637a441dfdd390857e7901081c74ca0bc85488f6343c0befdbed914",
+      "bytes": 761832,
+      "target": "public/data/ocean/web/2023-10/2023-10-15.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-10/2023-10-16.json",
+      "sha256": "5a875b2e65fc565e6a2dc0581352fcbabc81797ecce75ba5710ed4b24a4765d8",
+      "bytes": 761473,
+      "target": "public/data/ocean/web/2023-10/2023-10-16.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-10/2023-10-17.json",
+      "sha256": "8dbb9a896dffd17fe2d970b479a5629b8af000f697db27967f762eccf1637feb",
+      "bytes": 762140,
+      "target": "public/data/ocean/web/2023-10/2023-10-17.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-10/2023-10-18.json",
+      "sha256": "cb862b09c6fd9a4b719f7e21cb043e7fad59b2f5a408fd67547f0b6ae311c59e",
+      "bytes": 762223,
+      "target": "public/data/ocean/web/2023-10/2023-10-18.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-10/2023-10-19.json",
+      "sha256": "ef88984e5b56b916cbbf60927b702fd9c5b192fdd5b385c28ccf87d5e0d51900",
+      "bytes": 761585,
+      "target": "public/data/ocean/web/2023-10/2023-10-19.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-10/2023-10-20.json",
+      "sha256": "c6eab0297f56ea7487e253f18724f8c2c9ed6fa9e6a9cfb7699a7804d4909be6",
+      "bytes": 761993,
+      "target": "public/data/ocean/web/2023-10/2023-10-20.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-10/2023-10-21.json",
+      "sha256": "5d38946caa7bc4c437739ab9881a419edfeca72ff5002584e4eae4f68f47e505",
+      "bytes": 762094,
+      "target": "public/data/ocean/web/2023-10/2023-10-21.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-10/2023-10-22.json",
+      "sha256": "ea052c6319087ece543bb4143eab891ddef088cd734a23ecb4ed659d5c934f54",
+      "bytes": 762386,
+      "target": "public/data/ocean/web/2023-10/2023-10-22.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-10/2023-10-23.json",
+      "sha256": "e73b63412de6d46ff80753e4cb4b5747cc8798d1bf1d84a88b2a1d87f037d794",
+      "bytes": 761871,
+      "target": "public/data/ocean/web/2023-10/2023-10-23.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-10/2023-10-24.json",
+      "sha256": "1216b37c3f17edf714c9b7cc61ca69be635b66ef2fc0c38a4c15d2bbb415c69d",
+      "bytes": 761679,
+      "target": "public/data/ocean/web/2023-10/2023-10-24.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-10/2023-10-25.json",
+      "sha256": "b8d05524efb94391f7cee425db804bee5e59f33e4cb789e24354287504f37280",
+      "bytes": 762130,
+      "target": "public/data/ocean/web/2023-10/2023-10-25.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-10/2023-10-26.json",
+      "sha256": "c2001a3f0fe0faec2f380a838a96dbce164f6db7b896d99b07dbd6fded9744b5",
+      "bytes": 761877,
+      "target": "public/data/ocean/web/2023-10/2023-10-26.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-10/2023-10-27.json",
+      "sha256": "a2f29cad560291a164b9fd110f450325d206f9292cb9e0771724e6ad7a8cc03b",
+      "bytes": 762300,
+      "target": "public/data/ocean/web/2023-10/2023-10-27.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-10/2023-10-28.json",
+      "sha256": "5718fe4a49425de81fddd8a0e8fcb3ef2c4a5eb8cd45178cf3cea213760fd298",
+      "bytes": 762125,
+      "target": "public/data/ocean/web/2023-10/2023-10-28.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-10/2023-10-29.json",
+      "sha256": "4dad5877f730b149704d73294dbca437b085994abc506b130da7a3a349529679",
+      "bytes": 761244,
+      "target": "public/data/ocean/web/2023-10/2023-10-29.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-10/2023-10-30.json",
+      "sha256": "1a46285e845d094957f575773588472694d5288b5e438efa9311180f3b42714d",
+      "bytes": 760890,
+      "target": "public/data/ocean/web/2023-10/2023-10-30.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-10/2023-10-31.json",
+      "sha256": "e9470822243108bbc0b812685576df07bc33221006889100e407171c75ca405e",
+      "bytes": 761422,
+      "target": "public/data/ocean/web/2023-10/2023-10-31.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-10/manifest.json",
+      "sha256": "c866f4c14eb2349210544b8f97e495bac6ab548ad071f4b5e2b134c0e40a5540",
+      "bytes": 2732,
+      "target": "public/data/ocean/web/2023-10/manifest.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-11-01.json",
+      "sha256": "cead630938015f32a221d38024c8f434088165ecb9400a0a76abc19658dc0617",
+      "bytes": 761356,
+      "target": "public/data/ocean/web/2023-11-01.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-11-02.json",
+      "sha256": "ec0c08251fe55c99703380f15a31abde37cc1a64470b10fe7433487d0dcabe09",
+      "bytes": 761376,
+      "target": "public/data/ocean/web/2023-11-02.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-11-03.json",
+      "sha256": "b4ab2066fc5b2424e83ebd1730a5fbf164baad5ce619919a63d97bd09e3b0981",
+      "bytes": 761224,
+      "target": "public/data/ocean/web/2023-11-03.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-11-04.json",
+      "sha256": "75b0460281cb685f7228db0da3db644e3074ac11aeef4baf8d28229c749e154a",
+      "bytes": 761785,
+      "target": "public/data/ocean/web/2023-11-04.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-11-05.json",
+      "sha256": "b09e3e93582dab55c90240d6cfa98d3e0ed545e2f82217c18cfd58f5998e15d1",
+      "bytes": 761624,
+      "target": "public/data/ocean/web/2023-11-05.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-11-06.json",
+      "sha256": "ce8c22c06da0a72e033f9622a8994818b92d49a292d125abc3613a43c4b87be9",
+      "bytes": 761455,
+      "target": "public/data/ocean/web/2023-11-06.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-11-07.json",
+      "sha256": "ef65825274e6661e9bde04f6178a8022cf6d84e4aff0683f87d099051abc3f9d",
+      "bytes": 762032,
+      "target": "public/data/ocean/web/2023-11-07.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-11-08.json",
+      "sha256": "b69c7f674991c429e9b98432770d9c4ca5443e66b65b6495d23a4bf19cf4f8cd",
+      "bytes": 761736,
+      "target": "public/data/ocean/web/2023-11-08.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-11-09.json",
+      "sha256": "e4c606b22b9786e6908a4639ef97791271d8f537ce2941c4de07acd48af43d38",
+      "bytes": 761717,
+      "target": "public/data/ocean/web/2023-11-09.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-11-10.json",
+      "sha256": "23cf4067dd439b43be5bae2ae7653c794e83e223300a195d683f72bf24ea2b1f",
+      "bytes": 761665,
+      "target": "public/data/ocean/web/2023-11-10.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-11-11.json",
+      "sha256": "61a9ea6f7d5986dd544f822f64235d72d921cb877aec343b6f0db8b25c16420e",
+      "bytes": 761316,
+      "target": "public/data/ocean/web/2023-11-11.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-11-12.json",
+      "sha256": "af53f6c9baf55f871ecf19f300bfe39b4239c28e4df00f0f0855a468ec7e6ee2",
+      "bytes": 761355,
+      "target": "public/data/ocean/web/2023-11-12.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-11-13.json",
+      "sha256": "f48f546e5413660cace5f752cafd1cef7d4369f74207570694e33ffa8a77414d",
+      "bytes": 761587,
+      "target": "public/data/ocean/web/2023-11-13.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-11-14.json",
+      "sha256": "063fdc84b5241b7208318c82a5c667dbb4d722cd0eba0a4d769f5479f186727c",
+      "bytes": 761730,
+      "target": "public/data/ocean/web/2023-11-14.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-11-15.json",
+      "sha256": "c330223802d0aed4c6f66662d4ddbad8fe242edf82aed3b2d23edeb4b9155ef7",
+      "bytes": 762417,
+      "target": "public/data/ocean/web/2023-11-15.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-11-16.json",
+      "sha256": "9c31ce81ae737fc6f5cba8305425a6b3c32d7ee53a57447df2fdad0eb8de434e",
+      "bytes": 762258,
+      "target": "public/data/ocean/web/2023-11-16.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-11-17.json",
+      "sha256": "1859dd6c0cb169d2c76a933385a6d981a6cbe71be505c31b64b46782b82e5a65",
+      "bytes": 762342,
+      "target": "public/data/ocean/web/2023-11-17.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-11-18.json",
+      "sha256": "7d8fb2114890b5473d6ba2e3d68bbb1f8f0b936ec142deac96e157a1fefc939e",
+      "bytes": 762018,
+      "target": "public/data/ocean/web/2023-11-18.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-11-19.json",
+      "sha256": "3116de3a34c7cacf02571a90e6075de6541b04c4b97176056eb2fc4bff98c9ec",
+      "bytes": 762006,
+      "target": "public/data/ocean/web/2023-11-19.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-11-20.json",
+      "sha256": "370669b7fd31edf8e0f41ccb8f08c5a360eb6613e4efa537ce0af954cd1d653d",
+      "bytes": 761783,
+      "target": "public/data/ocean/web/2023-11-20.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-11-21.json",
+      "sha256": "e2939d2ea8020f889706c63d9d2063be9e93f6395320a60d7e061b43581082bd",
+      "bytes": 761118,
+      "target": "public/data/ocean/web/2023-11-21.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-11-22.json",
+      "sha256": "8ac5b608c9bce812bd5c4a18c83e7376d6db186077233ba8052473ac03c1bce4",
+      "bytes": 761825,
+      "target": "public/data/ocean/web/2023-11-22.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-11-23.json",
+      "sha256": "537feb133b38b5b7773876da052efde1e82f22e250633c057cee44c5ebe7fd28",
+      "bytes": 761704,
+      "target": "public/data/ocean/web/2023-11-23.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-11-24.json",
+      "sha256": "09e37609b6b1cf6f9b168b8db301b01fc8783c8e431c8e873f053b484f184f52",
+      "bytes": 761383,
+      "target": "public/data/ocean/web/2023-11-24.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-11-25.json",
+      "sha256": "13448869cb80f4afbc77a8b2acfa28cfac12a819b0ef69361a0b59a4141a250d",
+      "bytes": 761764,
+      "target": "public/data/ocean/web/2023-11-25.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-11-26.json",
+      "sha256": "4c3956707f38a370992fdfae1667b1640ffd7b3ae5200d216393c6f912ea76bb",
+      "bytes": 761907,
+      "target": "public/data/ocean/web/2023-11-26.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-11-27.json",
+      "sha256": "b7df18b76cfaeda83ec5ab8c326da37effa05100a2e535d816376a09ae327064",
+      "bytes": 762187,
+      "target": "public/data/ocean/web/2023-11-27.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-11-28.json",
+      "sha256": "53abda7f912a63384251685cfe2f075d507d0a9841c8e503f3768d946e73c6a6",
+      "bytes": 761684,
+      "target": "public/data/ocean/web/2023-11-28.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-11-29.json",
+      "sha256": "876015bed0486f506eff7422fbd50f4b42db46c6a8b0092b47b58dc8859fccea",
+      "bytes": 762214,
+      "target": "public/data/ocean/web/2023-11-29.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-11-30.json",
+      "sha256": "4fa6d0351542ff1faa99e1614c7dd55a508f2ab7ccd7c66848bca205374d6133",
+      "bytes": 762367,
+      "target": "public/data/ocean/web/2023-11-30.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-12/2023-12-01.json",
+      "sha256": "c623f4fca5c04dcd4f4a0a6276fc1945fdfe1a1c6ef16d6dc61e1fa2e926daf4",
+      "bytes": 762020,
+      "target": "public/data/ocean/web/2023-12/2023-12-01.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-12/2023-12-02.json",
+      "sha256": "dd0f70503cbdc897c315522dd803b0b1d8846303a31bafffa8ff10adf0d87b6a",
+      "bytes": 761505,
+      "target": "public/data/ocean/web/2023-12/2023-12-02.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-12/2023-12-03.json",
+      "sha256": "b0b4f487b415cba77cb0467feaf92e803a58e18792591a3c3fc39195aa06369f",
+      "bytes": 761618,
+      "target": "public/data/ocean/web/2023-12/2023-12-03.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-12/2023-12-04.json",
+      "sha256": "d699395f8514b5d54eeaf5a3c16556d5ef4dc10073292f34165ea97f89915baa",
+      "bytes": 762230,
+      "target": "public/data/ocean/web/2023-12/2023-12-04.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-12/2023-12-05.json",
+      "sha256": "8d5489c3ea6a307102a22c4f6aa112e5535911599067d5ae5e341675a5658f4e",
+      "bytes": 762328,
+      "target": "public/data/ocean/web/2023-12/2023-12-05.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-12/2023-12-06.json",
+      "sha256": "cfa13935b34515ea15259680b941eb5cc665b9436117b626d16af7f720941be0",
+      "bytes": 761842,
+      "target": "public/data/ocean/web/2023-12/2023-12-06.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-12/2023-12-07.json",
+      "sha256": "fd6a105f422063695698027ff5e719500cab775b8c3794897dc49394797cdd02",
+      "bytes": 762251,
+      "target": "public/data/ocean/web/2023-12/2023-12-07.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-12/2023-12-08.json",
+      "sha256": "b7c224248222adc0108d8fc9783d1b193e7507d6cf1e93052286c54c4c67dbb7",
+      "bytes": 761778,
+      "target": "public/data/ocean/web/2023-12/2023-12-08.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-12/2023-12-09.json",
+      "sha256": "ae5366e915c5375c2a326f8ae58f24af513b9d67345e214f24e4f8dce8746b6e",
+      "bytes": 761304,
+      "target": "public/data/ocean/web/2023-12/2023-12-09.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-12/2023-12-10.json",
+      "sha256": "31a5c189f3a2b8e55b07faa93d5c9910e102095a69cd749de1613e01db60aded",
+      "bytes": 761485,
+      "target": "public/data/ocean/web/2023-12/2023-12-10.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-12/2023-12-11.json",
+      "sha256": "fb896af9d30ceac491840281eb38032e2b2c48a2a09211e66eb02383a148a2ef",
+      "bytes": 761201,
+      "target": "public/data/ocean/web/2023-12/2023-12-11.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-12/2023-12-12.json",
+      "sha256": "faf6d59d796607b5f37aa46cdf8cfe5c03f4d73e50824de01295f86b951dc124",
+      "bytes": 761763,
+      "target": "public/data/ocean/web/2023-12/2023-12-12.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-12/2023-12-13.json",
+      "sha256": "7888df4e9dd9949dedd88ec40e604347a8fbdb44dd6deb0521ccafee4916cfeb",
+      "bytes": 762503,
+      "target": "public/data/ocean/web/2023-12/2023-12-13.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-12/2023-12-14.json",
+      "sha256": "1485a602a94f14715840bf455fab37db5ea710f157211cc1f947be78e4bc4bc3",
+      "bytes": 761983,
+      "target": "public/data/ocean/web/2023-12/2023-12-14.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-12/2023-12-15.json",
+      "sha256": "ac498356f3a308fd593c34c626649a5241ce076eccac2a8d867d828731a6e986",
+      "bytes": 761767,
+      "target": "public/data/ocean/web/2023-12/2023-12-15.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-12/2023-12-16.json",
+      "sha256": "bbe70ee4742be5ee8707f84d7e86335a24fc01a3e7fe281c34b843a4fcbde0ff",
+      "bytes": 761876,
+      "target": "public/data/ocean/web/2023-12/2023-12-16.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-12/2023-12-17.json",
+      "sha256": "903c6617a683274642d02295a617228733897d94f180d6649715e1baa5d62843",
+      "bytes": 762095,
+      "target": "public/data/ocean/web/2023-12/2023-12-17.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-12/2023-12-18.json",
+      "sha256": "645b9d3265e6de3ba92870d39d6de0cc62d85377e21643b7010dd0d39004c84a",
+      "bytes": 761385,
+      "target": "public/data/ocean/web/2023-12/2023-12-18.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-12/2023-12-19.json",
+      "sha256": "ccebd98cc293f54e210efc70ff6a727603ff3c51338ede60d9c31fea06f5156f",
+      "bytes": 761400,
+      "target": "public/data/ocean/web/2023-12/2023-12-19.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-12/2023-12-20.json",
+      "sha256": "61a1d161cf24bdef768b6f4f1acf2c0f10e5bb3c9c69952fbeb0242e3bae1c2b",
+      "bytes": 761771,
+      "target": "public/data/ocean/web/2023-12/2023-12-20.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-12/2023-12-21.json",
+      "sha256": "bd3a4ccba87ce53a43e70d626755cdca3e37254443b9883c7985e09e13103130",
+      "bytes": 761899,
+      "target": "public/data/ocean/web/2023-12/2023-12-21.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-12/2023-12-22.json",
+      "sha256": "c016656a1777d1c932eb75f4848ddb82fc9b69e39ff3ec62685aea8d266aede8",
+      "bytes": 761719,
+      "target": "public/data/ocean/web/2023-12/2023-12-22.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-12/2023-12-23.json",
+      "sha256": "641feb3d31768fba7a7d7b07ec539496a478d5c549a5ff184383530bc9745a51",
+      "bytes": 761661,
+      "target": "public/data/ocean/web/2023-12/2023-12-23.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-12/2023-12-24.json",
+      "sha256": "7205089c256e0a239f6bfdd5f28120ffc67aedc4270835573829dec627a7fe1c",
+      "bytes": 761250,
+      "target": "public/data/ocean/web/2023-12/2023-12-24.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-12/2023-12-25.json",
+      "sha256": "8eb6791f405514bafe6eacc042403b615eee214dca081f38d2028f57db5bcded",
+      "bytes": 760806,
+      "target": "public/data/ocean/web/2023-12/2023-12-25.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-12/2023-12-26.json",
+      "sha256": "878d2b748824c5029f89414ab5790fea654e4e04669e21f3cf85f83660b83e45",
+      "bytes": 760624,
+      "target": "public/data/ocean/web/2023-12/2023-12-26.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-12/2023-12-27.json",
+      "sha256": "1d652771d50a35f03f329ddcb18dab606dd57be0f9e911b721a32fcab610cb29",
+      "bytes": 760549,
+      "target": "public/data/ocean/web/2023-12/2023-12-27.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-12/2023-12-28.json",
+      "sha256": "4454e65614ed4c49d6ce1fd88e628be96de164b07560b4917051d0f6c809ec00",
+      "bytes": 761027,
+      "target": "public/data/ocean/web/2023-12/2023-12-28.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-12/2023-12-29.json",
+      "sha256": "4dba4af43a5c7f90bc6e70fe240d5d8b0461c0081e7e0b4c3af8e8081ebcc2a1",
+      "bytes": 761426,
+      "target": "public/data/ocean/web/2023-12/2023-12-29.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-12/2023-12-30.json",
+      "sha256": "5797c82c49e618afeb4aa29539805998c0bc3276f4bb3a87af068571d86cb431",
+      "bytes": 760880,
+      "target": "public/data/ocean/web/2023-12/2023-12-30.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-12/2023-12-31.json",
+      "sha256": "b239c37bb31a3cd7c56f7bdb392d05ea83e8d93366b96931666c35c02fd4c40f",
+      "bytes": 760713,
+      "target": "public/data/ocean/web/2023-12/2023-12-31.json"
+    },
+    {
+      "source": "data/processed/oscar/web/2023-12/manifest.json",
+      "sha256": "ab46d382edf7450d5b661938ef5470b71ede7daebf519b48ec5fb194cd45928a",
+      "bytes": 2732,
+      "target": "public/data/ocean/web/2023-12/manifest.json"
+    },
+    {
+      "source": "data/processed/oscar/web/manifest.json",
+      "sha256": "7b79c25587f08734a1615ca634aa60e476e21707decfb5bf0b3e8c7676196069",
+      "bytes": 2655,
+      "target": "public/data/ocean/web/manifest.json"
+    },
+    {
+      "source": "data/processed/oscar/web/sonification_metrics.json",
+      "sha256": "db8f58e424013f97e35b23b3722f0d3395dfe74929befdd2b345730184863774",
+      "bytes": 28236,
+      "target": "public/data/ocean/web/sonification_metrics.json"
+    },
+    {
+      "source": "data/processed/temperature/2025-01.json",
+      "sha256": "acb89ed82b47b2de79d89a1a07d91868f2d5629d680e401a437894c16560d059",
+      "bytes": 108424
+    },
+    {
+      "source": "data/processed/temperature/2025-02.json",
+      "sha256": "5b2af5d6bb15a310279a7900299e09178c7be7341fa4554f645d064d5022c368",
+      "bytes": 109476
+    },
+    {
+      "source": "data/processed/temperature/2025-03.json",
+      "sha256": "bab66812563925f54dc25cb3c89c43a4c2e83edc644e6575c50adb9cee62b1b3",
+      "bytes": 108488
+    },
+    {
+      "source": "data/processed/temperature/2025-04.json",
+      "sha256": "ce2351534070efd4d00c4b40928d1d0b65775a997ef297416f58f5563b3fe298",
+      "bytes": 107531
+    },
+    {
+      "source": "data/processed/temperature/2025-05.json",
+      "sha256": "5f0589fd575ed9a316240ac8df970235b46ac77a515aa78f6fe9b014b368ce46",
+      "bytes": 107728
+    },
+    {
+      "source": "data/processed/temperature/2025-06.json",
+      "sha256": "7ade678692c196e3c67c675a88735bf7086bb5366eb3d5d364c7f1fce5a1dc93",
+      "bytes": 108793
+    },
+    {
+      "source": "data/processed/temperature/2025-07.json",
+      "sha256": "fd1799c1fe3d084e04ef5fa2d688c1d3ba24b5ab4af6f77ea2d2b55e08b7e83c",
+      "bytes": 108592
+    },
+    {
+      "source": "data/processed/temperature/2025-08.json",
+      "sha256": "a5c773447e04fc8920086bb16d5c831178cce0bdb8a955778aa7db3049832741",
+      "bytes": 107182
+    },
+    {
+      "source": "data/processed/temperature/2025-09.json",
+      "sha256": "3e8f424567b380ae6f893949cf969bb0e9eefdab42922ccb1b1089e09216e10e",
+      "bytes": 105651
+    },
+    {
+      "source": "data/processed/temperature/2025-10.json",
+      "sha256": "55e53e5bbbcb85267cc009a54148c50234b4447c5638e77318189ff088dc80dc",
+      "bytes": 106790
+    },
+    {
+      "source": "data/processed/temperature/2025-11.json",
+      "sha256": "1d29d505d0ead68f974dcf1237fc23b4c83110315470d7da30244cb2681a98f8",
+      "bytes": 107554
+    },
+    {
+      "source": "data/processed/temperature/2025-12.json",
+      "sha256": "761bc490e8b90aea12167725dc398a7ab64949ed0aa2a7bee8faa1fcadb7b046",
+      "bytes": 108603
+    },
+    {
+      "source": "data/processed/temperature/months.json",
+      "sha256": "403ba0e0eed9f27fb0d0cee9023304c8ff7f52e221ded8cc32e174dff5e5e56f",
+      "bytes": 819
+    },
+    {
+      "source": "data/processed/temperature/sonification_audit.json",
+      "sha256": "f4c56ce97ba19d527dda1ac63f374082f2572df31bf51dfc04467c6aa3b5c0a6",
+      "bytes": 1477
+    },
+    {
+      "source": "scripts/build_oscar_spacetime.py",
+      "sha256": "05dd516fcf1be0898ba1bcac13ac572a51147875ef1218f0b2fc308847ff32b9",
+      "bytes": 7195,
+      "target": "scripts/build_oscar_spacetime.py"
+    },
+    {
+      "source": "scripts/render_oscar_audio.py",
+      "sha256": "93a281f0d5d7a9b53df5b4090399aa64d8af0774d0fcbe124e57df80dc98914e",
+      "bytes": 9550
+    },
+    {
+      "source": "sonification/scannerScore.js",
+      "sha256": "4f1e192eaf0a1472a5519e4cbff701bcc286dcc7ddefd87c9c2dc58d3574d7c8",
+      "bytes": 4710
+    }
+  ]
+}

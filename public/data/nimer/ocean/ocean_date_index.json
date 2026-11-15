@@ -1,0 +1,10 @@
+{
+  "source": "https://svs.gsfc.nasa.gov/5479/",
+  "video": "ocean_temperature.mp4",
+  "fps": 30.0,
+  "frameCount": 3661,
+  "alignmentNote": "UNVERIFIED: 3661 video frames, 3601 NASA labels; date fields intentionally null. CV extraction remains available. Inspect the beginning/end frames before assigning a label offset.",
+  "datesVerified": false,
+  "labelStartFrame": null,
+  "segments": []
+}

@@ -73,7 +73,7 @@ export default function ElectricSky() {
     <main id="sky-main">
       <div className="dashboard-heading"><h1 ref={title} tabIndex={-1}>{t.title}</h1><Link className="sky-return" href="/mission-control"><ArrowLeft size={15}/>{t.returned}</Link></div>
       {query.isPending ? <div className="sky-load" role="status"><Radio size={30}/><p>{t.loading}</p></div> : query.isError || !query.data || !day || !score || !activity ? <div className="sky-load" role="alert"><p>{t.loadError}</p><button className="mc-button" onClick={()=>void query.refetch()}>{t.retry}</button></div> : <>
-        <ExperienceDashboard locations={activity?.cells.map(cell=>({lon:-177.5+cell.x*5,lat:87.5-cell.y*5}))} temporal={{kind:"lightning",days}} pauseOriginal={()=>void pause()} point={point} onSelect={setPoint} label={t.map} status={status}
+        <ExperienceDashboard language={language} locations={activity?.cells.map(cell=>({lon:-177.5+cell.x*5,lat:87.5-cell.y*5}))} temporal={{kind:"lightning",days}} pauseOriginal={()=>void pause()} point={point} onSelect={setPoint} label={t.map} status={status}
           footprints={point?[{west:cellWest,east:cellWest+5,south:cellNorth-5,north:cellNorth}]:[]}
           observationKey={day.day}
           selectionSummary={`ISS LIS cell, latitude ${cellNorth-5} to ${cellNorth}, longitude ${cellWest} to ${cellWest+5}. ${day.day} UTC. ${records.length} recorded flashes in the supplied extract. ${meanRadiance===null?'Radiance unavailable. Coverage unknown.':'Mean radiance '+meanRadiance.toFixed(2)+' '+query.data.radiance_unit+'. Coverage incomplete.'}`}
@@ -86,12 +86,26 @@ export default function ElectricSky() {
               <p>{records.length?records.length+" flashes recorded in this 5 degree by 5 degree cell.":"0 flashes in the supplied extract cell. Coverage is unknown."}</p>
               <p>{meanRadiance===null?'No recorded radiance in this cell.':'Mean recorded radiance '+format(meanRadiance,2)+' '+query.data.radiance_unit}</p>
             </> : <p>Select a geographic cell.</p>}</div>
-            </>} science={<>
-            <ScientificHud label={t.telemetry} language={language} indicators={[
+            <div className="dashboard-source-record">
+              <h2>{t.readout}</h2>
+              <dl className="selection-values">
+                <div><dt>{t.sourceTime}</dt><dd dir="ltr">{current?.flash.time ?? '—'}</dd></div>
+                <div><dt>{t.latitude}</dt><dd dir="ltr">{current ? `${format(current.flash.latitude,2)}°` : '—'}</dd></div>
+                <div><dt>{t.sourceLongitude}</dt><dd dir="ltr">{current ? `${format(current.flash.longitude,4)}°` : '—'}</dd></div>
+                <div><dt>{t.radiance}</dt><dd dir="ltr">{current ? `${format(current.flash.radiance)} ${query.data.radiance_unit}` : '—'}</dd></div>
+                <div><dt>{t.frequency}</dt><dd dir="ltr">{current ? `${format(noteHz(current.note),1)} Hz · ${noteName(current.note)} · MIDI ${current.note}` : '—'}</dd></div>
+                <div><dt>{t.bandCount}</dt><dd>{column!==null ? format(score.byColumn[column].length) : '—'}</dd></div>
+                <div><dt>{t.notes}</dt><dd>{format(score.events.length)}</dd></div>
+              </dl>
+            </div>
+            </>}
+          telemetry={<ScientificHud label={t.telemetry} language={language} indicators={[
+              {label:t.date,value:dateLabel(day.day)},
               {label:language==='ar'?'ومضات مسجلة':'Recorded flashes',value:format(day.flashes.length)},
-              {label:language==='ar'?'خط طول المسح':'Scan longitude',value:format(longitude!,1)+'°',direction:'ltr'},
+              {label:language==='ar'?'خط طول المسح':'Scan longitude',value:format(longitude!,1)+'° · '+t.band+' '+(column===null?'—':format(column+1))+' / '+format(score.columns),direction:'ltr'},
               {label:language==='ar'?'النغمة الحالية':'Current note',eventKey:audible?String(audible.at):undefined,value:audible?noteName(audible.note)+' · '+format(noteHz(audible.note),1)+' Hz':'—',direction:'ltr'},
-            ]}/>
+            ]}/>}
+          science={<>
             <ScientificScale measurement={{value:measurement,minimum:0,maximum:activity.maximum,unit:"recorded flashes / 5° × 5° cell",position:activityPosition(measurement??0,activity.maximum),color:activityColor(measurement??0,activity.maximum),label:point?"Selected Region / source cell":"Full Map / occupied-cell mean"}} title={language==='ar'?'ومضات مسجلة لكل خلية 5° × 5°':'Recorded flashes / 5° × 5° cell'} gradient={`linear-gradient(90deg in srgb, ${activityColor(0,activity.maximum)}, ${activityColor(activity.maximum/2,activity.maximum)}, ${activityColor(activity.maximum,activity.maximum)})`} ticks={['0',format(activity.maximum/2,1),format(activity.maximum)]}>
               <p>{language==='ar'?'لا سجلات في الخلايا الفارغة؛ تغطية الرصد غير مقيّمة.':'ISS LIS coverage is incomplete. Zero extract records cannot confirm absence of lightning.'}</p>
             </ScientificScale>
@@ -100,7 +114,6 @@ export default function ElectricSky() {
           controls={<><div className="sky-transport">
             <button className="mc-button mc-primary" title={snapshot.status==='playing'?t.pause:t.play} onClick={()=>snapshot.status==='playing'||starting?void pause():void play()} disabled={!supported}>{snapshot.status==='playing'?<Pause size={17}/>:<Play size={17}/>} {snapshot.status==='playing'?t.pause:snapshot.status==='paused'?t.resume:t.play}</button>
             <button className="mc-button" disabled={!supported||starting} onClick={()=>{stop();void play();}}><RotateCcw size={17}/>{language==='ar'?'إعادة البدء':'Restart'}</button><button className="mc-button" onClick={stop} disabled={!supported}>Stop</button>
-            <button className="sky-icon-button" onClick={stop} disabled={snapshot.status==='ready'&&!starting} aria-label={t.stop} title={t.stop}><Square size={17}/></button>
           </div><div className="sky-volume"><button className="sky-icon-button" aria-label={muted?t.unmute:t.mute} title={muted?t.unmute:t.mute} aria-pressed={muted} disabled={!supported} onClick={()=>{engine.setMuted(!muted);setMuted(!muted);}}>{muted?<VolumeX size={18}/>:<Volume2 size={18}/>}</button><label htmlFor="sky-volume">{t.volume}</label><input id="sky-volume" type="range" min="0" max="1" step=".01" value={volume} disabled={!supported} onChange={e=>{setVolume(+e.target.value);engine.setVolume(+e.target.value);}}/><output>{format(volume*100)}%</output></div></>}
           timeline={<OriginalWaveform id="sky-position" identity={day.day+volume+String(muted)} seconds={snapshot.seconds} duration={score.seconds} playing={snapshot.status==='playing'} getPcm={()=>engine.getPcm()} onSeek={value=>{const resume=snapshot.status==='playing';engine.seek(value);setSnapshot(engine.getSnapshot());if(resume&&value<score.seconds)void play();}} disabled={starting}/>}
           error={<>{!supported&&<p className="sky-warning" role="status">{t.unsupported}</p>}{audioError&&<p className="sky-warning" role="alert">{t.audioError}</p>}</>}
@@ -108,9 +121,6 @@ export default function ElectricSky() {
         <details className="experience-science"><summary>{language==='ar'?'استكشف العلم':'Explore the Science'}</summary><p>{t.lead}</p><p>{t.intro}</p><p>{t.noLive}</p>{calendar.additional.length>0&&<aside className="sky-boundary-note"><strong>{t.boundaryTitle}</strong><p>{boundaryNote}</p></aside>}<div className="sky-map-legend"><span><i/>{t.legendRecorded}</span><span><i className="gold"/>{t.legendActive}</span><span><i className="band"/>{t.legendBand}</span></div>
           <p className="sky-map-help">{t.mapHelp}</p>
 <div className="sky-instruments">
-          <section className="sky-telemetry" aria-labelledby="sky-telemetry-title"><h2 id="sky-telemetry-title"><Radio size={18}/>{t.telemetry}</h2><div className="sky-readings"><div><span>{t.longitude}</span><strong dir="ltr">{longitude===null ? '—' : `${format(longitude,1)}°`}</strong><small>{t.band} {column===null ? '—' : format(column+1)} / {format(score.columns)}</small></div><div><span>{t.latitude}</span><strong dir="ltr">{current ? `${format(current.flash.latitude,2)}°` : '—'}</strong><small>{t.measurement}</small></div><div><span>{t.frequency}</span><strong dir="ltr">{current ? `${format(noteHz(current.note),1)} Hz` : '—'}</strong><small>{t.interpretation}</small></div><div><span>{t.note}</span><strong dir="ltr">{current ? noteName(current.note) : '—'}</strong><small>{current ? `MIDI ${current.note}` : t.none}</small></div></div>
-            <details className="sky-audit"><summary>{t.readout}</summary><dl><div><dt>{t.sourceTime}</dt><dd dir="ltr">{current?.flash.time ?? '—'}</dd></div><div><dt>{t.sourceLongitude}</dt><dd dir="ltr">{current ? `${format(current.flash.longitude,4)}°` : '—'}</dd></div><div><dt>{t.radiance}</dt><dd dir="ltr">{current ? `${format(current.flash.radiance)} ${query.data.radiance_unit}` : '—'}</dd></div><div><dt>{t.bandCount}</dt><dd>{column!==null ? format(score.byColumn[column].length) : '—'}</dd></div><div><dt>{t.notes}</dt><dd>{format(score.events.length)}</dd></div></dl></details>
-          </section>
           <section className="sky-lab" aria-labelledby="sky-lab-title"><h2 id="sky-lab-title"><AudioLines size={18}/>{t.lab}</h2><AudioSpectrum engine={engine} playing={snapshot.status==='playing' && !muted} label={t.spectrum}/><p>{t.labNote}</p></section>
         </div>
         <aside className="sky-provenance" aria-label={t.limitations}><h3>{t.limitations}</h3><p>{t.coverage}</p><p>{t.attribution}</p><p>{t.timestampRange}: <bdi>{query.data.flashes[0].time} / {query.data.flashes.at(-1)?.time}</bdi></p><a href="https://ghrc.nsstc.nasa.gov/lightning/" target="_blank" rel="noreferrer">{t.source}</a></aside></details>

@@ -28,6 +28,71 @@ async function screenshot(name){
   assert.doesNotMatch(await evaluate("document.body.innerText + ' ' + Array.from(document.querySelectorAll('[aria-label]')).map(e=>e.getAttribute('aria-label')).join(' ')"),/earth[ _-]?echo|\u0635\u062f\u0649 \u0627\u0644\u0623\u0631\u0636/i);
 const r=await command('Page.captureScreenshot',{format:'png',captureBeyondViewport:false});await writeFile(path.join(output,name+'.png'),Buffer.from(r.data,'base64'));}
 function passed(name){results.push(name);console.log('PASS '+name);}
+async function verifyDashboardToggle(name,width,ar=false){
+  const labels=ar?['إظهار لوحة البيانات','إخفاء لوحة البيانات']:['Show Dashboard','Hide Dashboard'];
+  // Retain the actual nodes to catch accidental unmounts of readings or playback.
+  await evaluate("window.toggleNodes=[...document.querySelectorAll('.dashboard-card,.map-viewport,.dashboard-playback,.dashboard-comparison')];void 0");
+  for(const visible of [false,true]){
+    if(await evaluate("document.querySelector('.dashboard-toggle').getAttribute('aria-expanded')")===String(!visible))await click('.dashboard-toggle');
+    await wait(`document.querySelector('.dashboard-overlays').hidden===${!visible}`);
+    const state=await evaluate(`(()=>{
+      const button=document.querySelector('.dashboard-toggle');button.scrollIntoView({block:'center'});
+      const r=button.getBoundingClientRect(),overlays=document.querySelector('.dashboard-overlays');
+      return {label:button.textContent,accessibleLabel:button.getAttribute('aria-label'),expanded:button.getAttribute('aria-expanded'),controls:button.getAttribute('aria-controls')===overlays.id,
+        hittable:document.elementFromPoint(r.x+r.width/2,r.y+r.height/2)?.closest('.dashboard-toggle')===button,
+        cardVisibility:[...document.querySelectorAll('.dashboard-card')].map(e=>e.checkVisibility()),
+        preserved:window.toggleNodes.every(e=>e.isConnected),
+        mapVisible:document.querySelector('.map-viewport').checkVisibility(),playbackVisible:document.querySelector('.dashboard-playback').checkVisibility(),
+        zoomVisible:document.querySelector('.map-zoom-controls').checkVisibility(),comparisonVisible:document.querySelector('.dashboard-comparison')?.checkVisibility()??true};
+    })()`);
+    assert.equal(state.label,labels[+visible],name+' localized toggle '+width);
+    assert.equal(state.accessibleLabel,state.label);
+    assert.equal(state.expanded,String(visible));assert.equal(state.controls,true);
+    for(const key of ['hittable','preserved','mapVisible','playbackVisible','zoomVisible','comparisonVisible'])assert.equal(state[key],true,name+' '+key+' '+width);
+    assert.deepEqual(state.cardVisibility,[visible,visible,visible],name+' all cards toggle '+width);
+    if(!visible){
+      await screenshot('dashboard-hidden-'+name+'-'+(ar?'ar-':'')+width);
+      const target=await evaluate("(()=>{const e=document.querySelector('.map-viewport');e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect(),x=r.x+16,y=r.y+16;return {x,y,clear:!!document.elementFromPoint(x,y)?.closest('.map-viewport')}})()");
+      assert.equal(target.clear,true,name+' hidden cards do not intercept map clicks '+width);
+    }
+  }
+}
+async function verifyDashboardLayout(name,width){
+  const layout=await evaluate(`(()=>{
+    const rect=e=>{const r=e.getBoundingClientRect();return {x:r.x,y:r.y,right:r.right,bottom:r.bottom,width:r.width,height:r.height}};
+    const map=document.querySelector('.map-viewport'),cards=[...document.querySelectorAll('.dashboard-card')];
+    return {frame:rect(document.querySelector('.experience-dashboard')),map:rect(map),toggle:rect(document.querySelector('.dashboard-toggle')),play:rect(document.querySelector('.dashboard-controls .mc-primary')),playback:rect(document.querySelector('.dashboard-playback')),wave:rect(document.querySelector('.dashboard-timeline')),cards:cards.map(rect),zoom:rect(document.querySelector('.map-zoom-controls')),overflow:document.documentElement.scrollWidth>innerWidth+1,clipped:cards.some(e=>e.scrollHeight>e.clientHeight+1||e.scrollWidth>e.clientWidth+1),playCount:document.querySelectorAll('.dashboard-controls .mc-primary').length,hudCount:document.querySelectorAll('.scientific-hud').length,scaleCount:document.querySelectorAll('.scientific-scale').length,inspectorCount:document.querySelectorAll('.selection-reading').length};
+  })()`);
+  const intersects=(a,b)=>a.x<b.right-1&&a.right>b.x+1&&a.y<b.bottom-1&&a.bottom>b.y+1;
+  assert.equal(layout.overflow,false,name+' horizontal overflow '+width);
+  assert.equal(layout.clipped,false,name+' readings fit their cards '+width);
+  assert.ok(Math.abs(layout.map.width/layout.map.height-2)<.02,name+' 2:1 map');
+  assert.ok(Math.abs(layout.map.x+layout.map.width/2-(layout.frame.x+layout.frame.width/2))<2,name+' centered map');
+  assert.ok(Math.abs(layout.playback.y-layout.map.bottom)<=1,name+' playback immediately follows map');
+  assert.ok(layout.play.y-layout.playback.y<=12,name+' Play at start of controls');
+  assert.ok(layout.wave.y>=layout.play.bottom,name+' waveform follows controls');
+  assert.equal(layout.playCount,1,name+' one primary playback control');
+  assert.equal(layout.hudCount,1,name+' one telemetry dashboard');
+  assert.equal(layout.scaleCount,1,name+' one scientific scale');
+  assert.equal(layout.inspectorCount,1,name+' one location inspector');
+  if(name==='living-ocean'){
+    assert.ok(layout.map.width<=900,name+' compact map at every viewport');
+    assert.ok(layout.toggle.x>=layout.map.x&&layout.toggle.right<=layout.map.right&&layout.toggle.y>=layout.map.y&&layout.toggle.bottom<=layout.map.bottom,name+' dashboard toggle is on the map');
+    for(const card of layout.cards)assert.equal(intersects(card,layout.toggle),false,name+' toggle does not cover readings');
+    const comparison=await evaluate("(()=>{const a=document.querySelector('.dashboard-comparison').getBoundingClientRect(),b=document.querySelector('.dashboard-playback').getBoundingClientRect();return {visible:document.querySelector('.ocean-comparison-toggle').checkVisibility(),after:a.y>=b.bottom}})()");
+    assert.deepEqual(comparison,{visible:true,after:true},name+' comparison remains visible below playback');
+  }
+  for(let i=0;i<layout.cards.length;i++){
+    const card=layout.cards[i];
+    for(const other of layout.cards.slice(i+1))assert.equal(intersects(card,other),false,name+' cards do not overlap '+width);
+    if(width>1000){
+      assert.ok(card.x>=layout.map.x&&card.right<=layout.map.right+1&&card.y>=layout.map.y&&card.bottom<=layout.map.bottom+1,name+' card within map '+width);
+      assert.equal(intersects(card,layout.zoom),false,name+' zoom controls unobstructed '+width);
+    }else assert.ok(card.y>=layout.wave.bottom,name+' mobile readings follow waveform '+width);
+  }
+  if(width>1000)assert.ok(layout.map.width<=(name==='electric-sky'&&width>=1200?1192:1120)&&layout.map.width/layout.frame.width>=.75,name+' moderately sized map');
+  return layout;
+}
 try{
   const endpoint=await new Promise((resolve,reject)=>{let text='';const timeout=setTimeout(()=>reject(Error('Chrome debugging endpoint unavailable')),15000);chrome.once('error',reject);chrome.stderr.on('data',b=>{text+=b;const m=text.match(/DevTools listening on (ws:\/\/[^\s]+)/);if(m){clearTimeout(timeout);resolve(m[1]);}});});
   const debugOrigin=new URL(endpoint);const tabs=await (await fetch(`http://${debugOrigin.host}/json`)).json();const page=tabs.find(t=>t.type==='page');pageSocket=await connect(page.webSocketDebuggerUrl);
@@ -44,24 +109,38 @@ try{
   for(const [name,map,seek] of routes){
     await navigate('/mission-control/'+name);
     await wait("!!document.querySelector('.dashboard-controls .mc-primary') && !document.querySelector('.dashboard-controls .mc-primary').disabled",45000);
-    for(const [width,height] of [[1440,900],[1366,768],[1280,720],[1024,768],[390,844],[320,740]]){
+    assert.equal(await evaluate("document.querySelector('.dashboard-overlays').hidden"),true,name+' dashboard hidden by default');
+    for(const [width,height] of [[1920,1080],[1440,900],[1366,768],[1280,720],[1024,768],[900,768],[768,1024],[390,844],[320,740]]){
       await command('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:width<700});
       await evaluate('window.scrollTo(0,0)');
       await wait("Array.from(document.images).every(image=>image.complete)");await new Promise(resolve=>setTimeout(resolve,100));
-      const layout=await evaluate(`(()=>{const frame=document.querySelector('.experience-dashboard').getBoundingClientRect(),map=document.querySelector('${map}').getBoundingClientRect(),controls=document.querySelector('.dashboard-playback').getBoundingClientRect(),info=document.querySelector('.dashboard-information'),scale=document.querySelector('.scientific-scale').getBoundingClientRect();return {frame:{x:frame.x,y:frame.y,bottom:frame.bottom},map:{width:map.width,height:map.height},controls:{y:controls.y,bottom:controls.bottom},scale:{bottom:scale.bottom},info:{y:info.getBoundingClientRect().y,bottom:info.getBoundingClientRect().bottom,scrollHeight:info.scrollHeight,clientHeight:info.clientHeight},overflow:document.documentElement.scrollWidth>innerWidth+1,bodyHeight:document.documentElement.scrollHeight,viewportHeight:innerHeight};})()`);
-      assert.equal(layout.overflow,false,name+' horizontal overflow '+width);
-      assert.ok(Math.abs(layout.map.width/layout.map.height-2)<.02,name+' proportional map');
-      if(width>900){try{assert.equal(await evaluate("document.querySelector('.dashboard-information').getBoundingClientRect().right<=document.querySelector('.dashboard-map').getBoundingClientRect().left+1"),true,name+' information panel on left');assert.ok(layout.controls.bottom<=height+1,name+' controls below fold '+JSON.stringify(layout));assert.ok(layout.scale.bottom<=layout.info.bottom+1,name+' scale below sidebar '+JSON.stringify(layout));assert.ok(layout.info.scrollHeight<=layout.info.clientHeight+1,name+' essential information requires scrolling '+JSON.stringify(layout));assert.ok(layout.bodyHeight<=height+1,name+' desktop page scroll '+JSON.stringify(layout));}catch(error){layoutFailures.push({name,width,height,error:error.message});console.log('LAYOUT_FAILURE',error.message);}}
-      console.log('LAYOUT',name,width,height,JSON.stringify(layout));
-      await screenshot('phase1-'+name+'-'+width);
+      await verifyDashboardToggle(name,width);
+      await verifyDashboardLayout(name,width);
+      if(name==='electric-sky'&&(width>=1366||width<=1024)){
+        const sizing=await evaluate(`(()=>{const measure=()=>[document.querySelector('.experience-dashboard'),document.querySelector('.map-viewport')].map(e=>e.getBoundingClientRect().width),current=measure(),style=document.createElement('style');style.textContent='.mc.sky.experience.dashboard-experience main{max-width:1280px!important}.mc.sky.experience.dashboard-experience .experience-dashboard{--dashboard-map-width:${width>1000?'min(1120px,calc(100% - 32px))':'100%'}!important}';document.head.append(style);const original=measure();style.remove();return {current,original};})()`);
+        for(let i=0;i<2;i++)if(width>=1366)assert.ok(sizing.current[i]/sizing.original[i]>=1.05&&sizing.current[i]/sizing.original[i]<=1.08,'Electric Sky desktop width grows only 5–8%');else assert.equal(sizing.current[i],sizing.original[i],'Electric Sky tablet/mobile widths unchanged');
+      }
+      await screenshot('in-map-'+name+'-'+width);
     }
     await command('Emulation.setDeviceMetricsOverride',{width:1366,height:768,deviceScaleFactor:1,mobile:false});
     const transform=()=>evaluate("document.querySelector('.map-transform').style.transform");
     const original=await transform();
-    const box=await evaluate("(()=>{const r=document.querySelector('.map-viewport').getBoundingClientRect();return {x:r.x+r.width*.4,y:r.y+r.height*.5};})()");
+    const overlayPositions=()=>evaluate("(()=>{const m=document.querySelector('.map-viewport').getBoundingClientRect();return [...document.querySelectorAll('.dashboard-card')].map(e=>{const r=e.getBoundingClientRect();return {x:r.x-m.x,y:r.y-m.y,width:r.width,height:r.height}})})()");
+    const fixedPositions=await overlayPositions();
+    await evaluate("document.querySelector('.dashboard-telemetry').scrollIntoView({block:'center'})");
+    const cardTarget=await evaluate("(()=>{const r=document.querySelector('.dashboard-telemetry').getBoundingClientRect(),x=r.x+8,y=r.y+8;return {x,y,clickThrough:!!document.elementFromPoint(x,y)?.closest('.map-viewport')}})()");
+    assert.equal(cardTarget.clickThrough,true,name+' readings pass pointer events through to map');
+    await command('Input.dispatchMouseEvent',{type:'mousePressed',button:'left',clickCount:1,x:cardTarget.x,y:cardTarget.y});
+    await command('Input.dispatchMouseEvent',{type:'mouseReleased',button:'left',clickCount:1,x:cardTarget.x,y:cardTarget.y});
+    await wait("!!document.querySelector('.map-selected-point')");
+    await evaluate("document.querySelector('.map-viewport').dispatchEvent(new KeyboardEvent('keydown',{key:'Escape',bubbles:true}))");
+    const mapCenter=()=>evaluate("(()=>{const r=document.querySelector('.map-viewport').getBoundingClientRect();return {x:r.x+r.width*.4,y:r.y+r.height*.5};})()");
+    let box=await mapCenter();
     for(const offset of [0,20,40])await command('Input.dispatchMouseEvent',{type:'mouseMoved',x:box.x+offset,y:box.y});
     assert.equal(await transform(),original,name+' pointer movement keeps map stable');
     await click('[aria-label="Zoom in"]');assert.notEqual(await transform(),original);
+    box=await mapCenter();
+    assert.deepEqual(await overlayPositions(),fixedPositions,name+' zoom leaves overlays fixed');
     const zoomed=await transform();
     await command('Input.dispatchMouseEvent',{type:'mouseMoved',...box});assert.equal(await transform(),zoomed);
     await command('Input.dispatchMouseEvent',{type:'mousePressed',button:'left',clickCount:1,...box});
@@ -73,6 +152,10 @@ try{
     await wait(`document.querySelector('.map-transform').style.transform!==${JSON.stringify(zoomed)}`);
     await command('Input.dispatchMouseEvent',{type:'mouseReleased',button:'left',clickCount:1,x:box.x+40,y:box.y+20});
     assert.notEqual(await transform(),zoomed,name+' deliberate drag pans');
+    // Readings may grow after selection; their map-edge anchors remain fixed.
+    const pannedPositions=await overlayPositions();
+    assert.equal(pannedPositions[0].x,fixedPositions[0].x);
+    assert.equal(pannedPositions[0].y,fixedPositions[0].y);
     assert.equal(await evaluate("getSelection().toString()"),'',name+' dragging creates no text selection');
     const projected=await evaluate("(()=>{const r=document.querySelector('.map-transform').getBoundingClientRect();return {left:r.left,top:r.top,width:r.width,height:r.height}})()");
     await command('Input.dispatchMouseEvent',{type:'mousePressed',button:'left',clickCount:1,...box});
@@ -107,8 +190,7 @@ try{
     for(const [width,height] of [[1366,768],[1280,720]]){
       await command('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:false});
       await new Promise(resolve=>setTimeout(resolve,100));
-      const selectedLayout=await evaluate("(()=>{const i=document.querySelector('.dashboard-information');return {content:i.scrollHeight,available:i.clientHeight}})()");
-      if(selectedLayout.content>selectedLayout.available+1){layoutFailures.push({name,width,height,...selectedLayout});console.log('SELECTED_LAYOUT_OVERFLOW',name,width,selectedLayout);}
+      await verifyDashboardLayout(name,width);
       await screenshot('selected-'+name+'-'+width);
     }
     await command('Emulation.setDeviceMetricsOverride',{width:1366,height:768,deviceScaleFactor:1,mobile:false});
@@ -123,7 +205,7 @@ try{
     assert.equal(await evaluate("document.querySelector('.map-selection-outline rect').outerHTML"),outlineBounds,name+' footprint remains geographic on zoom');
     await evaluate("[...document.querySelectorAll('.map-zoom-controls button')].find(b=>b.textContent==='Reset View').click()");
     await screenshot('outlined-'+name);
-    passed(name+' left panel, exact footprint, glow, keyboard, Escape, touch, and drag selection protection');
+    passed(name+' map/playback order, exact footprint, glow, keyboard, Escape, touch, and drag selection protection');
 
     if(name==='electric-sky'){
       const expected=await evaluate(`(async()=>{
@@ -145,6 +227,7 @@ try{
     }
     
     if(name==='temperature'||name==='living-ocean'){
+      await evaluate("document.querySelector('.map-viewport').scrollIntoView({block:'center',behavior:'instant'})");
       const missing=await evaluate(name==='temperature' ? `(async()=>{const d=await(await fetch('/data/temperature/2025-01.json')).json();const row=d.anomalies.findIndex(r=>r.some(v=>v===null)),col=d.anomalies[row].indexOf(null);const r=document.querySelector('.map-viewport').getBoundingClientRect();return {x:r.x+(d.lon[col]+180)/360*r.width,y:r.y+(90-d.lat[row])/180*r.height};})()` : `(()=>{const r=document.querySelector('.map-viewport').getBoundingClientRect();return {x:r.x+r.width/2,y:r.y+1};})()`);
       await command('Input.dispatchMouseEvent',{type:'mousePressed',button:'left',clickCount:1,...missing});
       await command('Input.dispatchMouseEvent',{type:'mouseReleased',button:'left',clickCount:1,...missing});
@@ -160,12 +243,21 @@ try{
     passed(name+' stable pointer, controlled zoom, bounded drag, selection, and reset');
     await click('.dashboard-controls .mc-primary');
     await wait(`Number(document.querySelector('${seek}').getAttribute('aria-valuenow')??document.querySelector('${seek}').value)>0.3`);
+    const playingTime=await evaluate(`Number(document.querySelector('${seek}').getAttribute('aria-valuenow')??document.querySelector('${seek}').value)`);
+    await click('.dashboard-toggle');
+    await wait(`Number(document.querySelector('${seek}').getAttribute('aria-valuenow')??document.querySelector('${seek}').value)>${playingTime+.15}`);
+    assert.equal(await evaluate("document.querySelector('.dashboard-controls .mc-primary').textContent.trim()"),'Pause',name+' hiding cards preserves playback');
+    await click('.dashboard-toggle');
+    assert.equal(await evaluate("document.querySelector('.map-selected-point').style.cssText"),selectionBeforePlayback,name+' toggling preserves selection');
     await click('.dashboard-controls .mc-primary');
     await wait("/paused/i.test(document.querySelector('.dashboard-status').textContent)");
     const paused=await evaluate(`Number(document.querySelector('${seek}').getAttribute('aria-valuenow')??document.querySelector('${seek}').value)`);
     assert.equal(await evaluate("document.querySelector('.map-selected-point').style.cssText"),selectionBeforePlayback);
     assert.equal(await evaluate("document.querySelector('.selection-announcement').textContent"),announcementBeforePlayback,name+' automatic updates do not repeat announcements');
     await new Promise(resolve=>setTimeout(resolve,200));
+    const pausedReadings=await evaluate("document.querySelector('.dashboard-overlays').textContent");
+    await click('.dashboard-toggle');await click('.dashboard-toggle');
+    assert.equal(await evaluate("document.querySelector('.dashboard-overlays').textContent"),pausedReadings,name+' toggling preserves readings');
     assert.equal(await evaluate(`Number(document.querySelector('${seek}').getAttribute('aria-valuenow')??document.querySelector('${seek}').value)`),paused);
     await click('.dashboard-controls .mc-primary');await wait(`Number(document.querySelector('${seek}').getAttribute('aria-valuenow')??document.querySelector('${seek}').value)>${paused+.3}`);
     await click('.dashboard-controls .mc-primary');
@@ -177,12 +269,17 @@ try{
     await click('.dashboard-controls button:nth-child(2)');
     
     await click('.mc-language');await wait("document.documentElement.lang==='ar'");
+    await verifyDashboardToggle(name,1366,true);
+    await verifyDashboardLayout(name,1366);
     assert.equal(await evaluate("document.documentElement.scrollWidth>innerWidth+1"),false);
     assert.equal(await evaluate("document.body.innerText.includes('???')"),false);
     await screenshot('phase1-'+name+'-arabic-desktop');
     await command('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});
+    await verifyDashboardToggle(name,390,true);
+    await verifyDashboardLayout(name,390);
     assert.equal(await evaluate("document.documentElement.scrollWidth>innerWidth+1"),false);
     await screenshot('phase1-'+name+'-arabic-mobile');
+    passed(name+' Show/Hide Dashboard, hidden default, English/Arabic labels, persistent controls, selection and playback');
     await click('.mc-language');await wait("document.documentElement.lang==='en'");
     await click('.dashboard-heading a');await wait("location.pathname==='/mission-control'");
     passed(name+' responsive dashboard, playback, navigation, and available-date stepping');

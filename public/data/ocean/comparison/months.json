@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "source": "NASA PO.DAAC OSCAR_L4_OC_FINAL_V2.0",
+  "year": 2023,
+  "grid": {
+    "width": 360,
+    "height": 180,
+    "lonStart": -180.0,
+    "lonStep": 1.0,
+    "latStart": 89.75,
+    "latStep": 1.0
+  },
+  "statistic": "At each exported grid cell: arithmetic mean of sqrt(u^2 + v^2) across valid daily OSCAR fields. Average U and V are separate vector components; direction reflects the mean vector.",
+  "missingRule": "Missing daily U/V pairs are excluded; months lacking a full set of daily exports are absent, not zero.",
+  "months": [
+    {
+      "month": "2023-01",
+      "file": "2023-01.json",
+      "observationDays": 31,
+      "validGridCells": 41571
+    },
+    {
+      "month": "2023-02",
+      "file": "2023-02.json",
+      "observationDays": 28,
+      "validGridCells": 41572
+    },
+    {
+      "month": "2023-03",
+      "file": "2023-03.json",
+      "observationDays": 31,
+      "validGridCells": 41573
+    },
+    {
+      "month": "2023-04",
+      "file": "2023-04.json",
+      "observationDays": 30,
+      "validGridCells": 41571
+    },
+    {
+      "month": "2023-05",
+      "file": "2023-05.json",
+      "observationDays": 31,
+      "validGridCells": 41573
+    },
+    {
+      "month": "2023-06",
+      "file": "2023-06.json",
+      "observationDays": 30,
+      "validGridCells": 41572
+    },
+    {
+      "month": "2023-07",
+      "file": "2023-07.json",
+      "observationDays": 31,
+      "validGridCells": 41571
+    },
+    {
+      "month": "2023-08",
+      "file": "2023-08.json",
+      "observationDays": 31,
+      "validGridCells": 41570
+    },
+    {
+      "month": "2023-09",
+      "file": "2023-09.json",
+      "observationDays": 30,
+      "validGridCells": 41570
+    },
+    {
+      "month": "2023-10",
+      "file": "2023-10.json",
+      "observationDays": 31,
+      "validGridCells": 41571
+    },
+    {
+      "month": "2023-11",
+      "file": "2023-11.json",
+      "observationDays": 30,
+      "validGridCells": 41572
+    },
+    {
+      "month": "2023-12",
+      "file": "2023-12.json",
+      "observationDays": 31,
+      "validGridCells": 41573
+    }
+  ]
+}

@@ -43,6 +43,8 @@ try{
   const oceanCatalog=await evaluate("fetch('/data/ocean/months.json').then(r=>r.json())");
   assert.equal(oceanCatalog.months.length,12);
   await evaluate("window.oceanAudio=document.querySelectorAll('.ocean audio')[0];window.oceanBassoon=document.querySelectorAll('.ocean audio')[1];void 0;");
+  // Measure the actual playing media signal, including the separate Bassoon layer.
+  await evaluate(`(()=>{window.oceanProbe=new AudioContext();window.oceanMeters=[window.oceanAudio,window.oceanBassoon].map(audio=>{const source=window.oceanProbe.createMediaElementSource(audio),meter=window.oceanProbe.createAnalyser();source.connect(meter);meter.connect(window.oceanProbe.destination);return meter;});window.oceanSignalRms=index=>{const samples=new Float32Array(window.oceanMeters[index].fftSize);window.oceanMeters[index].getFloatTimeDomainData(samples);return Math.sqrt(samples.reduce((sum,value)=>sum+value*value,0)/samples.length);};return window.oceanProbe.resume();})()`);
   async function oceanMonth(month){
     await evaluate("(()=>{const e=document.querySelector('#ocean-month');Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype,'value').set.call(e,"+JSON.stringify(month)+");e.dispatchEvent(new Event('change',{bubbles:true}));})()");
     await wait("document.querySelector('#ocean-month').value==="+JSON.stringify(month)+" && !document.querySelector('.ocean-transport button').disabled",30000);
@@ -70,16 +72,91 @@ try{
       await wait("document.querySelector('#ocean-visual-date').textContent==="+JSON.stringify(label));
     }
     await oceanSeek(0);await wait('window.oceanAudio.readyState>=3 && window.oceanBassoon.readyState>=3',30000);await click('.ocean-transport .mc-primary');await wait('window.oceanAudio.currentTime>.4');
+    await wait('window.oceanSignalRms(0)>.00001');
+    if(entry.month==='2023-01')await wait('window.oceanSignalRms(1)>.00001');
     assert.ok(await evaluate('Math.abs(window.oceanBassoon.currentTime-window.oceanAudio.currentTime)<.15'));
     assert.ok(await evaluate(`(async()=>{const a=await(await fetch('/data/ocean/'+${JSON.stringify(entry.audit)})).json();const b=await(await fetch('/data/ocean/'+${JSON.stringify(entry.bassoonAudit)})).json();const t=window.oceanAudio.currentTime;const event=b.note_events.find(e=>t>=e.at_seconds&&t<e.at_seconds+e.duration_seconds);const pad=a.note_events.filter((_,i)=>i%4===0).findLast(e=>t>=e.at_seconds&&t<e.at_seconds+5.4);const note=event?.midi_note??(pad?pad.midi_note-12:null);const names=['C','C♯','D','D♯','E','F','F♯','G','G♯','A','A♯','B'];const expected=note===null?'—':names[note%12]+(Math.floor(note/12)-1);return document.querySelectorAll('.scientific-hud dd')[2].textContent===expected;})()`));
     await click('.ocean-transport .mc-primary');assert.equal(await evaluate('window.oceanAudio.paused&&window.oceanBassoon.paused'),true);
   }
   assert.deepEqual(oceanAssetFailures,[]);
   passed('all twelve genuine months load correct original audio; first/last dates, 28/30/31-day coverage, playback and Bassoon synchronization pass');
+  async function oceanStyle(style) {
+    await evaluate(`(()=>{const e=document.querySelector('#ocean-style');Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype,'value').set.call(e,${JSON.stringify(style)});e.dispatchEvent(new Event('change',{bubbles:true}));})()`);
+    await wait("!document.querySelector('.ocean-transport .mc-primary').disabled && window.oceanAudio.readyState>=3 && window.oceanBassoon.readyState>=3",30000);
+  }
+  for(const entry of oceanCatalog.months){
+    await oceanMonth(entry.month);
+    for(const style of ['hybrid','orchestral']){
+      await oceanStyle(style);
+      assert.ok((await evaluate('window.oceanAudio.currentSrc')).endsWith(entry.audio.replace('deep_ocean',style)));
+      assert.equal(await evaluate('window.oceanAudio.duration'),25);
+      assert.equal(await evaluate('window.oceanAudio.paused&&window.oceanBassoon.paused'),true);
+      await click('.ocean-transport .mc-primary');await wait('window.oceanAudio.currentTime>.25');
+      await wait('window.oceanSignalRms(0)>.00001');
+      assert.ok(await evaluate('!window.oceanBassoon.paused && Math.abs(window.oceanBassoon.currentTime-window.oceanAudio.currentTime)<.15'));
+      await click('.ocean-transport .mc-primary');
+    }
+  }
+  await oceanStyle('deep_ocean');
+  passed('all twelve months play original Hybrid and Orchestral WAVs with synchronized optional Bassoon');
+  passed('live media analyzers measure nonzero audio for every original soundtrack and the separate Bassoon layer');
+  await click('.ocean-comparison-toggle');
+  await wait("document.querySelectorAll('.comparison-months button:not(:disabled)').length===12",30000);
+  await click('.comparison-months button[data-month="2023-01"]');
+  await wait("document.querySelector('.comparison-months button[data-month=\"2023-01\"]').getAttribute('aria-pressed')==='true'");
+  const initialDelta=await evaluate("document.querySelector('[data-testid=comparison-delta]').textContent");
+  assert.match(initialDelta,/^[+−-]?[\d.]+ m\/s$/);
+  await evaluate("document.querySelector('.comparison-chart').focus()");
+  await command('Input.dispatchKeyEvent',{type:'keyDown',key:'ArrowRight',code:'ArrowRight'});
+  await wait("document.querySelector('.comparison-months button[data-month=\"2023-02\"]').getAttribute('aria-pressed')==='true'");
+  await click('.comparison-load');await wait("document.querySelector('#ocean-month').value==='2023-02' && !document.querySelector('.ocean-transport .mc-primary').disabled",30000);
+  assert.ok((await evaluate('window.oceanAudio.currentSrc')).endsWith('2023-02/deep_ocean_OSCAR.wav'));
+  assert.equal(await evaluate('window.oceanAudio.paused&&window.oceanBassoon.paused'),true);
+  async function selectCoordinates(lon,lat){
+    await evaluate(`(()=>{for(const [name,value] of [['Latitude',${lat}],['Longitude',${lon}]]){const e=document.querySelector('input[aria-label='+name+']');Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value').set.call(e,String(value));e.dispatchEvent(new Event('input',{bubbles:true}));}})()`);
+    await click('.coordinate-selection button');
+  }
+  await selectCoordinates(35,31);await wait("document.querySelector('[data-testid=comparison-delta]').textContent==='—'");
+  assert.match(await evaluate("document.querySelector('.ocean-comparison [role=status]').textContent"),/Empty/);
+  await selectCoordinates(-60,37);await wait("document.querySelector('[data-testid=comparison-delta]').textContent!=='—'");
+  assert.equal(await evaluate("document.querySelectorAll('.dashboard-controls .mc-primary').length"),1);
+  await click('.ocean-transport .mc-primary');await wait('window.oceanAudio.currentTime>.25');
+  await click('.comparison-months button[data-month="2023-12"]');assert.equal(await evaluate('window.oceanAudio.paused'),false);
+  const comparisonState=()=>evaluate(`({month:document.querySelector('#ocean-month').value,style:document.querySelector('#ocean-style').value,bassoon:document.querySelector('#ocean-bassoon').checked,point:document.querySelector('.map-selected-point').style.cssText,selected:document.querySelector('.comparison-months [aria-pressed=true]').dataset.month,values:document.querySelector('.comparison-values').textContent})`);
+  const beforeToggle=await comparisonState();
+  await evaluate("window.retainedOceanNodes=[document.querySelector('.comparison-chart'),document.querySelector('#ocean-seek'),window.oceanAudio,window.oceanBassoon];void 0");
+  for(const visible of [true,false]){
+    await click('.dashboard-toggle');
+    assert.equal(await evaluate("document.querySelector('.dashboard-overlays').hidden"),!visible);
+    assert.equal(await evaluate("document.querySelector('.ocean-comparison-toggle').getAttribute('aria-expanded')"),'true');
+    assert.equal(await evaluate("document.querySelector('.comparison-chart').checkVisibility()"),true);
+    assert.equal(await evaluate("window.retainedOceanNodes.every(node=>node.isConnected)"),true);
+    assert.equal(await evaluate('window.oceanAudio.paused||window.oceanBassoon.paused'),false);
+    assert.deepEqual(await comparisonState(),beforeToggle);
+  }
+  await wait("document.querySelectorAll('#ocean-seek line:not([stroke-dasharray])').length===241");
+  assert.ok(await evaluate("Math.abs(Number(document.querySelector('#ocean-seek').getAttribute('aria-valuenow'))-window.oceanAudio.currentTime)<.15"));
+  passed('dashboard toggle preserves live audio, Bassoon, location, waveform nodes, and open comparison values');
+  await click('.ocean-transport .mc-primary');
+  for(const [width,height] of [[1440,1000],[390,844],[320,740]]){
+    await command('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:width<700});
+    await evaluate("document.querySelector('.ocean-comparison-toggle').scrollIntoView({block:'start'})");
+    assert.ok(await evaluate('document.documentElement.scrollWidth<=innerWidth+1'));
+    await screenshot('ocean-comparison-'+width);
+  }
+  await command('Emulation.setDeviceMetricsOverride',{width:1440,height:1000,deviceScaleFactor:1,mobile:false});
+  await click('.mc-language');await wait("document.documentElement.lang==='ar'");
+  assert.ok(await evaluate("document.querySelector('.ocean-comparison h2').textContent.includes('المكان')"));
+  await screenshot('ocean-comparison-arabic');await click('.mc-language');await wait("document.documentElement.lang==='en'");
+  await evaluate("document.querySelector('.comparison-chart').focus()");await command('Input.dispatchKeyEvent',{type:'keyDown',key:'Escape',code:'Escape'});
+  await wait("document.querySelector('.ocean-comparison-toggle').getAttribute('aria-expanded')==='false'");
+  passed('comparison chart, keyboard months, original music loading, missing data, selected coordinates, bilingual mobile layout and independent audio pass');
   await oceanMonth('2023-02');await click('.ocean-transport .mc-primary');await wait('window.oceanAudio.currentTime>.5');
   assert.ok(await evaluate("(()=>{const c=document.querySelector('.ocean canvas');return c.getContext('2d').getImageData(0,0,c.width,c.height).data.some((v,i)=>i%4===3&&v>0);})()"));
   await click('.ocean-transport .mc-primary');await click('.ocean-transport .mc-primary');await wait('!window.oceanAudio.paused');
-  await click('.ocean-transport button:nth-child(2)');await wait('window.oceanAudio.currentTime<.4 && window.oceanAudio.paused');
+  // Restart has always restarted playback; Stop is the control that stays silent.
+  await click('.ocean-transport button:nth-child(2)');await wait('window.oceanAudio.currentTime<1 && !window.oceanAudio.paused && !window.oceanBassoon.paused');
+  await click('.ocean-transport button:nth-child(3)');await wait('window.oceanAudio.currentTime<.05 && window.oceanAudio.paused && window.oceanBassoon.paused');
   await click('.ocean-transport .mc-primary');
   await wait('!window.oceanBassoon.paused');
   if(await evaluate("!!document.querySelector('.ocean .experience-science') && !document.querySelector('.ocean .experience-science').open"))await click('.ocean .experience-science > summary');
@@ -93,6 +170,7 @@ try{
   await click('.mc-language');await wait("document.documentElement.lang==='ar'");await screenshot('living-ocean-arabic-desktop');
   await command('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});await screenshot('living-ocean-arabic-mobile');assert.ok(await evaluate('document.documentElement.scrollWidth<=innerWidth+1'));
   assert.deepEqual(await evaluate('window.testConsoleErrors'),[]);passed('full-year Ocean bilingual responsive layout has no console errors');
+  await evaluate('window.oceanProbe.close()');
   await click('.ocean-return');await wait("location.pathname==='/mission-control'");assert.equal(await evaluate('window.oceanAudio.paused&&window.oceanBassoon.paused'),true);assert.equal(await evaluate("window.oceanAudio.hasAttribute('src')||window.oceanBassoon.hasAttribute('src')"),false);passed('Ocean RETURN releases both original audio layers and returns directly');
   await navigate('/mission-control/living-ocean');await wait("!!document.querySelector('.ocean-transport button') && !document.querySelector('.ocean-transport button').disabled",30000);
   await evaluate("window.oceanAudio=document.querySelectorAll('.ocean audio')[0];window.oceanBassoon=document.querySelectorAll('.ocean audio')[1];void 0;");

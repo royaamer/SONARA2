@@ -6,7 +6,7 @@ type ScientificIndicator = {
   eventKey?: string;
 };
 
-export function ScientificHud({ label, indicators, language }: { label: string; indicators: [ScientificIndicator, ScientificIndicator, ScientificIndicator]; language: string }) {
+export function ScientificHud({ label, indicators, language }: { label: string; indicators: ScientificIndicator[]; language: string }) {
   return <dl className="scientific-hud" aria-label={label} lang={language} dir={language==='ar'?'rtl':'ltr'}>
     {indicators.map(card => <div key={card.label} className="scientific-hud-indicator">
       <dt>{card.label}</dt>

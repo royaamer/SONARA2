@@ -4,12 +4,12 @@ import {readFile} from 'node:fs/promises';
 import {transform,build} from 'esbuild';
 import {runInNewContext} from 'node:vm';
 import {inspectOcean} from '../scripts/integrate-ocean.mjs';
+import {assertOceanSource} from './nimer-source.mjs';
 const root='public/data/ocean/';
-const source='C:/Users/user/EarthJukeBox/data/processed/oscar/';
 const json=async p=>JSON.parse(await readFile(root+p,'utf8'));
 test('monthly catalog and all referenced assets match the latest source catalog',async()=>{
  const bytes=await readFile(root+'months.json');
- assert.deepEqual(bytes,await readFile(source+'months.json'));
+ await assertOceanSource('months.json',bytes);
  const catalog=JSON.parse(bytes);
  assert.equal(catalog.dataset,'NASA PO.DAAC OSCAR_L4_OC_FINAL_V2.0');
  for(const month of catalog.months){
@@ -18,7 +18,7 @@ test('monthly catalog and all referenced assets match the latest source catalog'
    assert.equal(manifest.days[0].date,month.dateStart);
    assert.equal(manifest.days.at(-1).date,month.dateEnd);
    for(const path of [month.manifest,month.audio,month.audit,month.bassoon,month.bassoonAudit,...manifest.days.map(d=>month.fieldsRoot+d.file)])
-     assert.deepEqual(await readFile(root+path),await readFile(source+path));
+     await assertOceanSource(path,await readFile(root+path));
  }
 });
 test('Ocean worker loads catalog paths and fails closed for missing or corrupted assets',async()=>{
@@ -70,7 +70,7 @@ test('particle strokes exactly match the current EarthJukeBox renderer and depen
  class Observer { observe(){} disconnect(){} }
  runInNewContext(bundle.outputFiles[0].text,{module:rendererModule,exports:rendererModule.exports,ResizeObserver:Observer,MutationObserver:Observer,window:{devicePixelRatio:1,addEventListener(){},removeEventListener(){}}});
  const {createOceanRenderer}=rendererModule.exports;
- const sourceCode=await readFile('C:/Users/user/EarthJukeBox/audio/oscarMonthlyBassoon.js','utf8');
+ const sourceCode=await readFile('tests/fixtures/nimer/oscarMonthlyBassoon.js','utf8');
  const helpers=sourceCode.slice(sourceCode.indexOf('function sampleField'),sourceCode.indexOf('function showBassoonStatus'));
  const manifest=await json('web/2023-02/manifest.json'),first=await json('web/2023-02/2023-02-01.json'),last=await json('web/2023-02/2023-02-28.json');
  function context(){return {strokes:[],setTransform(){},clearRect(){},save(){},restore(){},fillRect(){},beginPath(){this.points=[];},moveTo(x,y){this.points.push(x,y);},lineTo(x,y){this.points.push(x,y);},stroke(){this.strokes.push([...this.points,this.strokeStyle,this.lineWidth]);}};}
@@ -85,11 +85,11 @@ test('all 30 OSCAR grids preserve original u/v and missing values',async()=>{
  const m=await json('web/manifest.json');assert.equal(m.days.length,30);
  for(let i=0;i<30;i++){
  const day=m.days[i];assert.equal(day.date,`2023-11-${String(i+1).padStart(2,'0')}`);
- const bytes=await readFile(root+'web/'+day.file);assert.deepEqual(bytes,await readFile(source+'web/'+day.file));
+ const bytes=await readFile(root+'web/'+day.file);await assertOceanSource('web/'+day.file,bytes);
  const f=JSON.parse(bytes);assert.equal(f.date,day.date);assert.equal(f.u.length,m.grid.width*m.grid.height);assert.equal(f.v.length,f.u.length);assert.ok(f.u.includes(null));assert.ok(f.u.some(x=>Number.isFinite(x)&&x!==0));
  }
 });
 test('all three soundtracks, score audit and metrics are byte-identical to EarthJukeBox',async()=>{
- for(const file of ['audio_previews/deep_ocean_OSCAR.wav','audio_previews/hybrid_OSCAR.wav','audio_previews/orchestral_OSCAR.wav','audio_previews/sonification_audit.json','web/sonification_metrics.json'])assert.deepEqual(await readFile(root+file),await readFile(source+file));
+ for(const file of ['audio_previews/deep_ocean_OSCAR.wav','audio_previews/hybrid_OSCAR.wav','audio_previews/orchestral_OSCAR.wav','audio_previews/sonification_audit.json','web/sonification_metrics.json'])await assertOceanSource(file,await readFile(root+file));
  const audit=await json('audio_previews/sonification_audit.json');assert.equal(audit.duration_seconds,25);assert.equal(audit.source_files.length,30);assert.equal(audit.days.length,30);assert.equal(audit.note_events.length,16);
 });

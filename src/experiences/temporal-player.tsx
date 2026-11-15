@@ -5,7 +5,8 @@ import { observeMapResolution } from './map-resolution';
 import { useEffect, useRef, useState } from 'react';
 import type { MapPoint } from './experience-dashboard';
 import type { ObservationDay } from '../electric-sky/scanner-score';
-import { lightningSeries, oceanSeries, temperatureSeries, oceanFrame, renderTemporalPcm, pcmPeaks, temporalIndex, STEP_SECONDS, type Phenomenon, type TemporalFrame } from './temporal-science';
+import { lightningSeries, oceanSeries, temperatureSeries, oceanFrame, renderTemporalPcm, pcmPeaks, temporalIndex, temporalMapping, STEP_SECONDS, type Phenomenon, type TemporalFrame } from './temporal-science';
+import { ScientificHud } from './dashboard';
 import { ScientificScale } from './scientific-scale';
 import { colorAt, STOPS, temperaturePosition } from '../temperature/mapping';
 import { currentColor, currentPosition } from '../living-ocean/current-color';
@@ -155,8 +156,13 @@ export function TemporalMap({ kind, frame, days }: { kind: Phenomenon; frame?: T
   </div>;
 }
 
-export function TemporalReading({ kind, frame, point, selected, panel, days }: { days?: ObservationDay[]; kind: Phenomenon; frame?: TemporalFrame; point: MapPoint | null; selected: boolean; panel: "selection" | "science" }) {
+export function TemporalReading({ kind, frame, point, selected, panel, days, language = 'en', playing = false }: { days?: ObservationDay[]; kind: Phenomenon; frame?: TemporalFrame; point: MapPoint | null; selected: boolean; panel: "selection" | "science" | "telemetry"; language?: string; playing?: boolean }) {
   const value = frame?.value ?? null;
+  if (panel === 'telemetry') return <ScientificHud label={language === 'ar' ? 'الرصد الزمني' : 'Temporal observation'} language={language} indicators={[
+    {label: language === 'ar' ? 'تاريخ الرصد' : 'Observation date', value: frame?.date ?? '—', direction: 'ltr'},
+    {label: language === 'ar' ? 'نطاق الرصد' : 'Observation scope', value: selected ? (language === 'ar' ? 'المنطقة المحددة' : 'Selected Region') : (language === 'ar' ? 'الخريطة الكاملة' : 'Full Map')},
+    {label: language === 'ar' ? 'النغمة الحالية' : 'Current note', value: playing && value !== null ? 'MIDI ' + temporalMapping(kind, value).midi.toFixed(2) : '—', direction: 'ltr'},
+  ]}/>;
   const day = days?.find(d => d.day === frame?.date);
   const maximum = kind === 'lightning' ? day ? buildActivityGrid(day).maximum : 1 : kind === 'ocean' ? 1.6 : 5;
   const minimum = kind === 'temperature' ? -5 : 0;
@@ -167,14 +173,11 @@ export function TemporalReading({ kind, frame, point, selected, panel, days }: {
   return <section className="temporal-reading" aria-label="Temporal scientific measurements">
     {panel === "selection" && kind === "ocean" && point && <strong>{oceanName(point.lon, point.lat)}</strong>}
     {panel === "selection" && (!selected ? <><p>{point ? `${point.lat.toFixed(3)}? latitude, ${point.lon.toFixed(3)}? longitude` : "Select a location to inspect surface currents."}</p><p>Choose Selected Region playback scope to inspect temporal measurements at a location.</p></> : <>
-    <h2>{frame?.date ?? 'Loading observations'}</h2>
     <p>{selected && point ? `${point.lat.toFixed(3)}° latitude, ${point.lon.toFixed(3)}° longitude` : 'Full Map'}</p>
     <output>{value === null ? 'No data' : `${value.toFixed(4)} ${frame?.unit}`}</output>
     <p>{frame?.detail}</p>
     </>)}
     {panel === "science" && <>
-    <h2>{frame?.date ?? "Loading observations"}</h2>
-    <p>{selected ? "Selected region temporal series" : "Full map temporal series"}</p>
     <ScientificScale title="Scientific color scale" gradient={ramp}
       ticks={[minimum + (kind === 'temperature' ? ' °C' : ''), kind === 'temperature' ? '0 °C' : String(maximum / 2), maximum + (kind === 'temperature' ? ' °C' : kind === 'ocean' ? ' m/s' : ' flashes / cell')]}
       measurement={{value, unit, position, color: color(value ?? 0), minimum, maximum, label: (frame?.date ?? 'Loading observations') + ' / ' + (selected ? 'Selected region' : 'Full Map / ' + (kind === 'lightning' ? 'mean flashes per occupied cell' : kind === 'temperature' ? 'area-weighted mean anomaly' : 'area-weighted mean speed'))}}>

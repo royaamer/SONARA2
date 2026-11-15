@@ -1,637 +1,171 @@
-.mc.experience.dashboard-experience main{
-  max-width:1600px;
-  padding:10px 24px 12px
-}
-.mc.experience.dashboard-experience .dashboard-heading{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:20px;
-  min-height:62px;
-  margin:0
-}
-.mc.experience.dashboard-experience .dashboard-heading h1{
-  font-size:28px;
-  line-height:1.15;
-  margin:0
-}
-.mc.experience.dashboard-experience .dashboard-heading a{
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  min-height:44px;
-  margin:0;
-  font-size:13px;
-  text-decoration:none;
-  color:var(--exp-accent)
-}
+/* One set of live readings: map overlays on desktop, after the waveform on mobile. */
+.mc.experience.dashboard-experience{--exp-accent:#76e5d5;--exp-line:#254757}
+.mc.experience.dashboard-experience main{max-width:1280px;padding:10px 24px 24px}
+.mc.experience.dashboard-experience .dashboard-heading{display:flex;align-items:center;justify-content:space-between;gap:20px;min-height:62px;margin:0}
+.mc.experience.dashboard-experience .dashboard-heading h1{font-size:28px;line-height:1.15;margin:0}
+.mc.experience.dashboard-experience .dashboard-heading a{display:inline-flex;align-items:center;gap:8px;min-height:44px;margin:0;font-size:13px;text-decoration:none;color:var(--exp-accent)}
 .mc.experience.dashboard-experience .experience-dashboard{
-  display:grid;
-  grid-template-columns:340px minmax(0,1fr);
-  grid-template-rows:68px minmax(0,1fr) auto;
-  grid-template-areas:'navigation navigation' 'information map' 'playback playback';
-  height:calc(100dvh - 220px);
-  min-height:410px;
-  border:1px solid var(--exp-line);
-  border-radius:12px;
-  overflow:hidden;
-  background:#091525
+  --dashboard-map-width:min(1120px,calc(100% - 32px));
+  display:grid;grid-template-columns:minmax(0,1fr);
+  grid-template-areas:'navigation' 'map' 'playback' 'comparison';
+  border:1px solid var(--exp-line);border-radius:12px;overflow:hidden;background:#091525;direction:ltr
 }
-.dashboard-navigation{
-  grid-area:navigation;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:16px;
-  padding:8px 16px;
-  border-bottom:1px solid var(--exp-line);
-  background:var(--exp-panel);
-  min-width:0
-}
-.observation-navigator{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  min-width:0
-}
-.observation-navigator>label{
-  font-size:13px;
-  white-space:nowrap
-}
-.observation-navigator>div{
-  display:flex;
-  align-items:center;
-  gap:6px;
-  min-width:0
-}
-.mc.experience .observation-navigator .mc-button{
-  width:44px;
-  min-width:44px;
-  padding:0;
-  display:grid;
-  place-items:center
-}
-.mc.experience .observation-navigator select{
-  width:240px;
-  min-width:0;
-  font-size:14px
-}
-[dir=rtl] .observation-navigator button svg{
-  transform:rotate(180deg)
-}
-.dashboard-status{
-  font-size:13px;
-  color:var(--exp-accent);
-  text-align:end;
-  max-width:40%
-}
-.dashboard-map{
-  grid-area:map;
-  min-width:0;
-  min-height:0;
-  container-type:size;
-  display:grid;
-  place-items:center;
-  background:#071829
-}
-.dashboard-map-content{
-  width:min(100cqw,200cqh);
-  position:relative
-}
-.mc.experience.dashboard-experience .dashboard-map-content :is(.sky-map,.ocean-stage,.temperature-map){
-  width:100%;
-  margin:0;
-  border:0;
-  border-radius:0;
-  aspect-ratio:2/1
-}
-.dashboard-information{
-  grid-area:information;
-  min-width:0;
-  min-height:0;
-  overflow:auto;
-  padding:16px;
-  border-right:1px solid var(--exp-line);
-  font-size:13px;
-  line-height:1.5;
-  background:#0a1727
-}
-.mc.experience.dashboard-experience .scientific-hud{
-  position:static;
-  inset:auto;
-  max-width:none;
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:8px;
-  margin:0 0 10px;
-  border:0;
-  border-radius:0;
-  background:none;
-  box-shadow:none;
-  backdrop-filter:none;
-  pointer-events:auto
-}
-.mc.experience.dashboard-experience .scientific-hud-indicator:first-child{
-  grid-column:1/-1
-}
-.mc.experience.dashboard-experience .scientific-hud-indicator{
-  padding:0;
-  grid-column:auto;
-  border:0
-}
-.mc.experience.dashboard-experience .scientific-hud-indicator+div{
-  border:0
-}
-.mc.experience.dashboard-experience .scientific-hud dt{
-  font-size:12px
-}
-.mc.experience.dashboard-experience .scientific-hud dd{
-  font-size:17px;
-  line-height:1.35;
-  margin:2px 0 0
-}
-.scientific-scale{
-  padding-top:12px;
-  border-top:1px solid var(--exp-line);
-  margin-bottom:12px
-}
-.mc.experience .scientific-scale h2{
-  font:600 13px/1.5 var(--ee-font-ui);
-  margin:0 0 10px
-}
-.scientific-scale-ramp{
-  height:12px;
-  border:1px solid #b7d9df50;
-  border-radius:3px
-}
-.scientific-scale-ticks{
-  display:flex;
-  justify-content:space-between;
-  gap:8px;
-  font-size:12px;
-  margin-top:6px;
-  font-variant-numeric:tabular-nums
-}
-.scientific-scale-description{
-  font-size:12px;
-  line-height:1.5;
-  color:var(--exp-muted)
-}
-.mc.experience.dashboard-experience .dashboard-information p{
-  margin:6px 0;
-  color:var(--exp-muted);
-  font-size:12px;
-  line-height:1.45
-}
-.dashboard-scope{
-  padding-top:8px;
-  border-top:1px solid var(--exp-line)
-}
-.dashboard-playback{
-  grid-area:playback;
-  display:grid;
-  grid-template-columns:auto minmax(200px,1fr);
-  gap:12px 24px;
-  align-items:center;
-  padding:12px 16px;
-  border-top:1px solid var(--exp-line);
-  background:var(--exp-panel)
-}
-.dashboard-controls{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  flex-wrap:wrap
-}
-.mc.experience.dashboard-experience .dashboard-controls :is(.sky-transport,.ocean-transport,.temperature-transport){
-  display:flex;
-  align-items:center;
-  gap:8px;
-  margin:0;
-  padding:0;
-  flex-wrap:wrap
-}
-.mc.experience.dashboard-experience .dashboard-controls .mc-button{
-  padding:10px 14px;
-  min-height:44px
-}
-.dashboard-timeline{
-  min-width:0
-}
-.mc.experience.dashboard-experience :is(.sky-position,.ocean-timeline,.temperature-timeline){
-  display:grid;
-  grid-template-columns:1fr auto;
-  gap:4px 12px;
-  padding:0;
-  margin:0;
-  max-width:none;
-  font-size:12px;
-  min-width:0
-}
-.mc.experience.dashboard-experience .sky-position label{
-  display:flex;
-  justify-content:space-between;
-  grid-column:1/-1;
-  margin:0;
-  font-size:12px
-}
-.mc.experience.dashboard-experience :is(.sky-position,.ocean-timeline,.temperature-timeline) input{
-  grid-column:1/-1;
-  grid-row:2;
-  width:100%;
-  min-width:0;
-  min-height:32px
-}
-.mc.experience.dashboard-experience .sky-volume{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  max-width:240px
-}
-.mc.experience.dashboard-experience .sky-volume input{
-  width:88px;
-  min-width:44px
-}
-.mc.experience.dashboard-experience .sky-volume :is(label,output){
-  font-size:12px
-}
-.dashboard-playback>[role=alert]{
-  grid-column:1/-1;
-  font-size:13px
-}
-.mc.experience.dashboard-experience>.mc-footer{
-  display:none
-}
-.mc.experience.dashboard-experience .experience-science{
-  margin:6px 0 0;
-  padding-top:0;
-  border:0;
-  font-size:13px;
-  line-height:1.6
-}
-.mc.experience.dashboard-experience .experience-science>summary{
-  min-height:44px
-}
-.mc.experience.dashboard-experience .ocean-inspect-panel{
-  padding:12px 0;
-  background:none;
-  font-size:12px
-}
-.mc.experience.dashboard-experience .ocean-inspect-panel dl{
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:10px
-}
-.mc.experience.dashboard-experience .ocean-inspect-panel h2{
-  font-size:14px
-}
-.mc.experience.dashboard-experience .ocean-inspect-panel p{
-  font-size:12px
-}
-.mc.experience.dashboard-experience .dashboard-bassoon{
-  display:flex;
-  align-items:center;
-  gap:6px;
-  font-size:12px;
-  min-height:44px
-}
-@media(min-width:901px) and (max-height:740px){
-  .mc.experience.dashboard-experience .dashboard-heading{
-    min-height:52px
-  }
-  .mc.experience.dashboard-experience .experience-dashboard{
-    height:calc(100dvh - 210px);
-    min-height:380px
-  }
-  .dashboard-information{
-    padding:12px
-  }
-  .mc.experience.dashboard-experience .scientific-hud dd{
-    font-size:15px
-  }
-  .mc.experience.dashboard-experience .scientific-hud-indicator{
-    padding-bottom:7px
-  }
-  .dashboard-playback{
-    padding-block:8px
-  }
-}
-@media(max-width:1100px) and (min-width:901px){
-  .dashboard-playback{
-    gap:12px
-  }
-}
-@media(max-width:900px){
-  .mc.experience.dashboard-experience main{
-    padding:10px 16px 20px
-  }
-  .mc.experience.dashboard-experience .dashboard-heading{
-    align-items:start;
-    gap:10px;
-    padding-block:6px 12px;
-    min-height:0;
-    flex-wrap:wrap
-  }
-  .mc.experience.dashboard-experience .dashboard-heading h1{
-    font-size:26px
-  }
-  .mc.experience.dashboard-experience .experience-dashboard{
-    height:auto;
-    min-height:0;
-    grid-template-columns:1fr;
-    grid-template-rows:auto;
-    grid-template-areas:'navigation' 'map' 'playback' 'information'
-  }
-  .dashboard-navigation{
-    align-items:start;
-    flex-direction:column;
-    gap:6px;
-    padding:12px
-  }
-  .observation-navigator{
-    flex-direction:column;
-    align-items:start;
-    gap:6px;
-    width:100%
-  }
-  .observation-navigator>div{
-    width:100%
-  }
-  .mc.experience .observation-navigator select{
-    flex:1;
-    width:100%
-  }
-  .dashboard-status{
-    max-width:100%;
-    text-align:start
-  }
-  .dashboard-map{
-    container-type:normal
-  }
-  .dashboard-map-content{
-    width:100%
-  }
-  .dashboard-information{
-    overflow:visible;
-    border-inline-start:0;
-    border-top:1px solid var(--exp-line)
-  }
-  .mc.experience.dashboard-experience .scientific-hud{
-    grid-template-columns:repeat(2,minmax(0,1fr));
-    gap:10px
-  }
-  .mc.experience.dashboard-experience .scientific-hud-indicator:first-child{
-    grid-column:1/-1
-  }
-  .dashboard-playback{
-    grid-template-columns:1fr;
-    gap:12px;
-    padding:12px
-  }
-  .dashboard-controls{
-    gap:10px
-  }
-  .mc.experience.dashboard-experience .dashboard-information p{
-    font-size:13px
-  }
-  .mc.experience.dashboard-experience .dashboard-controls .sky-volume{
-    max-width:none
-  }
-}
-@media(prefers-reduced-motion:reduce){
-  .dashboard-experience .scientific-hud-event{
-    animation:none
-  }
-}
-
-.controlled-map{position:relative;aspect-ratio:2/1;direction:ltr}
-.map-viewport{position:absolute;inset:0;overflow:hidden;touch-action:none}
-.map-transform{position:relative;width:100%;height:100%;transform-origin:center;transition:none}
-.map-zoom-controls{position:absolute;top:8px;right:8px;display:flex;gap:4px;z-index:10}
-.map-zoom-controls button{min-width:44px;min-height:44px;padding:6px 10px;border:1px solid #648395;border-radius:6px;background:#0a1727;color:#e5f5ff;font-size:15px}
+.dashboard-experience[dir=rtl] :is(.dashboard-navigation,.dashboard-playback,.dashboard-card,.dashboard-comparison){direction:rtl}
+.dashboard-navigation{grid-area:navigation;position:relative;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;min-width:0;min-height:54px;padding:8px 16px;padding-right:180px;border-bottom:1px solid var(--exp-line);background:var(--exp-panel)}
+.mc.experience .dashboard-toggle{position:absolute;right:16px;top:8px;min-height:44px;padding:8px 12px;white-space:nowrap;font-size:13px}
+.dashboard-toggle:focus-visible{outline:3px solid #f5d48d;outline-offset:2px}
+.observation-navigator{display:flex;align-items:center;gap:12px;min-width:0;max-width:100%}
+.observation-navigator>label{font-size:13px;white-space:nowrap}
+.observation-navigator>div{display:flex;align-items:center;gap:6px;min-width:0;max-width:100%}
+.mc.experience .observation-navigator .mc-button{width:44px;min-width:44px;padding:0;display:grid;place-items:center}
+.mc.experience .observation-navigator select{width:240px;min-width:0;font-size:14px}
+[dir=rtl] .observation-navigator button svg{transform:rotate(180deg)}
+.dashboard-status{font-size:13px;color:var(--exp-accent);text-align:end;max-width:40%}
+.dashboard-map{grid-area:map;min-width:0;display:grid;place-items:center;background:#071829}
+.dashboard-map-content{width:var(--dashboard-map-width);min-width:0;position:relative}
+.mc.experience.dashboard-experience .dashboard-map-content :is(.sky-map,.ocean-stage,.temperature-map){width:100%;margin:0;border:0;border-radius:0;aspect-ratio:2/1}
+.controlled-map{position:relative;direction:ltr;isolation:isolate}
+.map-viewport{position:relative;aspect-ratio:2/1;overflow:hidden;touch-action:pan-y}
+.map-viewport:has(+ .map-zoom-controls button[aria-label="Zoom out"]:not(:disabled)){touch-action:none}
+.map-transform{position:absolute;inset:0;width:100%;height:100%;transform-origin:center;transition:none}
+.map-transform>div:not([hidden]){width:100%;height:100%}
+.map-zoom-controls{position:absolute;inset:auto 12px 12px auto;z-index:3;display:flex;gap:4px;max-width:calc(100% - 24px)}
+.map-zoom-controls button{display:flex;align-items:center;justify-content:center;gap:5px;min-width:44px;min-height:44px;padding:6px 9px;border:1px solid #76e5d538;border-radius:7px;background:#061520d9;color:#dff9f6;font:500 11px/1.2 var(--ee-font-ui);backdrop-filter:blur(10px)}
 .map-zoom-controls button:disabled{opacity:.45}
 .map-zoom-controls button:focus-visible,.map-viewport:focus-visible{outline:3px solid #f5d48d;outline-offset:-3px}
-.map-selected-point{position:absolute;transform:translate(-50%,-50%);color:white;text-shadow:0 0 3px black;font-size:22px;pointer-events:none}
-.scientific-scale-value{display:block;font-size:12px;line-height:1.4}
-.scientific-scale-indicator{height:21px;position:relative;margin-inline:7px}
-.scientific-scale-indicator span{position:absolute;transform:translateX(-50%);font-size:20px;line-height:21px;filter:drop-shadow(0 0 1px white)}
-@media(min-width:901px){.dashboard-information p{margin:5px 0}.scientific-scale{padding-top:8px;margin-bottom:8px}.dashboard-scope{padding-top:4px}}
-@media(min-width:901px) and (max-height:740px){
-  .dashboard-information{padding:10px}
-  .mc.experience .scientific-scale h2{margin-bottom:6px}
-  .dashboard-information p{margin:4px 0;line-height:1.4}
-  .scientific-scale{padding-top:6px;margin-bottom:6px}
+.map-selection-outline{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible;z-index:7}
+.map-selection-outline rect{fill:none;stroke:#b3f4ff;stroke-width:1.8;filter:drop-shadow(0 0 2px #6ce9ff) drop-shadow(0 0 4px #a58afc)}
+.map-selected-point{position:absolute;transform:translate(-50%,-50%);color:white;text-shadow:0 0 3px black;font-size:22px;pointer-events:none;border:2px dashed white;border-radius:50%;width:18px;height:18px;line-height:14px;text-align:center;background:transparent;z-index:6}
+.dashboard-playback{grid-area:playback;display:grid;grid-template-columns:minmax(0,1fr);gap:10px;align-items:center;padding:10px max(16px,calc((100% - 1120px)/2));border-block:1px solid var(--exp-line);background:var(--exp-panel);min-width:0}
+.dashboard-controls{display:flex;align-items:flex-start;gap:12px;flex-wrap:wrap;min-width:0}
+.mc.experience.dashboard-experience .dashboard-controls :is(.sky-transport,.ocean-transport,.temperature-transport){display:flex;align-items:center;gap:8px;margin:0;padding:0;flex-wrap:wrap}
+.mc.experience.dashboard-experience .dashboard-controls .mc-button{padding:10px 14px;min-height:44px}
+.dashboard-timeline{min-width:0}
+.mc.experience.dashboard-experience .dashboard-controls .sky-volume{margin:0;max-width:280px;flex-wrap:nowrap}
+.mc.experience.dashboard-experience .dashboard-controls .sky-volume input{width:96px;min-width:40px}
+.dashboard-overlays{
+  grid-area:map;z-index:2;justify-self:center;width:var(--dashboard-map-width);min-width:0;
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(0,29%);grid-template-rows:auto minmax(0,1fr);
+  grid-template-areas:'telemetry information' 'science information';gap:12px 20px;padding:12px;
+  pointer-events:none;direction:ltr;contain:size;
 }
-@media(min-width:901px) and (max-height:740px){
-  .dashboard-information p{font-size:11px;line-height:1.35}
-  .mc.experience.dashboard-experience .scientific-hud dt{font-size:11px}
-  .mc.experience.dashboard-experience .scientific-hud dd{font-size:14px}
-  .mc.experience.dashboard-experience .scientific-hud-indicator{padding-bottom:4px}
-}
-
-.selection-reading{font-size:12px;line-height:1.3;margin-bottom:8px}
-.selection-values{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin:4px 0}
-.selection-values div:last-child{grid-column:1/-1}
+.dashboard-overlays[hidden]{display:none}
+.dashboard-card{min-width:0;padding:10px 12px;border:1px solid #76e5d52e;border-radius:9px;background:#061520d6;box-shadow:0 4px 16px #010b1630;backdrop-filter:blur(10px);color:var(--exp-text);font:400 11px/1.5 var(--ee-font-ui);overflow-wrap:anywhere;pointer-events:none}
+.dashboard-telemetry{grid-area:telemetry;align-self:start}
+.dashboard-information{grid-area:information;align-self:start;margin-bottom:56px}
+.dashboard-science{grid-area:science;align-self:end;width:min(100%,330px)}
+.dashboard-comparison{grid-area:comparison;min-width:0;padding:0 16px}
+.mc.experience.dashboard-experience .dashboard-card p{margin:5px 0;color:var(--exp-muted);font-size:11px;line-height:1.5}
+.mc.experience.dashboard-experience .dashboard-card h2{font:600 11px/1.5 var(--ee-font-ui);margin:0 0 5px;color:var(--exp-accent)}
+.mc.experience.dashboard-experience .scientific-hud{position:static;inset:auto;max-width:none;display:grid;grid-template-columns:minmax(0,1.6fr) repeat(2,minmax(0,1fr));gap:0;margin:0;border:0;border-radius:0;background:none;box-shadow:none;backdrop-filter:none;pointer-events:none}
+.mc.experience.dashboard-experience .scientific-hud:has(>div:nth-child(4)){grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 0}
+.mc.experience.dashboard-experience .scientific-hud-indicator{padding:0 10px;min-width:0}
+.mc.experience.dashboard-experience .scientific-hud-indicator:first-child{padding-inline-start:0}
+.mc.experience.dashboard-experience .scientific-hud-indicator:last-child{padding-inline-end:0}
+.mc.experience.dashboard-experience .scientific-hud-indicator+div{border-inline-start:1px solid #76e5d524}
+.mc.experience.dashboard-experience .scientific-hud:has(>div:nth-child(4))>div:nth-child(odd){border:0;padding-inline-start:0}
+.mc.experience.dashboard-experience .scientific-hud dt{font-size:10px;line-height:1.4}
+.mc.experience.dashboard-experience .scientific-hud dd{font-size:12px;line-height:1.45;margin:3px 0 0;color:var(--exp-accent)}
+.scientific-scale{margin:0}
+.mc.experience .scientific-scale h2{font:600 11px/1.5 var(--ee-font-ui);margin:0 0 6px}
+.scientific-scale-ramp{height:7px;border:1px solid #b7d9df50;border-radius:3px}
+.scientific-scale-ticks{display:flex;justify-content:space-between;gap:8px;font-size:10px;margin-top:4px;font-variant-numeric:tabular-nums}
+.scientific-scale-description{font-size:11px;line-height:1.5;color:var(--exp-muted)}
+.scientific-scale-value{display:block;font-size:11px;line-height:1.4;overflow-wrap:anywhere}
+.scientific-scale-track{margin-inline:10px;overflow:visible;direction:ltr}
+.scientific-scale-indicator{height:16px;position:relative;overflow:visible}
+.scientific-scale-indicator span{position:absolute;transform:translateX(-50%);font-size:14px;line-height:16px;color:#e8fcff;filter:drop-shadow(0 0 2px #54edff) drop-shadow(0 0 5px #54edff);transition:none;animation:none}
+.scientific-scale-track .scientific-scale-ramp{margin:0}
+.dashboard-scope{margin-top:7px;padding-top:4px;border-top:1px solid #76e5d524}
+.selection-reading{font-size:11px;line-height:1.5}
+.selection-reading strong{font-size:12px;color:var(--exp-accent)}
+.selection-values{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 10px;margin:8px 0;font-variant-numeric:tabular-nums}
+.selection-values>div{min-width:0}
 .selection-values dt{color:var(--exp-muted)}
 .selection-values dd{margin:0}
-.map-selected-point{border:2px solid white;border-radius:50%;width:18px;height:18px;line-height:14px;text-align:center;background:#071829bb;box-shadow:0 0 0 2px #071829}
-.map-zoom-controls{flex-wrap:wrap;max-width:calc(100% - 16px);justify-content:flex-end}
-@media(min-width:901px){
- .mc.experience.dashboard-experience .experience-dashboard{grid-template-columns:340px minmax(0,1fr)}
- .mc.experience.dashboard-experience .dashboard-information{padding:10px;font-size:12px}
- .mc.experience.dashboard-experience .dashboard-information p{font-size:11px;line-height:1.25;margin:4px 0}
- .mc.experience.dashboard-experience .scientific-hud dd{font-size:14px}
- .mc.experience.dashboard-experience .scientific-hud{gap:4px;margin-bottom:6px}
- .mc.experience .scientific-scale h2{margin-bottom:4px}
- .scientific-scale-ticks{font-size:11px;margin-top:3px}
- .scientific-scale-indicator{height:18px}
-}
-.map-zoom-controls{max-width:calc(100% - 16px);flex-wrap:wrap;justify-content:flex-end}
-
-.experience-dashboard{direction:ltr}
-.dashboard-experience[dir=rtl] .experience-dashboard>div,.dashboard-experience[dir=rtl] .dashboard-information{direction:rtl}
-.map-selection-outline{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible;z-index:5}
-.map-selection-outline rect{fill:none;stroke:#b3f4ff;stroke-width:1.8;filter:drop-shadow(0 0 2px #6ce9ff) drop-shadow(0 0 4px #a58afc)}
-.map-selected-point{z-index:6}
-@media(prefers-reduced-motion:reduce){.map-selection-outline,.map-selected-point{animation:none;transition:none}}
-@media(max-width:900px){.dashboard-information{border-right:0}}
-.playback-mode{grid-column:1/-1;display:flex;align-items:end;gap:12px;flex-wrap:wrap}
+.dashboard-source-record{margin-top:10px;padding-top:8px;border-top:1px solid #76e5d524}
+.dashboard-source-record .selection-values>div:first-child{grid-column:1/-1}
+.mc.experience.dashboard-experience .dashboard-card details{margin:7px 0 0;padding-top:5px;border-top:1px solid #76e5d524;font-size:11px;line-height:1.5}
+.mc.experience.dashboard-experience .dashboard-card summary{min-height:32px;align-content:center;pointer-events:auto;color:var(--exp-accent)}
+.mc.experience.dashboard-experience .dashboard-card details[open]>p{max-height:90px;overflow-y:auto;pointer-events:auto}
+.dashboard-card a,.dashboard-card button{pointer-events:auto}
+.playback-mode{display:flex;align-items:end;gap:12px;flex-wrap:wrap;min-width:0}
 .playback-mode label,.coordinate-selection label{display:grid;gap:2px;font-size:11px}
-.mc.experience .playback-mode select{font-size:12px;padding:5px;min-height:32px;max-width:240px}
-.coordinate-selection{display:flex;align-items:end;gap:6px;margin-inline-start:auto}
-.mc.experience .coordinate-selection input{width:84px;min-width:0;padding:5px;font-size:12px;min-height:32px}
-.mc.experience .coordinate-selection .mc-button{min-height:32px;padding:5px 9px;font-size:12px}
+.mc.experience .playback-mode select{font-size:12px;padding:5px;min-height:44px;max-width:240px}
+.coordinate-selection{display:flex;align-items:end;gap:6px;margin-inline-start:auto;flex-wrap:wrap;min-width:0}
+.mc.experience .coordinate-selection input{width:84px;min-width:0;padding:5px;font-size:12px;min-height:44px}
+.mc.experience .coordinate-selection .mc-button{min-height:44px;padding:5px 9px;font-size:12px}
 .temporal-controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .temporal-controls label{display:flex;gap:6px;align-items:center;font-size:12px}
 .temporal-controls input{width:80px}
-.pcm-waveform{display:grid;grid-template-columns:1fr auto;position:relative;gap:3px;font-size:12px}
-.pcm-waveform svg{width:100%;height:40px;grid-column:1/-1;background:#071829;border-radius:4px}
+.pcm-waveform{display:grid;grid-template-columns:minmax(0,1fr) auto;position:relative;width:100%;gap:3px;font-size:12px;direction:ltr}
+.pcm-waveform svg{width:100%;height:44px;grid-column:1/-1;background:#071829;border-radius:4px}
 .pcm-waveform input{grid-column:1/-1;width:100%;margin:0;min-height:24px}
-.waveform-description{grid-column:1/-1;font-size:11px;color:var(--exp-muted)}
-.temporal-map{width:100%;aspect-ratio:2;position:relative;overflow:hidden;background:#071829}
+.pcm-waveform svg[role=slider]{display:block;cursor:crosshair;touch-action:none;outline-offset:2px}
+.pcm-waveform svg[role=slider]:focus-visible{outline:3px solid #f5d48d}
+.pcm-waveform svg[aria-disabled=true]{cursor:default;opacity:.55}
+.original-waveform>span,.waveform-description{font-size:11px;color:var(--exp-muted)}
+.temporal-map{width:100%;aspect-ratio:2/1;position:relative;overflow:hidden;background:#071829}
 .temporal-map canvas,.temporal-map img{position:absolute;width:100%;height:100%;inset:0;pointer-events:none}
 .temporal-map img{opacity:.25;mix-blend-mode:screen}
 .temporal-map-status{position:absolute;background:#071829;padding:8px;color:white}
-.temporal-reading h2{font-size:18px;margin:0 0 8px}
-.temporal-reading output{display:block;font-size:21px;color:var(--exp-accent)}
-.temporal-date{font-size:12px;display:flex;align-items:center;gap:10px}
-.mc.experience .temporal-date select{font-size:13px;min-height:36px;padding:4px}
-@media(max-width:900px){.playback-mode{align-items:stretch}.coordinate-selection{margin:0;flex-wrap:wrap}.dashboard-playback{grid-template-columns:minmax(0,1fr)}.playback-mode>label{flex:1;min-width:120px}.mc.experience .playback-mode select{width:100%;max-width:100%}}
-@media(prefers-reduced-motion:reduce){.experience-dashboard *{animation:none!important;transition:none!important}}
-
-.map-selected-point{background:transparent;border-style:dashed;box-shadow:none}
-.map-selection-outline{z-index:7}
-
-@media(min-width:901px){
- .mc.experience.dashboard-experience .scientific-hud{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
- .mc.experience.dashboard-experience .scientific-hud-indicator:first-child{grid-column:auto}
- .mc.experience.dashboard-experience .scientific-hud-indicator{padding-bottom:0}
- .mc.experience.dashboard-experience .scientific-hud dt{font-size:10px;line-height:1.2}
- .mc.experience.dashboard-experience .scientific-hud dd{font-size:12px;line-height:1.25}
-}
-.original-waveform>span{font-size:10px;color:var(--exp-muted)}
-.mc.experience.dashboard-experience .dashboard-playback{gap:6px 16px;padding:8px 12px}
-.pcm-waveform svg{height:32px}
-.mc.experience.dashboard-experience .dashboard-controls .mc-button{padding:7px 10px;min-height:36px}
-.mc.experience.dashboard-experience .dashboard-controls{gap:6px}
-.mc.experience.dashboard-experience .temporal-controls{gap:6px}
-@media(min-width:901px){.mc.experience.dashboard-experience .dashboard-playback{grid-template-columns:minmax(0,1fr) minmax(240px,1fr)}.mc.experience.dashboard-experience .playback-mode{flex-wrap:nowrap}.playback-mode>label{min-width:0}.mc.experience .playback-mode select{max-width:220px}.coordinate-selection{flex-shrink:0}}
-
-@media(min-width:901px){
- /* Selection uses the panel for local science. Global telemetry remains in the cleared view. */
- .dashboard-information:has(.selection-reading strong) .scientific-hud{display:none}
-}
-/* Three-column scientific workspace. All projections share a full-world 2:1 surface. */
-.mc.experience.dashboard-experience main{max-width:none;padding-inline:12px}
-.mc.experience.dashboard-experience .experience-dashboard{grid-template-columns:minmax(190px,18fr) minmax(0,64fr) minmax(190px,18fr);grid-template-areas:'navigation navigation navigation' 'information map science' 'playback playback playback';grid-template-rows:54px minmax(0,1fr) auto;height:calc(100dvh - 202px);min-height:460px;overflow:visible}
-.mc.experience.dashboard-experience .dashboard-information{overflow:visible;padding:12px;font-size:13px;overflow-wrap:anywhere}
-.dashboard-science{grid-area:science;border-right:0;border-left:1px solid var(--exp-line)}
-.mc.experience.dashboard-experience .scientific-hud{grid-template-columns:1fr;gap:8px}
-.mc.experience.dashboard-experience .scientific-hud dt{font-size:12px}
-.mc.experience.dashboard-experience .scientific-hud dd{font-size:14px}
-.mc.experience.dashboard-experience .dashboard-information p{font-size:12px;line-height:1.4;margin:6px 0}
-.dashboard-map-content{width:min(100cqw,200cqh);aspect-ratio:2/1}
-.map-transform>div:not([hidden]){width:100%;height:100%}
-.mc.experience.dashboard-experience .dashboard-map-content .ocean-stage{margin:0}
-.mc.experience.dashboard-experience .pcm-waveform{display:grid;grid-template-columns:minmax(0,1fr) auto;width:100%;gap:3px}
-.pcm-waveform svg[role=slider]{display:block;height:44px;cursor:crosshair;touch-action:none;outline-offset:2px}
-.pcm-waveform svg[role=slider]:focus-visible{outline:3px solid #f5d48d}
-.pcm-waveform svg[aria-disabled=true]{cursor:default;opacity:.55}
+.temporal-reading>output{display:block;font-size:14px;color:var(--exp-accent)}
+.temporal-date{font-size:12px;display:flex;align-items:center;gap:10px;min-width:0}
+.mc.experience .temporal-date select{font-size:13px;min-height:44px;padding:4px;min-width:0}
 .sky-activity-grid{opacity:.28}
-.mc.experience.dashboard-experience .selection-values{grid-template-columns:1fr}
-@media(max-width:1000px){
- .mc.experience.dashboard-experience .experience-dashboard{height:auto;min-height:0;grid-template-columns:minmax(0,1fr);grid-template-rows:auto;grid-template-areas:'navigation' 'map' 'playback' 'information' 'science'}
- .dashboard-map{container-type:normal}
- .dashboard-map-content{width:100%}
- .dashboard-science{border-left:0;border-top:1px solid var(--exp-line)}
- .mc.experience.dashboard-experience .playback-mode{flex-wrap:wrap}
- .mc.experience.dashboard-experience .dashboard-playback{grid-template-columns:minmax(0,1fr)}
- .coordinate-selection{margin-inline-start:0;flex-wrap:wrap}
-}
-
-@media(min-width:1001px){
- .mc.experience.dashboard-experience .dashboard-information:has(.selection-reading strong) .scientific-hud{display:none}
- .mc.experience.dashboard-experience .dashboard-information .selection-values{grid-template-columns:repeat(2,minmax(0,1fr));gap:4px}
-}
-
-.scientific-scale-track{margin-inline:10px;overflow:visible;direction:ltr}
-.scientific-scale-track .scientific-scale-indicator{margin-inline:0;height:22px;overflow:visible}
-.scientific-scale-track .scientific-scale-indicator span{color:#e8fcff;font-size:20px;line-height:20px;filter:drop-shadow(0 0 2px #54edff) drop-shadow(0 0 5px #54edff);transition:none;animation:none}
-.scientific-scale-track .scientific-scale-ramp{margin:0}
-.scientific-scale-value{overflow-wrap:anywhere}
-
-@media(min-width:1001px){
- .mc.experience.dashboard-experience .dashboard-heading{min-height:44px}
- .mc.experience.dashboard-experience .dashboard-science{padding:8px}
- .mc.experience.dashboard-experience .dashboard-science .scientific-scale{padding-top:6px;margin-bottom:6px}
- .mc.experience.dashboard-experience .dashboard-science .scientific-scale h2{margin-bottom:4px}
-}
-@media(min-width:1001px){
- .mc.experience.dashboard-experience .dashboard-playback{grid-template-columns:minmax(440px,.95fr) minmax(0,1.05fr);gap:4px 12px;padding:6px 12px}
- .mc.experience.dashboard-experience .dashboard-controls .sky-transport{gap:5px}
- .mc.experience.dashboard-experience .dashboard-controls .mc-button{padding-inline:8px}
- .mc.experience.dashboard-experience .dashboard-controls .sky-volume{gap:5px}
- .mc.experience.dashboard-experience .dashboard-controls .sky-volume input{width:64px}
- .mc.experience.dashboard-experience .dashboard-information{padding:10px}
- .mc.experience.dashboard-experience .dashboard-science .scientific-hud{grid-template-columns:1fr 1fr;gap:6px}
- .mc.experience.dashboard-experience .dashboard-science .scientific-hud-indicator:first-child{grid-column:1/-1}
- .mc.experience.dashboard-experience .dashboard-science p{font-size:12px;line-height:1.3;margin:4px 0}
- .mc.experience.dashboard-experience .dashboard-science .scientific-scale{padding-top:6px;margin-bottom:6px}
-}
-
-/* Full-world map height follows its available width, independent of playback. */
-@media(min-width:1001px){
- .mc.experience.dashboard-experience .experience-dashboard{grid-template-columns:clamp(160px,12vw,220px) minmax(0,1fr) clamp(170px,13vw,240px);grid-template-rows:54px auto auto;height:auto;min-height:0}
- .dashboard-map{container-type:inline-size;align-self:start}
- .dashboard-map-content{width:100%;aspect-ratio:2/1}
- .mc.experience.dashboard-experience .dashboard-information{padding:10px;min-height:0}
-}
 .sky-map>canvas{filter:none}
-
-.temporal-reading .scientific-scale-value{font-size:12px;line-height:1.4}
-
-@media(min-width:1001px) and (max-height:740px){
- .mc.experience.dashboard-experience .dashboard-information{padding:8px;font-size:12px}
- .mc.experience.dashboard-experience .dashboard-information p{font-size:11px;line-height:1.25;margin:4px 0}
- .mc.experience.dashboard-experience .scientific-hud{gap:4px}
- .mc.experience.dashboard-experience .scientific-hud dt{font-size:11px}
- .mc.experience.dashboard-experience .scientific-hud dd{font-size:12px}
- .mc.experience.dashboard-experience .selection-values{gap:2px;line-height:1.2}
+/* Keep the Ocean presentation compact without changing the other experiences. */
+.mc.ocean.experience.dashboard-experience main{max-width:1080px}
+.mc.ocean.experience.dashboard-experience .experience-dashboard{--dashboard-map-width:min(900px,calc(100% - 32px))}
+.mc.ocean.experience.dashboard-experience .dashboard-playback{padding-inline:max(16px,calc((100% - 900px)/2))}
+.mc.ocean.experience.dashboard-experience .dashboard-comparison{width:min(932px,100%);justify-self:center}
+.dashboard-toggle-on-map .dashboard-navigation{padding-right:16px}
+.mc.experience .dashboard-map-content>.dashboard-toggle{top:12px;right:12px;z-index:4;font-size:12px;background:#061520ed;backdrop-filter:blur(10px)}
+.dashboard-toggle-on-map .dashboard-overlays{padding-top:68px}
+@media(min-width:1200px){
+  .mc.sky.experience.dashboard-experience main{max-width:1360px}
+  .mc.sky.experience.dashboard-experience .experience-dashboard{--dashboard-map-width:min(1192px,calc(100% - 32px))}
+  .mc.sky.experience.dashboard-experience .dashboard-playback{padding-inline:max(16px,calc((100% - 1192px)/2))}
 }
-
-/* Reserve space for playback and the science disclosure on desktop screens. */
-@media(min-width:1001px) and (max-height:800px){
- .mc.experience.dashboard-experience .dashboard-science p{font-size:11px;line-height:1.25;margin:4px 0}
- .mc.experience.dashboard-experience .dashboard-science .scientific-hud dt{font-size:11px}
- .mc.experience.dashboard-experience .dashboard-science .scientific-hud dd{font-size:12px}
- .mc.experience.dashboard-experience .dashboard-science .scientific-scale h2{font-size:12px}
- .dashboard-science .scientific-scale-value{font-size:11px;line-height:1.25}
+@media(max-width:1000px){
+  .mc.experience.dashboard-experience main{padding:10px 16px 20px}
+  .mc.experience.dashboard-experience .experience-dashboard{--dashboard-map-width:100%;grid-template-areas:'navigation' 'map' 'playback' 'readings' 'comparison'}
+  .dashboard-overlays{grid-area:readings;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:auto 1fr;grid-template-areas:'telemetry telemetry' 'science information';gap:12px;padding:12px;pointer-events:auto;contain:none}
+  .dashboard-card{pointer-events:auto;backdrop-filter:none}
+  .dashboard-information{margin-bottom:0}
+  .dashboard-science{align-self:start;width:100%}
+  .dashboard-playback{padding-inline:12px}
+  .coordinate-selection{margin-inline-start:0}
+  .mc.ocean.experience.dashboard-experience .experience-dashboard{--dashboard-map-width:min(900px,100%)}
+  .dashboard-toggle-on-map .dashboard-overlays{padding-top:12px}
 }
-@media(min-width:1001px){
- .mc.experience.dashboard-experience .experience-dashboard{height:calc(100dvh - 204px);grid-template-rows:54px minmax(0,1fr) auto}
- .dashboard-map{container-type:size;align-self:stretch}
- .dashboard-map-content{width:min(100cqw,200cqh)}
-}
-@media(min-width:1001px) and (max-height:740px){
- .mc.experience.dashboard-experience main{padding-bottom:4px}
- .mc.experience.dashboard-experience .dashboard-heading{min-height:34px}
- .mc.experience.dashboard-experience .experience-dashboard{height:calc(100dvh - 180px);grid-template-rows:40px minmax(0,1fr) auto}
- .mc.experience.dashboard-experience .dashboard-navigation{padding-block:2px}
- .mc.experience.dashboard-experience .observation-navigator .mc-button{min-height:34px;height:34px}
- .mc.experience.dashboard-experience .observation-navigator select{min-height:34px;height:34px;padding-block:3px}
- .mc.experience.dashboard-experience .experience-science>summary{min-height:28px}
-}
-
-.selection-values div:last-child{grid-column:auto}
-.selection-values div:last-child:nth-child(3){grid-column:1/-1}
-
-/* Width-led world maps use natural document scrolling at every viewport height. */
-.mc.experience.dashboard-experience .experience-dashboard{
- height:auto;min-height:0;grid-template-columns:minmax(0,1fr) minmax(0,1fr);
- grid-template-rows:auto;
- grid-template-areas:'navigation navigation' 'map map' 'information science' 'playback playback';
-}
-.mc.experience.dashboard-experience .dashboard-map{container-type:normal;align-self:start;min-width:0}
-.mc.experience.dashboard-experience .dashboard-map-content{width:100%;aspect-ratio:2/1}
-.mc.experience.dashboard-experience .dashboard-information{padding:20px;font-size:14px;overflow:visible}
-.mc.experience.dashboard-experience .dashboard-information p{font-size:14px;line-height:1.6}
-.mc.experience.dashboard-experience .scientific-hud dt{font-size:13px}
-.mc.experience.dashboard-experience .scientific-hud dd{font-size:17px}
-.mc.experience.dashboard-experience .dashboard-playback{padding:16px;gap:16px;grid-template-columns:minmax(0,1fr)}
-.mc.experience.dashboard-experience .playback-mode{flex-wrap:wrap}
-.mc.experience.dashboard-experience .dashboard-controls .mc-button,
-.mc.experience .playback-mode select,.mc.experience .coordinate-selection input,
-.mc.experience .coordinate-selection .mc-button{min-height:44px}
-.mc.experience.dashboard-experience .dashboard-navigation{min-height:54px;flex-wrap:wrap}
-.map-zoom-controls{position:static;padding:8px;max-width:100%;background:#071829}
-.map-zoom-controls button{min-height:44px;min-width:44px}
 @media(max-width:700px){
- .mc.experience.dashboard-experience .experience-dashboard{grid-template-columns:minmax(0,1fr);grid-template-areas:'navigation' 'map' 'information' 'science' 'playback'}
- .mc.experience.dashboard-experience .dashboard-information{padding:16px;border-inline:0}
- .dashboard-navigation,.observation-navigator,.observation-navigator>div{max-width:100%}
- .coordinate-selection{margin:0;flex-wrap:wrap}
+  .mc.experience.dashboard-experience .dashboard-heading{align-items:start;gap:10px;padding-block:6px 12px;min-height:0;flex-wrap:wrap}
+  .mc.experience.dashboard-experience .dashboard-heading h1{font-size:26px}
+  .dashboard-navigation{align-items:start;flex-direction:column;gap:6px;padding:64px 12px 12px}
+  .dashboard-toggle-on-map .dashboard-navigation{padding:12px}
+  .mc.experience .dashboard-toggle{top:10px;right:12px}
+  .observation-navigator{flex-direction:column;align-items:start;gap:6px;width:100%}
+  .observation-navigator>div{width:100%}
+  .mc.experience .observation-navigator select{flex:1;width:100%}
+  .dashboard-status{max-width:100%;text-align:start}
+  .map-zoom-controls{inset:auto 8px 8px auto;gap:3px}
+  .map-zoom-controls button{padding:4px;min-width:44px}
+  .map-control-label{display:none}
+  .dashboard-playback{padding:8px 12px;gap:12px}
+  .dashboard-controls{gap:10px}
+  .dashboard-overlays{grid-template-columns:minmax(0,1fr);grid-template-rows:auto;grid-template-areas:'telemetry' 'science' 'information'}
+  .dashboard-card{padding:12px;font-size:12px}
+  .mc.experience.dashboard-experience .scientific-hud{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 0}
+  .mc.experience.dashboard-experience .scientific-hud:not(:has(>div:nth-child(4)))>div:first-child{grid-column:1/-1;border-bottom:1px solid #76e5d524;padding-bottom:8px}
+  .mc.experience.dashboard-experience .scientific-hud>div:nth-child(2){border-inline-start:0;padding-inline-start:0}
+  .mc.experience.dashboard-experience .scientific-hud:has(>div:nth-child(4))>div:nth-child(2){border-inline-start:1px solid #76e5d524;padding-inline-start:10px}
+  .mc.experience.dashboard-experience .dashboard-card :is(p,dt,dd,.scientific-scale-value){font-size:12px}
+  .playback-mode{align-items:stretch}
+  .playback-mode>label{flex:1;min-width:120px}
+  .mc.experience .playback-mode select{width:100%;max-width:100%}
 }
-
-.mc.experience.dashboard-experience .dashboard-map-content{aspect-ratio:auto}
-.controlled-map{aspect-ratio:auto}
-.map-viewport{position:relative;aspect-ratio:2/1;touch-action:pan-y}
-.map-viewport:has(+ .map-zoom-controls button[aria-label="Zoom out"]:not(:disabled)){touch-action:none}
+@media(prefers-reduced-motion:reduce){
+  .dashboard-experience .scientific-hud-event{animation:none}
+  .map-selection-outline,.map-selected-point{animation:none;transition:none}
+}
