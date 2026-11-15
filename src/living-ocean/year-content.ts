@@ -1,0 +1,4 @@
+export const YEAR_COPY={
+ en:{dailyFields:'daily fields',restart:'Restart',visualTimeline:'Visual timeline',fixedSettings:'Source visual settings',bassoon:'Bassoon on high currents',bassoonUnavailable:'Bassoon unavailable for this month',bassoonOff:'Bassoon off',bassoonQuiet:'Bassoon quiet between high-current phrases; threshold',bassoonAudit:'Bassoon scientific audit',audibleSource:'Audible region / source',currentMeasurement:'Current measurement'},
+ ar:{dailyFields:'حقلاً يومياً',restart:'إعادة التشغيل',visualTimeline:'الخط الزمني المرئي',fixedSettings:'إعدادات العرض الأصلية',bassoon:'الباسون عند التيارات القوية',bassoonUnavailable:'الباسون غير متاح لهذا الشهر',bassoonOff:'الباسون متوقف',bassoonQuiet:'الباسون صامت بين المقاطع؛ عتبة السرعة',bassoonAudit:'السجل العلمي للباسون',audibleSource:'المنطقة المسموعة / المصدر',currentMeasurement:'قياس التيار'}
+};

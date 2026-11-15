@@ -1,0 +1,150 @@
+/* Shared SONARA experience shell. Visualization and sound engines stay independent. */
+.ocean-months { display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:6px;padding:16px 24px;background:#0c192b; }
+.ocean-months button { min-height:44px;border:1px solid #254757;border-radius:6px;background:#102339;color:#b7d9df;font:inherit;font-size:12px; }
+.ocean-months button[aria-pressed=true] { border-color:#76e5d5;color:#76e5d5;background:#153a42; }
+.mc.experience.ocean .ocean-settings span { font-size:12px;color:var(--exp-muted); }
+.mc.experience.ocean .ocean-settings strong { color:var(--exp-text);margin-inline-start:6px; }
+.mc.experience.ocean .ocean-settings label { display:flex;min-width:0;flex:initial; }
+.mc.experience.ocean .ocean-settings input { width:auto; }
+.mc.experience.ocean .ocean-panel > p.ocean-range { padding:0 24px 20px;max-width:none;font-variant-numeric:tabular-nums; }
+@media(max-width:700px){.ocean-months{grid-template-columns:repeat(6,minmax(0,1fr));padding:14px 16px;}}
+.mc.experience {
+  --exp-base: #060d19;
+  --exp-panel: #0c192b;
+  --exp-text: #e9f2fa;
+  --exp-muted: #a8bed2;
+  --exp-accent: #86baff;
+  --exp-secondary: #b7a0ff;
+  --exp-line: #283d58;
+  --mc-cyan: var(--exp-accent);
+  --mc-dim: var(--exp-muted);
+  --mc-line: var(--exp-line);
+  background: radial-gradient(ellipse at 90% 0%, #24234b55, transparent 48%), var(--exp-base);
+  color: var(--exp-text);
+  color-scheme: dark;
+}
+.mc.experience.ocean {
+  --exp-accent: #76e5d5;
+  --exp-secondary: #70b9ed;
+  --exp-line: #254757;
+  background: radial-gradient(ellipse at 90% 0%, #0a425255, transparent 48%), var(--exp-base);
+}
+.mc.experience main { max-width: 1440px; margin: auto; padding: 28px clamp(16px, 4vw, 56px) 64px; }
+.mc.experience .mc-header { border-bottom-color: var(--exp-line); background: #060d19ed; }
+.mc.experience :is(.sky-return, .ocean-return) { display: inline-flex; align-items: center; gap: 9px; min-height: 44px; margin: 0 0 24px; font: 600 12px var(--ee-font-ui); letter-spacing: .04em; color: var(--exp-accent) !important; text-decoration: none; }
+.mc.experience :is(.sky-heading, .ocean-heading) { display: flex; align-items: center; justify-content: space-between; gap: 24px; margin-bottom: 36px; }
+.mc.experience :is(.sky-heading, .ocean-heading) > div { min-width: 0; }
+.mc.experience :is(.sky-heading, .ocean-heading) > svg { flex-shrink: 0; color: var(--exp-secondary); opacity: .65; margin-inline-end: 16px; filter: none; }
+.mc.experience .mc-eyebrow { color: var(--exp-accent); font: 500 12px var(--ee-font-ui); letter-spacing: .02em; text-transform: none; }
+.mc.experience h1 { font: 500 clamp(40px, 5.8vw, 76px)/1.12 var(--ee-font-display); letter-spacing: -.045em; margin: 12px 0 18px; }
+.mc.experience :is(.sky-lead, .ocean-lead) { font: 400 clamp(18px, 2vw, 25px)/1.5 var(--ee-font-display); color: var(--exp-text); margin: 0; max-width: 65ch; }
+.mc.experience :is(.sky-intro, .ocean-intro) { color: var(--exp-muted); font: 400 13px/1.85 var(--ee-font-ui); max-width: 76ch; margin-top: 12px; }
+.mc.experience :is(.sky-observation-bar, .ocean-toolbar) { padding: 24px; background: var(--exp-panel); gap: 24px; border-color: var(--exp-line); }
+.mc.experience :is(.sky-observation, .ocean-panel) { border: 1px solid var(--exp-line); border-radius: 16px; background: #091525; overflow: hidden; }
+.mc.experience .sky-observation-bar { border-radius: 16px 16px 0 0; }
+.mc.experience .sky-observation-bar + .sky-observation { border-top-left-radius: 0; border-top-right-radius: 0; }
+.mc.experience .sky-boundary-note + .sky-observation { border-top-left-radius: 0; border-top-right-radius: 0; }
+.mc.experience .sky-boundary-note { background: #18213b; border-color: var(--exp-line); }
+.mc.experience .sky-boundary-note strong { color: var(--exp-secondary); }
+.mc.experience .sky-boundary-note p { color: var(--exp-muted); font-size: 12px; }
+.mc.experience select { min-height: 44px; padding: 10px 12px; border: 1px solid #49617b; border-radius: 8px; background: #102339; color: var(--exp-text); font: 500 14px var(--ee-font-ui); max-width: 100%; }
+.mc.experience :is(button, select, summary) { cursor: pointer; }
+.mc.experience :is(.mc-button, .sky-icon-button) { min-height: 46px; border-radius: 8px; border: 1px solid #49617b; background: #14273c; color: var(--exp-text); font: 600 12px var(--ee-font-ui) !important; letter-spacing: 0; box-shadow: none; }
+.mc.experience .mc-primary { background: var(--exp-accent); border-color: var(--exp-accent); color: #061523; }
+.mc.experience :is(.mc-button, .sky-icon-button):hover:not(:disabled) { background: #233e58; border-color: var(--exp-accent); }
+.mc.experience .mc-primary:hover:not(:disabled) { background: var(--exp-accent); filter: brightness(1.1); }
+.mc.experience :is(button, input, select):disabled { cursor: not-allowed; opacity: .45; }
+.mc.experience :is(input[type=range]) { accent-color: var(--exp-accent); min-height: 32px; cursor: pointer; direction: ltr; }
+.mc.experience :focus-visible { outline: 3px solid var(--exp-accent); outline-offset: 4px; }
+.mc.experience :is(.sky-status, .experience-status) { color: var(--exp-accent); font: 500 12px var(--ee-font-ui); }
+.mc.experience :is(.sky-map-head, .ocean-toolbar) { min-height: 72px; }
+.mc.experience :is(.sky-map, .ocean-stage) { border-radius: 0; border-inline: 0; background: #071829; }
+.mc.experience .sky-heading > svg { color: var(--exp-secondary); }
+.mc.experience .sky-days button { border-radius: 6px; min-width: 44px; }
+.mc.experience .sky-days button[aria-pressed=true] { color: var(--exp-secondary); border-color: var(--exp-secondary); background: #a899ff15; }
+.mc.experience .sky-days button[aria-pressed=true] > i { background: var(--exp-secondary); }
+.mc.experience .sky-extra-days > p { color: var(--exp-secondary); }
+.mc.experience .sky-extra-days .sky-days button { border-color: var(--exp-secondary); }
+.mc.experience :is(.sky-telemetry, .sky-lab) { border-radius: 12px; background: var(--exp-panel); }
+.mc.experience .sky-date-timeline { border-radius: 0 0 16px 16px; background: var(--exp-panel); }
+.mc.experience :is(.sky-readings, .ocean-readings) strong { color: var(--exp-text); }
+.mc.experience .sky-readings > div:nth-child(n+3) strong { color: var(--exp-secondary); }
+.mc.experience :is(.sky-provenance, .ocean-provenance) { margin-top: 28px; border: 0; border-top: 1px solid var(--exp-line); padding: 24px 0 0; }
+.mc.experience :is(.sky-provenance, .ocean-provenance) p { color: var(--exp-muted); font-size: 12px; line-height: 1.85; max-width: 80ch; }
+.mc.experience :is(.sky-provenance, .ocean-provenance) a { color: var(--exp-accent); font-size: 12px; text-underline-offset: 4px; }
+.mc.experience :is(.sky-load, .experience-error) { border: 1px solid var(--exp-line); background: var(--exp-panel); border-radius: 12px; padding: 28px; color: var(--exp-text); }
+.mc.experience [role=alert] { color: #ffc0bc; }
+.mc.experience.ocean .ocean-panel { padding: 0; margin-top: 0; }
+.mc.experience.ocean .ocean-toolbar { margin: 0; display: flex; align-items: end; flex-wrap: wrap; }
+.mc.experience.ocean .ocean-toolbar label { display: grid; gap: 8px; }
+.mc.experience.ocean .experience-status { margin-inline-start: auto; align-self: center; }
+.mc.experience.ocean .ocean-stage { margin: 0; }
+.mc.experience.ocean .ocean-readings { margin: 0; padding: 24px; gap: 24px; border-bottom: 1px solid var(--exp-line); }
+.mc.experience.ocean .ocean-readings > div { background: none; border-radius: 0; padding: 0; }
+.mc.experience.ocean .ocean-readings strong { font: 500 20px/1.4 var(--ee-font-display); }
+.mc.experience.ocean .ocean-readings small { line-height: 1.7; overflow-wrap: anywhere; }
+.mc.experience.ocean .ocean-transport { padding: 24px 24px 12px; gap: 10px; }
+.mc.experience.ocean .ocean-transport label { margin-inline-start: auto; }
+.mc.experience.ocean .ocean-timeline { margin: 0; padding: 12px 24px 24px; display: grid; grid-template-columns: 1fr auto; }
+.mc.experience.ocean .ocean-timeline input { grid-row: 2; grid-column: 1/-1; }
+.mc.experience.ocean .ocean-panel > label:not(.ocean-timeline) { padding: 20px 24px; border-block: 1px solid var(--exp-line); background: var(--exp-panel); justify-content: space-between; }
+.mc.experience.ocean .ocean-settings { padding: 24px; margin: 0; background: var(--exp-panel); gap: 24px; }
+.mc.experience.ocean .ocean-settings label { display: grid; grid-template-columns: 1fr auto; min-width: 180px; }
+.mc.experience.ocean .ocean-settings input { grid-row: 2; grid-column: 1/-1; width: 100%; }
+.mc.experience.ocean .ocean-panel > p { padding: 24px; margin: 0; font-size: 12px; max-width: 100ch; }
+.mc.experience.ocean details { margin: 0 24px 24px; padding-top: 20px; font-size: 12px; line-height: 1.85; }
+.mc.experience.ocean summary { min-height: 44px; color: var(--exp-accent); }
+.mc.experience.ocean .experience-error { margin: 24px; }
+.mc.experience[dir=rtl] .ocean-return svg { transform: rotate(180deg); }
+@media(max-width:700px) {
+  .mc.experience main { padding: 20px 16px 48px; }
+  .mc.experience :is(.sky-heading, .ocean-heading) { gap: 12px; margin-bottom: 26px; }
+  .mc.experience :is(.sky-heading, .ocean-heading) > svg { width: 40px; height: 56px; margin: 0; }
+  .mc.experience h1 { font-size: clamp(36px, 9vw, 50px); }
+  .mc.experience :is(.sky-observation-bar, .ocean-toolbar) { padding: 18px; gap: 18px; }
+  .mc.experience.ocean .ocean-toolbar label { flex: 1 1 140px; }
+  .mc.experience.ocean .experience-status { flex-basis: 100%; margin: 0; }
+  .mc.experience.ocean .ocean-readings { padding: 18px; grid-template-columns: 1fr; gap: 18px; }
+  .mc.experience.ocean .ocean-readings > div + div { border-top: 1px solid var(--exp-line); padding-top: 16px; }
+  .mc.experience.ocean .ocean-transport { padding: 20px 16px 12px; }
+  .mc.experience.ocean .ocean-transport label { flex-basis: 100%; margin: 12px 0 0; }
+  .mc.experience.ocean .ocean-transport .mc-button { flex: 1; padding: 12px 8px; gap: 6px; }
+  .mc.experience.ocean .ocean-timeline { padding-inline: 16px; }
+  .mc.experience.ocean .ocean-settings { padding: 20px 16px; }
+  .mc.experience.ocean .ocean-panel > label:not(.ocean-timeline) { padding: 20px 16px; }
+  .mc.experience .sky-days { grid-template-columns: repeat(auto-fit, minmax(44px, 1fr)); }
+}
+@media(prefers-reduced-motion:reduce) {
+  .mc.experience *, .mc.experience *::before, .mc.experience *::after { scroll-behavior: auto !important; transition: none !important; }
+}
+
+.mc.experience .experience-science { margin-top:24px;border-top:1px solid var(--exp-line);padding-top:12px; }
+.mc.experience .experience-science > summary { min-height:44px;align-content:center;color:var(--exp-accent);font:500 14px/1.5 var(--ee-font-ui); }
+.mc.experience .experience-science pre { max-height:260px;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere; }
+
+
+.mc.experience .sky-observation > .sky-position { padding:0 24px 18px;margin:0; }
+
+.mc.experience .scientific-view { position:relative;isolation:isolate; }
+.mc.experience .scientific-hud {
+  position:absolute;inset-inline:16px;bottom:16px;z-index:2;
+  display:grid;grid-template-columns:minmax(0,1.5fr) repeat(2,minmax(0,1fr));
+  gap:1px;max-width:720px;margin:0;overflow:hidden;border:1px solid var(--exp-line);
+  border-radius:9px;background:#071525d9;backdrop-filter:blur(12px);
+  box-shadow:0 4px 18px #02091240;pointer-events:none;
+}
+.mc.experience .scientific-hud-indicator { min-width:0;padding:10px 14px; }
+.mc.experience .scientific-hud-indicator + div { border-inline-start:1px solid var(--exp-line); }
+.mc.experience .scientific-hud dt { font:500 10px/1.5 var(--ee-font-ui);color:var(--exp-muted); }
+.mc.experience .scientific-hud dd { margin:3px 0 0;font:500 14px/1.45 var(--ee-font-ui);color:var(--exp-accent);font-variant-numeric:tabular-nums;overflow-wrap:anywhere; }
+.mc.experience.sky .scientific-hud-indicator:last-child dd { color:var(--exp-secondary); }
+.mc.experience .scientific-hud-event { animation:scientific-note .55s ease-out; }
+@keyframes scientific-note { from { color:#fff;text-shadow:0 0 12px var(--exp-accent); } to { text-shadow:0 0 0 transparent; } }
+@media(max-width:700px) {
+  .mc.experience .scientific-hud { position:relative;inset:auto;max-width:none;border-radius:0;border-inline:0;border-bottom:0;grid-template-columns:repeat(2,minmax(0,1fr));background:#081829ed; }
+  .mc.experience .scientific-hud-indicator { padding:7px 12px; }
+  .mc.experience .scientific-hud-indicator:first-child { grid-column:1/-1;border-bottom:1px solid var(--exp-line); }
+  .mc.experience .scientific-hud-indicator:nth-child(2) { border-inline-start:0; }
+  .mc.experience .scientific-hud dd { font-size:13px; }
+}
+@media(prefers-reduced-motion:reduce) { .mc.experience .scientific-hud-event { animation:none; } }

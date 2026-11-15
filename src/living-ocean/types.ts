@@ -1,0 +1,10 @@
+export type Field={date:string;u:(number|null)[];v:(number|null)[]};
+export type Manifest={source:string;units:string;grid:{width:number;height:number;lonStart:number;latStart:number;lonStep:number;latStep:number};days:{date:string;file:string}[]};
+export type Note={at_seconds:number;data_day_position:number;region:string;velocity_speed_mps:number;velocity_east_mps:number;velocity_north_mps:number;midi_note:number};
+export type Audit={provenance:string;duration_seconds:number;source_files:string[];note_events:Note[];days:{date:string;metrics:Record<string,{speed:number;u:number;v:number}>}[]};
+export type BassoonNote={at_seconds:number;duration_seconds:number;source_date:string;source_file:string;region:string;regional_mean_speed_mps:number;midi_note:number};
+export type BassoonAudit={dataset:string;month:string;duration_seconds:number;source_files:string[];speed_threshold_mps:number;note_events:BassoonNote[]};
+export type MonthEntry={month:string;label:string;dateStart:string;dateEnd:string;days:number;manifest:string;fieldsRoot:string;audio:string;audit:string;audioDurationSeconds:number;bassoon?:string;bassoonAudit?:string};
+export type Catalog={schemaVersion:number;dataset:string;year:number;months:MonthEntry[]};
+export type Availability={month:string;ready:boolean;bassoon:boolean;metricsPath:string|null;issues:string[]};
+export type OceanData={manifest:Manifest;fields:Field[];audit:Audit;selected:MonthEntry;bassoonAudit:BassoonAudit|null;metrics:unknown};

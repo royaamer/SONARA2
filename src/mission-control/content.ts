@@ -1,0 +1,31 @@
+﻿export const MISSION_COPY = {
+  en: {
+    earth: 'Earth', earthLabel: 'Interactive three-dimensional Earth', zoomControls: 'Earth zoom controls', zoomIn: 'Zoom in', zoomOut: 'Zoom out',
+    title: 'Mission Control', back: 'Return to observatory', transmission: 'Earth is transmitting. Are you listening?', skip: 'Enter Mission Control',
+    subtitle: 'A listening station for a changing planet.', preview: 'Exploration preview', disconnected: 'No observation feed connected',
+    systems: 'Earth systems', target: 'Observation target', scanner: 'ACTIVATE EARTH SCANNER', stop: 'STOP SCANNER', scanning: 'Scanning visual preview', idle: 'Scanner standing by', complete: 'Sweep complete. No observations received.',
+    scanNote: 'Visual simulation only. Scanning does not retrieve satellite measurements.',
+    telemetry: 'Observation telemetry', instrument: 'Lightning observations', feed: 'Dataset connection', unavailable: 'Not connected', flashes: 'Observed flashes', window: 'Observation window', awaiting: 'Awaiting dataset',
+    layers: 'Viewport layers', clouds: 'Cloud imagery', orbits: 'Orbital guides', clear: 'Reset target',
+    timeline: 'Observation timeline', timelineNote: 'Preview scan sequence · not observation dates', stages: ['Standby', 'Acquire target', 'Sweep region', 'Await observations'],
+    decode: "DECODE EARTH’S SOUND", explanation: 'Scientific sonification maps measured quantities to sound using explicit rules. A future lightning feed could map flash counts to rhythmic density and location to stereo position. These mappings are proposed, not active.',
+    steps: ['Observe: obtain timestamped, attributed measurements.', 'Map: document how each measured variable controls sound.', 'Listen: compare the audio with the original observations.'],
+    lab: 'Sound laboratory', audio: 'Audio engine not connected', audioNote: 'Playback becomes available when an audio engine and validated observations are connected.', play: 'Play', pause: 'Pause', volume: 'Volume',
+    archive: 'NASA Blue Marble · archival imagery (2002), not live', source: 'Scientific sources', loading: 'Preparing Earth imagery…', failure: 'Earth visualization unavailable. Mission controls and scientific context remain accessible.', retry: 'Retry Earth view', point: 'Selected map point', coordinates: 'Target coordinates', region: 'Illustrative region', details: 'Show scientific explanation', hide: 'Hide scientific explanation', elapsed: 'Scan progress',
+  },
+  ar: {
+    earth: 'الأرض', earthLabel: 'الأرض التفاعلية ثلاثية الأبعاد', zoomControls: 'أدوات تكبير الأرض', zoomIn: 'تكبير', zoomOut: 'تصغير',
+    title: 'مركز التحكم', back: 'العودة إلى المرصد', transmission: 'الأرض ترسل إشاراتها. هل تستمع؟', skip: 'ادخل مركز التحكم',
+    subtitle: 'محطة استماع لكوكب يتغير.', preview: 'معاينة استكشافية', disconnected: 'لا يوجد مصدر أرصاد متصل',
+    systems: 'أنظمة الأرض', target: 'هدف الرصد', scanner: 'تفعيل ماسح الأرض', stop: 'إيقاف الماسح', scanning: 'معاينة المسح البصري', idle: 'الماسح في وضع الاستعداد', complete: 'اكتمل المسح. لم تُستقبل أرصاد.',
+    scanNote: 'محاكاة بصرية فقط. المسح لا يجلب قياسات الأقمار الصناعية.',
+    telemetry: 'بيانات الرصد', instrument: 'أرصاد البرق', feed: 'اتصال البيانات', unavailable: 'غير متصل', flashes: 'الومضات المرصودة', window: 'فترة الرصد', awaiting: 'بانتظار البيانات',
+    layers: 'طبقات العرض', clouds: 'صور السحب', orbits: 'أدلة مدارية', clear: 'إعادة ضبط الهدف',
+    timeline: 'الخط الزمني للرصد', timelineNote: 'تسلسل مسح تجريبي · وليس تواريخ أرصاد', stages: ['استعداد', 'تحديد الهدف', 'مسح المنطقة', 'انتظار الأرصاد'],
+    decode: 'فك شيفرة صوت الأرض', explanation: 'يحوّل التصويت العلمي الكميات المقاسة إلى صوت وفق قواعد واضحة. قد تُربط أعداد ومضات البرق بكثافة الإيقاع والمواقع بالموضع الصوتي. هذه روابط مقترحة وليست مفعّلة.',
+    steps: ['الرصد: الحصول على قياسات مؤرخة وموثقة المصدر.', 'الربط: توثيق تأثير كل متغير مقاس على الصوت.', 'الاستماع: مقارنة الصوت بالأرصاد الأصلية.'],
+    lab: 'مختبر الصوت', audio: 'محرك الصوت غير متصل', audioNote: 'يتاح التشغيل عند ربط محرك صوت وأرصاد تم التحقق منها.', play: 'تشغيل', pause: 'إيقاف مؤقت', volume: 'مستوى الصوت',
+    archive: 'ناسا بلو ماربل · صور أرشيفية (٢٠٠٢)، وليست مباشرة', source: 'المصادر العلمية', loading: 'جارٍ تجهيز صور الأرض…', failure: 'عرض الأرض غير متاح. تبقى أدوات المهمة والسياق العلمي متاحة.', retry: 'إعادة محاولة عرض الأرض', point: 'نقطة مختارة على الخريطة', coordinates: 'إحداثيات الهدف', region: 'منطقة توضيحية', details: 'عرض الشرح العلمي', hide: 'إخفاء الشرح العلمي', elapsed: 'تقدم المسح',
+  },
+};
+
