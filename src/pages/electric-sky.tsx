@@ -93,7 +93,7 @@ export default function ElectricSky() {
             <ScientificScale measurement={{value:measurement,minimum:0,maximum:activity.maximum,unit:"recorded flashes / 5° × 5° cell",position:activityPosition(measurement??0,activity.maximum),color:activityColor(measurement??0,activity.maximum),label:point?"Selected Region / source cell":"Full Map / occupied-cell mean"}} title={language==='ar'?'ومضات مسجلة لكل خلية 5° × 5°':'Recorded flashes / 5° × 5° cell'} gradient={`linear-gradient(90deg in srgb, ${activityColor(0,activity.maximum)}, ${activityColor(activity.maximum/2,activity.maximum)}, ${activityColor(activity.maximum,activity.maximum)})`} ticks={['0',format(activity.maximum/2,1),format(activity.maximum)]}>
               <p>{language==='ar'?'لا سجلات في الخلايا الفارغة؛ تغطية الرصد غير مقيّمة.':'ISS LIS coverage is incomplete. Zero extract records cannot confirm absence of lightning.'}</p>
             </ScientificScale>
-            <div className="dashboard-scope"><p>{language==='ar'?'الصوت الأصلي: مسح جغرافي لمدة 24 ثانية لليوم المحدد.':'Original audio · 24-second geographic scan of the selected day.'}</p></div>
+            <div className="dashboard-scope"><p>{language==='ar'?'الصوت الأصلي: مسح جغرافي لمدة 24 ثانية لليوم المحدد.':'Original geographic scan · selected day · 24 s.'}</p></div>
           </>}
           controls={<><div className="sky-transport">
             <button className="mc-button mc-primary" title={snapshot.status==='playing'?t.pause:t.play} onClick={()=>snapshot.status==='playing'?void pause():void play()} disabled={!supported||starting}>{snapshot.status==='playing'?<Pause size={17}/>:<Play size={17}/>} {snapshot.status==='playing'?t.pause:snapshot.status==='paused'?t.resume:t.play}</button>

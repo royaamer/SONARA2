@@ -92,8 +92,8 @@ try{
   }
   assert.deepEqual(errors,[]);
 }finally{
-  if(pageSocket?.readyState===1){try{await command('Browser.close');}catch{}pageSocket.close();}
-  if(chrome.exitCode===null)chrome.kill();server.close();
+  if(pageSocket?.readyState===1){pageSocket.send(JSON.stringify({id:++id,method:'Browser.close'}));pageSocket.close();}
+  if(chrome.exitCode===null){await Promise.race([new Promise(resolve=>chrome.once('exit',resolve)),new Promise(resolve=>setTimeout(resolve,2000))]);if(chrome.exitCode===null)chrome.kill();}chrome.stderr?.destroy();server.closeAllConnections();server.close();
   // Only the uniquely created isolated test profile may be removed.
   if(path.resolve(profile).startsWith(path.resolve(os.tmpdir())+path.sep+'sonara-browser-')){try{await rm(profile,{recursive:true,force:true,maxRetries:4,retryDelay:100});}catch{console.log('Isolated temporary Chrome profile retained:',profile);}}
 }

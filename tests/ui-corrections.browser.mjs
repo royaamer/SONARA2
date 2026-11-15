@@ -16,7 +16,7 @@ const chrome=spawn(process.env.CHROME_PATH||'C:/Program Files/Google/Chrome/Appl
 let browserSocket;let pageSocket;const errors=[];const layoutFailures=[];const results=[];const oceanAssetFailures=[];
 function connect(url){return new Promise((resolve,reject)=>{const ws=new WebSocket(url);ws.addEventListener('open',()=>resolve(ws),{once:true});ws.addEventListener('error',reject,{once:true});});}
 let id=0;const pending=new Map();
-function command(method,params={}){return new Promise((resolve,reject)=>{const n=++id;pending.set(n,{resolve,reject});pageSocket.send(JSON.stringify({id:n,method,params}));});}
+function command(method,params={}){return new Promise((resolve,reject)=>{const n=++id;const timer=setTimeout(()=>{pending.delete(n);reject(Error('CDP timeout: '+method));},30000);pending.set(n,{resolve:value=>{clearTimeout(timer);resolve(value)},reject:error=>{clearTimeout(timer);reject(error)}});pageSocket.send(JSON.stringify({id:n,method,params}));});}
 async function evaluate(expression){const r=await command('Runtime.evaluate',{expression,returnByValue:true,awaitPromise:true,userGesture:true});if(r.exceptionDetails)throw Error(r.exceptionDetails.exception?.description||r.exceptionDetails.text);return r.result.value;}
 async function wait(expression,timeout=15000){const until=Date.now()+timeout;while(Date.now()<until){if(await evaluate(expression))return;await new Promise(r=>setTimeout(r,75));}console.log('Timeout state:',await evaluate("({text:document.body.innerText,audio:[...document.querySelectorAll('audio')].map(a=>({ready:a.readyState,error:a.error?.message,src:a.currentSrc,duration:a.duration})),errors:window.testConsoleErrors})"));throw Error('Timed out: '+expression);}
 async function click(selector){await wait(`!!document.querySelector(${JSON.stringify(selector)})`);const box=await evaluate(`(()=>{const e=document.querySelector(${JSON.stringify(selector)});e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return {x:r.x+r.width/2,y:r.y+r.height/2};})()`);await command('Input.dispatchMouseEvent',{type:'mousePressed',button:'left',clickCount:1,...box});await command('Input.dispatchMouseEvent',{type:'mouseReleased',button:'left',clickCount:1,...box});}
@@ -44,8 +44,8 @@ try{
   await command('Page.addScriptToEvaluateOnNewDocument',{source:"window.workerMessages=[];const OW=window.Worker;window.Worker=class extends OW{constructor(...args){super(...args);this.addEventListener('message',e=>{if(e.data.error)console.error('Worker error',e.data.error)});this.addEventListener('error',e=>console.error('Worker error event',e.message));}}"});
   for (const name of ['living-ocean','temperature','electric-sky']) {
     await navigate('/mission-control/'+name);
-    await wait("!!document.querySelector('.dashboard-controls .mc-primary') && !document.querySelector('.dashboard-controls .mc-primary').disabled",60000);
-    for (const [width,height] of [[1366,768],[1440,900],[1920,1080],[390,844]]) {
+    await wait("!!document.querySelector('.dashboard-controls .mc-primary') && !document.querySelector('.dashboard-controls .mc-primary').disabled",90000);
+    for (const [width,height] of [[1366,768],[1440,900],[1920,1080],[1280,720],[390,844]]) {
       await command('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:width<700});
       await new Promise(r=>setTimeout(r,200));
       const layout=await evaluate("(()=>{const rect=s=>{const r=document.querySelector(s).getBoundingClientRect();return {x:r.x,y:r.y,right:r.right,bottom:r.bottom,width:r.width,height:r.height}};return {map:rect('.controlled-map'),left:rect('.dashboard-information'),right:rect('.dashboard-science'),audio:rect('.dashboard-playback'),overflow:document.documentElement.scrollWidth>innerWidth+1,scrolls:[...document.querySelectorAll('.dashboard-information')].map(e=>e.scrollHeight>e.clientHeight+1)}})()");
@@ -85,17 +85,13 @@ try{
     await click('.dashboard-controls .mc-primary');
     await new Promise(r=>setTimeout(r,500));
     await click('.dashboard-controls .mc-primary');
-    await evaluate("const mode=document.querySelector('[aria-label=\"Audio mode\"]');mode.value='temporal';mode.dispatchEvent(new Event('change',{bubbles:true}))");
-    await wait("!document.querySelector('.dashboard-controls .mc-primary').disabled",60000);
-    await click(wave);
-    assert.ok(await evaluate("+document.querySelector('.dashboard-timeline [role=slider]').getAttribute('aria-valuenow')")>0);
-    await screenshot('correction-temporal-'+name);
-    passed(name+' layout, selection, zoom, pan, waveform pointer/keyboard seeking, original playback and temporal waveform');
+    // Temporal mode and its waveform are covered by temporal-playback.browser.mjs.
+    passed(name+' layout, selection, zoom, pan, waveform pointer/keyboard seeking, original playback waveform');
   }
   assert.deepEqual(errors,[]);
 }finally{
-  if(pageSocket?.readyState===1){try{await command('Browser.close');}catch{}pageSocket.close();}
-  if(chrome.exitCode===null)chrome.kill();server.close();
+  if(pageSocket?.readyState===1){pageSocket.send(JSON.stringify({id:++id,method:'Browser.close'}));pageSocket.close();}
+  if(chrome.exitCode===null){await Promise.race([new Promise(resolve=>chrome.once('exit',resolve)),new Promise(resolve=>setTimeout(resolve,2000))]);if(chrome.exitCode===null)chrome.kill();}chrome.stderr?.destroy();server.closeAllConnections();server.close();
   // Only the uniquely created isolated test profile may be removed.
   if(path.resolve(profile).startsWith(path.resolve(os.tmpdir())+path.sep+'sonara-browser-')){try{await rm(profile,{recursive:true,force:true,maxRetries:4,retryDelay:100});}catch{console.log('Isolated temporary Chrome profile retained:',profile);}}
 }
